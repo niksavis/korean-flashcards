@@ -76,8 +76,9 @@ php -S localhost:8000
 
 - **Space Bar** or **Click**: Flip card to see translation
 - **Arrow Keys** or **Navigation Buttons**: Previous/Next card
-- **A Key**: Play audio pronunciation
-- **S Key**: Open settings panel
+- **A Key**: Play word pronunciation
+- **S Key**: Play sentence pronunciation
+- **Q Key**: Open settings panel
 
 ### Settings Options
 
@@ -171,13 +172,14 @@ The application uses a simple JSON format for word data:
 
 ## 🎮 Keyboard Shortcuts
 
-| Key     | Action             |
-| ------- | ------------------ |
-| `Space` | Flip card          |
-| `←` `→` | Previous/Next card |
-| `A`     | Play audio         |
-| `S`     | Open settings      |
-| `Esc`   | Close panels       |
+| Key     | Action              |
+| ------- | ------------------- |
+| `Space` | Flip card           |
+| `←` `→` | Previous/Next card  |
+| `A`     | Play word audio     |
+| `S`     | Play sentence audio |
+| `Q`     | Open settings       |
+| `Esc`   | Close panels        |
 
 ## 📱 Mobile Support
 

@@ -6,6 +6,7 @@
     <meta name="referrer" content="no-referrer">
     <title>Korean Flashcards</title>
     <meta name="description" content="Learn Korean with 6000 most common Korean words flashcards">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/mobile.css">
@@ -23,10 +24,10 @@
                             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
                         </svg>
                     </button>
-                    <button id="settings-btn" class="icon-btn" aria-label="Settings">
+                    <button id="settings-btn" class="icon-btn" aria-label="Open settings">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="3"></circle>
-                            <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"></path>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                         </svg>
                     </button>
                 </div>
@@ -52,73 +53,77 @@
             <!-- Flashcard Container -->
             <div id="flashcard-container" class="flashcard-container">
                 <div id="flashcard" class="flashcard">
-                    <!-- Front Side -->
+                    <!-- Front Side (Question) -->
                     <div class="flashcard-front">
-                        <div class="word-position">
-                            <span id="word-position">1</span>
+                        <div class="card-header">
+                            <div class="word-position">
+                                <span id="word-position">1</span>
+                            </div>
+                            <div class="word-category">
+                                <span id="word-category" class="category-badge">Nouns</span>
+                            </div>
                         </div>
-                        <div class="hangul-display">
-                            <span id="hangul-text">것</span>
+                        
+                        <div class="main-word">
+                            <div class="hangul-display">
+                                <span id="hangul-text">것</span>
+                            </div>
+                            <div class="word-audio-controls">
+                                <button id="word-audio-btn" class="audio-btn primary" aria-label="Play word pronunciation">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                        <div class="romanization-display" id="romanization-display">
-                            <span id="romanization-text">geot</span>
-                        </div>
-                        <div class="audio-controls">
-                            <button id="word-audio-btn" class="audio-btn" aria-label="Play word pronunciation">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="example-sentence" id="example-sentence">
-                            <div class="sentence-korean">이것은 일상생활에서 자주 사용되는 것이다.</div>
-                            <div class="sentence-romanization">igeoseun ilsangsaenghwargeseo jaju sayongdoeneun geosida.</div>
-                            <button id="sentence-audio-btn" class="audio-btn small" aria-label="Play sentence pronunciation">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                                </svg>
-                            </button>
+
+                        <div class="word-hints">
+                            <div class="word-type-hint">
+                                <span id="word-type-hint" class="type-badge">noun</span>
+                            </div>
+                            <div class="romanization-display" id="romanization-display">
+                                <span id="romanization-text">geot</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Back Side -->
+                    <!-- Back Side (Answer) -->
                     <div class="flashcard-back">
-                        <div class="english-translation" id="english-translation">
-                            <span id="english-text">A thing or an object</span>
-                            <button id="toggle-english-btn" class="toggle-btn">Show English</button>
-                        </div>
-                        <div class="word-info">
-                            <div class="word-type">
-                                <span id="word-type-badge" class="word-type-badge">noun</span>
+                        <div class="answer-section">
+                            <div class="english-translation">
+                                <span id="english-text">A thing or an object</span>
                             </div>
-                            <div class="usage-info">
-                                <p id="usage-text">Used to refer to objects or abstract concepts (formal)</p>
+                            <div class="pronunciation-guide">
+                                <span id="romanization-full" class="romanization-full">geot</span>
                             </div>
                         </div>
-                        <div class="expandable-sections">
-                            <div class="expandable-section">
-                                <button class="expand-btn" data-target="detailed-grammar" aria-expanded="true">
-                                    <span>Detailed Grammar</span>
-                                    <svg class="expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: rotate(180deg);">
-                                        <polyline points="6 9 12 15 18 9"></polyline>
+
+                        <div class="example-section" id="example-section">
+                            <div class="section-header">
+                                <h4>Example Sentence</h4>
+                                <button id="sentence-audio-btn" class="audio-btn secondary" aria-label="Play sentence pronunciation">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                                     </svg>
                                 </button>
-                                <div id="detailed-grammar" class="expandable-content expanded">
-                                    <p id="detailed-grammar-text">Dependent noun that requires a modifier. Cannot stand alone as a complete noun phrase.</p>
-                                </div>
                             </div>
-                            <div class="expandable-section">
-                                <button class="expand-btn" data-target="informal-usage" aria-expanded="true">
-                                    <span>Informal Usage</span>
-                                    <svg class="expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: rotate(180deg);">
-                                        <polyline points="6 9 12 15 18 9"></polyline>
-                                    </svg>
-                                </button>
-                                <div id="informal-usage" class="expandable-content expanded">
-                                    <p id="informal-usage-text">뭔가</p>
-                                </div>
+                            <div class="sentence-content">
+                                <div class="sentence-korean" id="sentence-korean">이것은 일상생활에서 자주 사용되는 것이다.</div>
+                                <div class="sentence-romanization" id="sentence-romanization">igeoseun ilsangsaenghwargeseo jaju sayongdoeneun geosida.</div>
+                                <div class="sentence-english" id="sentence-english">This is something frequently used in daily life.</div>
+                            </div>
+                        </div>
+
+                        <div class="word-details">
+                            <div class="frequency-info">
+                                <span class="frequency-label">Frequency:</span>
+                                <span id="frequency-level" class="frequency-badge">High</span>
+                            </div>
+                            <div class="difficulty-info">
+                                <span class="difficulty-label">Level:</span>
+                                <span id="difficulty-level" class="difficulty-badge">Beginner</span>
                             </div>
                         </div>
                     </div>
@@ -154,7 +159,7 @@
         </main>
 
         <!-- Settings Panel -->
-        <div id="settings-panel" class="settings-panel hidden">
+        <div id="settings-panel" class="settings-panel">
             <div class="settings-content">
                 <div class="settings-header">
                     <h2>Settings</h2>
@@ -214,7 +219,7 @@
 
     <!-- Keyboard shortcuts info -->
     <div class="keyboard-shortcuts" id="keyboard-shortcuts">
-        <p><kbd>Space</kbd> Flip card • <kbd>←</kbd> Previous • <kbd>→</kbd> Next • <kbd>A</kbd> Audio • <kbd>S</kbd> Settings</p>
+        <p><kbd>Space</kbd> Flip card • <kbd>←</kbd> Previous • <kbd>→</kbd> Next • <kbd>A</kbd> Word Audio • <kbd>S</kbd> Sentence Audio • <kbd>Q</kbd> Settings</p>
     </div>
 
     <script type="module" src="js/main.js"></script>

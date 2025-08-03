@@ -251,10 +251,17 @@ body {
 }
 
 /* Front Card Styles */
-.word-position {
+.card-header {
   position: absolute;
   top: var(--spacing-lg);
   left: var(--spacing-lg);
+  right: var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.word-position {
   background-color: var(--primary-color);
   color: white;
   padding: var(--spacing-xs) var(--spacing-sm);
@@ -263,8 +270,24 @@ body {
   font-weight: 600;
 }
 
-.hangul-display {
+.word-category {
+  background-color: var(--accent-color);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.main-word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: var(--spacing-lg);
+}
+
+.hangul-display {
+  margin-bottom: var(--spacing-md);
 }
 
 #hangul-text {
@@ -275,26 +298,11 @@ body {
   line-height: 1.2;
 }
 
-.romanization-display {
-  margin-bottom: var(--spacing-lg);
-  opacity: 0.8;
+.word-audio-controls {
+  margin-bottom: var(--spacing-md);
 }
 
-#romanization-text {
-  font-size: 1.875rem;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-.romanization-display.hidden {
-  display: none;
-}
-
-.audio-controls {
-  margin-bottom: var(--spacing-lg);
-}
-
-.audio-btn {
+.audio-btn.primary {
   background: none;
   border: 2px solid var(--primary-color);
   border-radius: 50%;
@@ -308,19 +316,44 @@ body {
   color: var(--primary-color);
 }
 
-.audio-btn:hover {
+.audio-btn.primary:hover {
   background-color: var(--primary-color);
   color: white;
   transform: scale(1.05);
 }
 
-.audio-btn.small {
-  width: 32px;
-  height: 32px;
-  margin-left: var(--spacing-sm);
+.word-hints {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  position: absolute;
+  bottom: var(--spacing-lg);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.audio-controls.hidden {
+.type-badge {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.romanization-display {
+  opacity: 0.8;
+}
+
+#romanization-text {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.romanization-display.hidden {
   display: none;
 }
 
@@ -349,66 +382,185 @@ body {
 }
 
 /* Back Card Styles */
-.english-translation {
-  margin-bottom: var(--spacing-xl);
+.answer-section {
   text-align: center;
-  position: relative;
+  margin-bottom: var(--spacing-xl);
+}
+
+.english-translation {
+  margin-bottom: var(--spacing-md);
 }
 
 #english-text {
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 500;
   color: var(--text-primary);
   line-height: 1.3;
 }
 
-.english-translation.hidden #english-text {
-  filter: blur(8px);
-  user-select: none;
-  pointer-events: none;
+.pronunciation-guide {
+  opacity: 0.8;
 }
 
-.toggle-btn {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: var(--spacing-md);
-  transition: background-color var(--transition-fast);
+.romanization-full {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  font-style: italic;
 }
 
-.toggle-btn:hover {
-  background-color: var(--primary-hover);
-}
-
-.word-info {
+.example-section {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
-  text-align: center;
+  text-align: left;
 }
 
-.word-type {
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: var(--spacing-md);
 }
 
-.word-type-badge {
+.section-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.audio-btn.secondary {
+  background: none;
+  border: 1px solid var(--secondary-color);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--secondary-color);
+}
+
+.audio-btn.secondary:hover {
   background-color: var(--secondary-color);
   color: white;
-  padding: var(--spacing-xs) var(--spacing-md);
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
+  transform: scale(1.05);
+}
+
+.sentence-content {
+  line-height: 1.6;
+}
+
+.sentence-korean {
+  font-family: var(--font-family-korean);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.sentence-romanization {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: var(--spacing-sm);
+}
+
+.sentence-english {
+  font-size: 1rem;
+  color: var(--text-primary);
   font-weight: 500;
+}
+
+.word-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.frequency-info,
+.difficulty-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.frequency-label,
+.difficulty-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.frequency-badge,
+.difficulty-badge {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: capitalize;
 }
 
-.usage-info p {
-  color: var(--text-secondary);
-  font-size: 1.25rem;
-  max-width: 400px;
-  margin: 0 auto;
+.frequency-badge.high {
+  background-color: #10b981;
+  color: white;
+}
+
+.frequency-badge.medium {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.frequency-badge.low {
+  background-color: #6b7280;
+  color: white;
+}
+
+.difficulty-badge.beginner {
+  background-color: #10b981;
+  color: white;
+}
+
+.difficulty-badge.intermediate {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.difficulty-badge.advanced {
+  background-color: #ef4444;
+  color: white;
+}
+
+.category-badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.category-badge.nouns {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.category-badge.verbs {
+  background-color: #10b981;
+  color: white;
+}
+
+.category-badge.하다-verbs {
+  background-color: #8b5cf6;
+  color: white;
+}
+
+.category-badge.date-time-place {
+  background-color: #f59e0b;
+  color: white;
 }
 
 /* Expandable Sections */

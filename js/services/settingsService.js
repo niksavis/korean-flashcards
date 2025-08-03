@@ -11,7 +11,7 @@ export class SettingsService {
             // Display settings
             showRomanization: true,
             koreanOnlyMode: true, // Hide English translation by default
-            showAudioControls: false, // Hide audio controls by default
+            showAudioControls: true, // Show audio controls by default for language learning
             
             // Audio settings
             autoPlayAudio: false,

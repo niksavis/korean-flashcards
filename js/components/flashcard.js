@@ -39,14 +39,11 @@ export class FlashcardComponent {
         this.handleFlipClick = this.handleFlipClick.bind(this);
         this.handleWordAudio = this.handleWordAudio.bind(this);
         this.handleSentenceAudio = this.handleSentenceAudio.bind(this);
-        this.handleToggleEnglish = this.handleToggleEnglish.bind(this);
-        this.handleExpandSection = this.handleExpandSection.bind(this);
     }
 
     init() {
         this.cacheElements();
         this.setupEventListeners();
-        this.setupExpandableSections();
         console.log('Flashcard component initialized');
     }
 
@@ -56,31 +53,27 @@ export class FlashcardComponent {
         this.frontElement = document.querySelector('.flashcard-front');
         this.backElement = document.querySelector('.flashcard-back');
         
-        // Content elements
+        // Front side elements
         this.wordPositionElement = document.getElementById('word-position');
         this.hangulElement = document.getElementById('hangul-text');
+        this.wordCategoryElement = document.getElementById('word-category');
+        this.wordTypeHintElement = document.getElementById('word-type-hint');
         this.romanizationElement = document.getElementById('romanization-text');
         this.romanizationDisplay = document.getElementById('romanization-display');
+        
+        // Back side elements
         this.englishElement = document.getElementById('english-text');
-        this.englishTranslation = document.getElementById('english-translation');
-        this.wordTypeElement = document.getElementById('word-type-badge');
-        this.usageElement = document.getElementById('usage-text');
-        
-        // Example sentence elements
-        this.exampleSentenceElement = document.getElementById('example-sentence');
-        this.sentenceKoreanElement = document.querySelector('.sentence-korean');
-        this.sentenceRomanizationElement = document.querySelector('.sentence-romanization');
-        
-        // Expandable content elements
-        this.detailedGrammarElement = document.getElementById('detailed-grammar-text');
-        this.informalUsageElement = document.getElementById('informal-usage-text');
+        this.romanizationFullElement = document.getElementById('romanization-full');
+        this.exampleSectionElement = document.getElementById('example-section');
+        this.sentenceKoreanElement = document.getElementById('sentence-korean');
+        this.sentenceRomanizationElement = document.getElementById('sentence-romanization');
+        this.sentenceEnglishElement = document.getElementById('sentence-english');
+        this.frequencyLevelElement = document.getElementById('frequency-level');
+        this.difficultyLevelElement = document.getElementById('difficulty-level');
         
         // Audio buttons
         this.wordAudioBtn = document.getElementById('word-audio-btn');
         this.sentenceAudioBtn = document.getElementById('sentence-audio-btn');
-        
-        // Toggle buttons
-        this.toggleEnglishBtn = document.getElementById('toggle-english-btn');
         
         // Validate elements
         this.validateElements();
@@ -118,14 +111,6 @@ export class FlashcardComponent {
             this.sentenceAudioBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.handleSentenceAudio();
-            });
-        }
-        
-        // Toggle English button
-        if (this.toggleEnglishBtn) {
-            this.toggleEnglishBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.handleToggleEnglish();
             });
         }
     }
@@ -169,55 +154,68 @@ export class FlashcardComponent {
             this.wordPositionElement.textContent = word.position || '';
         }
         
-        // Hangul
+        // Hangul (main focus)
         if (this.hangulElement) {
             this.hangulElement.textContent = word.hangul || '';
         }
         
-        // Romanization
-        if (this.romanizationElement) {
-            this.romanizationElement.textContent = word.romanization || '';
+        // Category (helpful context)
+        if (this.wordCategoryElement) {
+            this.wordCategoryElement.textContent = word.category || '';
+            this.wordCategoryElement.className = `category-badge ${(word.category || '').toLowerCase().replace(/\s+/g, '-')}`;
         }
         
-        // Example sentence
-        if (word.exampleSentence) {
-            this.updateExampleSentence(word.exampleSentence);
-        } else {
-            this.hideExampleSentence();
+        // Word type hint (small hint)
+        if (this.wordTypeHintElement) {
+            this.wordTypeHintElement.textContent = word.wordType || '';
+            this.wordTypeHintElement.className = `type-badge ${word.wordType || ''}`;
+        }
+        
+        // Romanization (pronunciation help)
+        if (this.romanizationElement) {
+            this.romanizationElement.textContent = word.romanization || '';
         }
     }
 
     updateBackSide(word) {
-        // English translation
+        // English translation (main answer)
         if (this.englishElement) {
             this.englishElement.textContent = word.english || '';
         }
         
-        // Word type badge
-        if (this.wordTypeElement) {
-            this.wordTypeElement.textContent = word.wordType || '';
-            this.wordTypeElement.className = `word-type-badge ${word.wordType || ''}`;
+        // Full romanization guide
+        if (this.romanizationFullElement) {
+            this.romanizationFullElement.textContent = word.romanization || '';
         }
         
-        // Usage information
-        if (this.usageElement && word.grammaticalInfo) {
-            this.usageElement.textContent = word.grammaticalInfo.usage || '';
+        // Example sentence section
+        if (word.exampleSentence) {
+            this.updateExampleSentence(word.exampleSentence);
+            if (this.exampleSectionElement) {
+                this.exampleSectionElement.style.display = 'block';
+            }
+        } else {
+            if (this.exampleSectionElement) {
+                this.exampleSectionElement.style.display = 'none';
+            }
         }
         
-        // Detailed grammar
-        if (this.detailedGrammarElement && word.grammaticalInfo) {
-            this.detailedGrammarElement.textContent = word.grammaticalInfo.detailed || '';
+        // Frequency information
+        if (this.frequencyLevelElement) {
+            const frequency = word.frequency || 'medium';
+            this.frequencyLevelElement.textContent = frequency.charAt(0).toUpperCase() + frequency.slice(1);
+            this.frequencyLevelElement.className = `frequency-badge ${frequency}`;
         }
         
-        // Informal usage
-        if (this.informalUsageElement && word.grammaticalInfo) {
-            this.informalUsageElement.textContent = word.grammaticalInfo.informal || '';
+        // Difficulty information
+        if (this.difficultyLevelElement) {
+            const difficulty = word.difficulty || 'intermediate';
+            this.difficultyLevelElement.textContent = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+            this.difficultyLevelElement.className = `difficulty-badge ${difficulty}`;
         }
     }
 
     updateExampleSentence(exampleSentence) {
-        if (!this.exampleSentenceElement) return;
-        
         if (this.sentenceKoreanElement) {
             this.sentenceKoreanElement.textContent = exampleSentence.korean || '';
         }
@@ -226,12 +224,8 @@ export class FlashcardComponent {
             this.sentenceRomanizationElement.textContent = exampleSentence.romanization || '';
         }
         
-        this.exampleSentenceElement.style.display = 'block';
-    }
-
-    hideExampleSentence() {
-        if (this.exampleSentenceElement) {
-            this.exampleSentenceElement.style.display = 'none';
+        if (this.sentenceEnglishElement) {
+            this.sentenceEnglishElement.textContent = exampleSentence.english || '';
         }
     }
 
@@ -300,39 +294,6 @@ export class FlashcardComponent {
         }
     }
 
-    handleToggleEnglish() {
-        if (!this.englishTranslation) return;
-        
-        const isHidden = this.englishTranslation.classList.contains('hidden');
-        
-        if (isHidden) {
-            this.englishTranslation.classList.remove('hidden');
-            this.toggleEnglishBtn.textContent = 'Hide English';
-        } else {
-            this.englishTranslation.classList.add('hidden');
-            this.toggleEnglishBtn.textContent = 'Show English';
-        }
-    }
-
-    handleExpandSection(button) {
-        const targetId = button.getAttribute('data-target');
-        const targetContent = document.getElementById(targetId);
-        
-        if (!targetContent) return;
-        
-        const isExpanded = button.getAttribute('aria-expanded') === 'true';
-        
-        if (isExpanded) {
-            // Collapse
-            button.setAttribute('aria-expanded', 'false');
-            targetContent.classList.remove('expanded');
-        } else {
-            // Expand
-            button.setAttribute('aria-expanded', 'true');
-            targetContent.classList.add('expanded');
-        }
-    }
-
     showAudioError() {
         // Visual feedback for audio errors
         const audioButtons = document.querySelectorAll('.audio-btn');
@@ -349,7 +310,6 @@ export class FlashcardComponent {
         const settings = this.settingsService.getSettings();
         
         this.setRomanizationVisible(settings.showRomanization);
-        this.setKoreanOnlyMode(settings.koreanOnlyMode);
         this.setAudioControlsVisible(settings.showAudioControls);
     }
 
@@ -372,25 +332,13 @@ export class FlashcardComponent {
         }
     }
 
-    setKoreanOnlyMode(enabled) {
-        if (!this.englishTranslation || !this.toggleEnglishBtn) return;
-        
-        if (enabled) {
-            this.englishTranslation.classList.add('hidden');
-            this.toggleEnglishBtn.textContent = 'Show English';
-            this.toggleEnglishBtn.style.display = 'block';
-        } else {
-            this.englishTranslation.classList.remove('hidden');
-            this.toggleEnglishBtn.style.display = 'none';
-        }
-    }
-
     setAudioControlsVisible(visible) {
-        const audioControls = document.querySelectorAll('.audio-controls, .audio-btn');
+        const audioControls = document.querySelectorAll('.word-audio-controls, .audio-btn');
         
         audioControls.forEach(control => {
             if (visible) {
                 control.classList.remove('hidden');
+                control.style.display = ''; // Remove any inline hiding
             } else {
                 control.classList.add('hidden');
             }
@@ -410,17 +358,6 @@ export class FlashcardComponent {
         this.currentWord = null;
         this.isFlipped = false;
         this.updateFlipState();
-        
-        // Reset expandable sections
-        this.expandButtons.forEach(button => {
-            const targetId = button.getAttribute('data-target');
-            const targetContent = document.getElementById(targetId);
-            
-            if (targetContent) {
-                button.setAttribute('aria-expanded', 'false');
-                targetContent.classList.remove('expanded');
-            }
-        });
     }
 
     // Accessibility helpers

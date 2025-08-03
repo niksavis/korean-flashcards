@@ -134,7 +134,8 @@ class KoreanFlashcardApp {
             onNext: this.handleNextCard,
             onPrev: this.handlePrevCard,
             onFlip: this.handleFlipCard,
-            onAudio: () => this.playCurrentWordAudio(),
+            onWordAudio: () => this.playCurrentWordAudio(),
+            onSentenceAudio: () => this.playCurrentSentenceAudio(),
             onSettings: this.handleSettingsToggle
         });
         
@@ -223,9 +224,6 @@ class KoreanFlashcardApp {
         
         // Apply romanization visibility
         this.flashcardComponent.setRomanizationVisible(settings.showRomanization);
-        
-        // Apply Korean-only mode
-        this.flashcardComponent.setKoreanOnlyMode(settings.koreanOnlyMode);
         
         // Apply audio controls visibility
         this.flashcardComponent.setAudioControlsVisible(settings.showAudioControls);

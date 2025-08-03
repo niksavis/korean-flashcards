@@ -7,8 +7,9 @@ export class KeyboardHandler {
             next: ['ArrowRight', 'KeyN'],
             prev: ['ArrowLeft', 'KeyP'],
             flip: ['Space', 'Enter', 'KeyF'],
-            audio: ['KeyA'],
-            settings: ['KeyS'],
+            wordAudio: ['KeyA'],
+            sentenceAudio: ['KeyS'],
+            settings: ['KeyQ'],
             escape: ['Escape']
         };
         
@@ -45,9 +46,12 @@ export class KeyboardHandler {
         } else if (this.shortcuts.flip.includes(code)) {
             event.preventDefault();
             this.executeCallback('onFlip');
-        } else if (this.shortcuts.audio.includes(code)) {
+        } else if (this.shortcuts.wordAudio.includes(code)) {
             event.preventDefault();
-            this.executeCallback('onAudio');
+            this.executeCallback('onWordAudio');
+        } else if (this.shortcuts.sentenceAudio.includes(code)) {
+            event.preventDefault();
+            this.executeCallback('onSentenceAudio');
         } else if (this.shortcuts.settings.includes(code)) {
             event.preventDefault();
             this.executeCallback('onSettings');
