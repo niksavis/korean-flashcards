@@ -1,0 +1,406 @@
+/* Settings Panel Styles */
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100vh;
+  background-color: var(--bg-primary);
+  border-left: 1px solid var(--border-color);
+  box-shadow: var(--shadow-xl);
+  z-index: 200;
+  transition: right var(--transition-normal);
+  overflow-y: auto;
+}
+
+.settings-panel.open {
+  right: 0;
+}
+
+.settings-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+}
+
+.settings-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.settings-body {
+  flex: 1;
+  padding: var(--spacing-lg);
+}
+
+.setting-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.setting-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-primary);
+  position: relative;
+}
+
+/* Custom Checkbox Styles */
+.setting-label input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-primary);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.setting-label input[type="checkbox"]:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.setting-label input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.setting-label input[type="checkbox"]:hover {
+  border-color: var(--primary-color);
+}
+
+/* Range Input Styles */
+.setting-label input[type="range"] {
+  flex: 1;
+  margin: 0 var(--spacing-md);
+}
+
+input[type="range"] {
+  appearance: none;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+#audio-speed-value {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* Settings Overlay */
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 150;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.settings-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Flashcard State Styles */
+.flashcard-front.audio-playing,
+.flashcard-back.audio-playing {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.audio-btn.playing {
+  background-color: var(--accent-color);
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Word Type Badge Variations */
+.word-type-badge.noun {
+  background-color: #3b82f6; /* Blue */
+}
+
+.word-type-badge.verb {
+  background-color: #10b981; /* Green */
+}
+
+.word-type-badge.adjective {
+  background-color: #f59e0b; /* Yellow */
+}
+
+.word-type-badge.adverb {
+  background-color: #8b5cf6; /* Purple */
+}
+
+.word-type-badge.particle {
+  background-color: #ef4444; /* Red */
+}
+
+.word-type-badge.conjunction {
+  background-color: #06b6d4; /* Cyan */
+}
+
+.word-type-badge.interjection {
+  background-color: #f97316; /* Orange */
+}
+
+.word-type-badge.pronoun {
+  background-color: #84cc16; /* Lime */
+}
+
+/* Transition States */
+.flashcard-transitioning {
+  pointer-events: none;
+}
+
+.flashcard-front.slide-out {
+  animation: slideOutLeft var(--transition-normal) ease-in;
+}
+
+.flashcard-front.slide-in {
+  animation: slideInRight var(--transition-normal) ease-out;
+}
+
+@keyframes slideOutLeft {
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Progress Indicators */
+.progress-text.milestone {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.progress-fill.milestone {
+  background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+}
+
+/* Error States */
+.flashcard.error {
+  border-color: var(--error-color);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.audio-btn.error {
+  border-color: var(--error-color);
+  color: var(--error-color);
+}
+
+.audio-btn.error:hover {
+  background-color: var(--error-color);
+  color: white;
+}
+
+/* Loading States */
+.flashcard.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.flashcard.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border: 2px solid var(--bg-tertiary);
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Success States */
+.flashcard.success {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Tooltip Styles */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-fast);
+  z-index: 1000;
+  margin-bottom: var(--spacing-xs);
+}
+
+.tooltip::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--bg-dark);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-fast);
+}
+
+.tooltip:hover::after,
+.tooltip:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .flashcard {
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+    border: 4px solid var(--primary-color);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --border-color: #000000;
+    --text-secondary: #000000;
+    --bg-secondary: #ffffff;
+  }
+
+  .flashcard-front,
+  .flashcard-back {
+    border-width: 3px;
+  }
+}
+
+/* Focus Management */
+.flashcard:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 4px;
+}
+
+.settings-panel:focus-within {
+  outline: none;
+}
+
+/* Print Styles */
+@media print {
+  .settings-panel,
+  .navigation-controls,
+  .keyboard-shortcuts,
+  .loading-overlay,
+  .audio-controls {
+    display: none !important;
+  }
+
+  .flashcard {
+    transform: none !important;
+    box-shadow: none;
+    border: 2px solid #000;
+  }
+
+  .flashcard-back {
+    transform: none;
+    margin-top: 2rem;
+  }
+}

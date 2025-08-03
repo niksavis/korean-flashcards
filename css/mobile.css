@@ -1,0 +1,460 @@
+/* Mobile-First Responsive Design */
+
+/* Small devices (landscape phones, 576px and down) */
+@media (max-width: 575.98px) {
+  :root {
+    --spacing-xs: 0.125rem;
+    --spacing-sm: 0.25rem;
+    --spacing-md: 0.5rem;
+    --spacing-lg: 0.75rem;
+    --spacing-xl: 1rem;
+    --spacing-2xl: 1.5rem;
+  }
+
+  /* Header adjustments */
+  .app-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .app-title {
+    font-size: 1.25rem;
+  }
+
+  /* Progress bar adjustments */
+  .progress-container {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .progress-info {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  #progress-text {
+    font-size: 0.875rem;
+  }
+
+  .difficulty-badge {
+    font-size: 0.75rem;
+    padding: 2px var(--spacing-xs);
+  }
+
+  /* Main content adjustments */
+  .main-content {
+    padding: var(--spacing-md);
+  }
+
+  /* Flashcard adjustments */
+  .flashcard-container {
+    height: 350px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .flashcard-front,
+  .flashcard-back {
+    padding: var(--spacing-lg);
+  }
+
+  .word-position {
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    font-size: 0.75rem;
+    padding: 2px var(--spacing-xs);
+  }
+
+  #hangul-text {
+    font-size: 3.5rem;
+  }
+
+  #romanization-text {
+    font-size: 1.5rem;
+  }
+
+  #english-text {
+    font-size: 1.75rem;
+  }
+
+  .audio-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .audio-btn.small {
+    width: 28px;
+    height: 28px;
+  }
+
+  .example-sentence {
+    padding: var(--spacing-sm);
+    font-size: 0.875rem;
+  }
+
+  .sentence-korean {
+    font-size: 1.25rem;
+  }
+
+  .sentence-romanization {
+    font-size: 1rem;
+  }
+
+  /* Navigation adjustments */
+  .navigation-controls {
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+
+  .nav-btn,
+  .flip-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.875rem;
+    min-width: 100px;
+  }
+
+  .nav-btn span,
+  .flip-btn span {
+    display: none;
+  }
+
+  .nav-btn svg,
+  .flip-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Settings panel adjustments */
+  .settings-panel {
+    width: 100%;
+    right: -100%;
+  }
+
+  .settings-panel.open {
+    right: 0;
+  }
+
+  .settings-header {
+    padding: var(--spacing-md);
+  }
+
+  .settings-body {
+    padding: var(--spacing-md);
+  }
+
+  .setting-group {
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Keyboard shortcuts */
+  .keyboard-shortcuts {
+    bottom: var(--spacing-sm);
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+    transform: none;
+    font-size: 0.625rem;
+    text-align: center;
+  }
+
+  kbd {
+    padding: 1px 4px;
+    font-size: 0.6rem;
+  }
+
+  /* Expandable sections */
+  .expandable-sections {
+    max-width: 100%;
+  }
+
+  .expand-btn {
+    padding: var(--spacing-sm);
+    font-size: 0.75rem;
+  }
+
+  .expandable-content {
+    max-height: 150px;
+  }
+
+  .expandable-content.expanded {
+    padding: var(--spacing-sm);
+  }
+
+  .expandable-content p {
+    font-size: 1rem;
+  }
+}
+
+/* Medium devices (tablets, 768px and down) */
+@media (max-width: 767.98px) {
+  .flashcard-container {
+    max-width: 500px;
+    height: 380px;
+  }
+
+  #hangul-text {
+    font-size: 3.5rem;
+  }
+
+  #romanization-text {
+    font-size: 1.25rem;
+  }
+
+  #english-text {
+    font-size: 1.75rem;
+  }
+
+  .navigation-controls {
+    gap: var(--spacing-md);
+  }
+
+  .nav-btn,
+  .flip-btn {
+    min-width: 110px;
+  }
+
+  .settings-panel {
+    width: 350px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .flashcard-container {
+    max-width: 700px;
+    height: 450px;
+  }
+
+  #hangul-text {
+    font-size: 5rem;
+  }
+
+  #romanization-text {
+    font-size: 1.75rem;
+  }
+
+  #english-text {
+    font-size: 2.25rem;
+  }
+
+  .settings-panel {
+    width: 450px;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .flashcard-container {
+    max-width: 800px;
+    height: 500px;
+  }
+
+  .main-content {
+    padding: var(--spacing-2xl);
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+  .app-header {
+    padding: var(--spacing-xs) var(--spacing-md);
+  }
+
+  .app-title {
+    font-size: 1.125rem;
+  }
+
+  .progress-container {
+    padding: var(--spacing-xs) var(--spacing-md);
+  }
+
+  .main-content {
+    padding: var(--spacing-sm);
+  }
+
+  .flashcard-container {
+    height: 280px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .flashcard-front,
+  .flashcard-back {
+    padding: var(--spacing-md);
+  }
+
+  #hangul-text {
+    font-size: 2rem;
+  }
+
+  #romanization-text {
+    font-size: 1rem;
+  }
+
+  #english-text {
+    font-size: 1.25rem;
+  }
+
+  .navigation-controls {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .keyboard-shortcuts {
+    display: none;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .audio-btn,
+  .nav-btn,
+  .flip-btn,
+  .icon-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .audio-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .audio-btn.small {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .nav-btn,
+  .flip-btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .expand-btn {
+    min-height: 44px;
+    padding: var(--spacing-md);
+  }
+
+  .setting-label {
+    min-height: 44px;
+    padding: var(--spacing-sm) 0;
+  }
+
+  .setting-label input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Remove hover effects on touch devices */
+  .flashcard-container:hover .flashcard {
+    transform: none;
+  }
+
+  .flashcard-container:hover .flashcard.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .audio-btn:hover,
+  .nav-btn:hover,
+  .flip-btn:hover,
+  .icon-btn:hover {
+    transform: none;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .flashcard-front,
+  .flashcard-back {
+    border-width: 1px;
+  }
+
+  .word-position {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .flashcard {
+    transition: none;
+  }
+
+  .flashcard.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .progress-fill {
+    transition: none;
+  }
+
+  .settings-panel {
+    transition: none;
+  }
+
+  .expandable-content {
+    transition: none;
+  }
+
+  .audio-btn.playing {
+    animation: none;
+    background-color: var(--accent-color);
+  }
+}
+
+/* Dark mode adaptations for mobile */
+@media (prefers-color-scheme: dark) {
+  .keyboard-shortcuts {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .loading-overlay {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+}
+
+/* Print optimizations for mobile */
+@media print {
+  .flashcard-container {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .flashcard-front,
+  .flashcard-back {
+    position: static;
+    transform: none;
+    page-break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+
+  .flashcard-back {
+    border-top: 1px solid #ccc;
+    padding-top: 1rem;
+  }
+
+  #hangul-text {
+    font-size: 2rem;
+  }
+
+  #english-text {
+    font-size: 1.5rem;
+  }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 575.98px) {
+  .sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  .flashcard:focus-visible {
+    outline-offset: 2px;
+  }
+}
