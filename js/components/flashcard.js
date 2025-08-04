@@ -181,8 +181,8 @@ export class FlashcardComponent {
         
         // Word type hint (small hint)
         if (this.wordTypeHintElement) {
-            this.wordTypeHintElement.textContent = word.word_type || '';
-            this.wordTypeHintElement.className = `type-badge ${word.word_type || ''}`;
+            this.wordTypeHintElement.textContent = word.wordType || '';
+            this.wordTypeHintElement.className = `type-badge ${word.wordType || ''}`;
         }
         
         // Romanization (pronunciation help)
