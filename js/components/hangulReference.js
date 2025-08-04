@@ -130,69 +130,71 @@ export class HangulReferenceComponent {
     initHangulData() {
         // Korean consonants (자음)
         this.consonants = [
-            { char: 'ㄱ', roman: 'g/k', name: 'giyeok', example: '가' },
-            { char: 'ㄴ', roman: 'n', name: 'nieun', example: '나' },
-            { char: 'ㄷ', roman: 'd/t', name: 'digeut', example: '다' },
-            { char: 'ㄹ', roman: 'r/l', name: 'rieul', example: '라' },
-            { char: 'ㅁ', roman: 'm', name: 'mieum', example: '마' },
-            { char: 'ㅂ', roman: 'b/p', name: 'bieup', example: '바' },
-            { char: 'ㅅ', roman: 's', name: 'siot', example: '사' },
-            { char: 'ㅇ', roman: 'ng/silent', name: 'ieung', example: '아' },
-            { char: 'ㅈ', roman: 'j', name: 'jieut', example: '자' },
-            { char: 'ㅊ', roman: 'ch', name: 'chieut', example: '차' },
-            { char: 'ㅋ', roman: 'k', name: 'kieuk', example: '카' },
-            { char: 'ㅌ', roman: 't', name: 'tieut', example: '타' },
-            { char: 'ㅍ', roman: 'p', name: 'pieup', example: '파' },
-            { char: 'ㅎ', roman: 'h', name: 'hieut', example: '하' }
+            { char: 'ㄱ', roman: 'g/k', name: 'giyeok', koreanName: '기역', example: '가' },
+            { char: 'ㄴ', roman: 'n', name: 'nieun', koreanName: '니은', example: '나' },
+            { char: 'ㄷ', roman: 'd/t', name: 'digeut', koreanName: '디귿', example: '다' },
+            { char: 'ㄹ', roman: 'r/l', name: 'rieul', koreanName: '리을', example: '라' },
+            { char: 'ㅁ', roman: 'm', name: 'mieum', koreanName: '미음', example: '마' },
+            { char: 'ㅂ', roman: 'b/p', name: 'bieup', koreanName: '비읍', example: '바' },
+            { char: 'ㅅ', roman: 's', name: 'siot', koreanName: '시옷', example: '사' },
+            { char: 'ㅇ', roman: 'ng/silent', name: 'ieung', koreanName: '이응', example: '아' },
+            { char: 'ㅈ', roman: 'j', name: 'jieut', koreanName: '지읒', example: '자' },
+            { char: 'ㅊ', roman: 'ch', name: 'chieut', koreanName: '치읓', example: '차' },
+            { char: 'ㅋ', roman: 'k', name: 'kieuk', koreanName: '키읔', example: '카' },
+            { char: 'ㅌ', roman: 't', name: 'tieut', koreanName: '티읕', example: '타' },
+            { char: 'ㅍ', roman: 'p', name: 'pieup', koreanName: '피읖', example: '파' },
+            { char: 'ㅎ', roman: 'h', name: 'hieut', koreanName: '히읗', example: '하' }
         ];
 
         // Korean vowels (모음)
         this.vowels = [
-            { char: 'ㅏ', roman: 'a', name: 'a', example: '아' },
-            { char: 'ㅑ', roman: 'ya', name: 'ya', example: '야' },
-            { char: 'ㅓ', roman: 'eo', name: 'eo', example: '어' },
-            { char: 'ㅕ', roman: 'yeo', name: 'yeo', example: '여' },
-            { char: 'ㅗ', roman: 'o', name: 'o', example: '오' },
-            { char: 'ㅛ', roman: 'yo', name: 'yo', example: '요' },
-            { char: 'ㅜ', roman: 'u', name: 'u', example: '우' },
-            { char: 'ㅠ', roman: 'yu', name: 'yu', example: '유' },
-            { char: 'ㅡ', roman: 'eu', name: 'eu', example: '으' },
-            { char: 'ㅣ', roman: 'i', name: 'i', example: '이' }
+            { char: 'ㅏ', roman: 'a', name: 'a', koreanName: '아', example: '아' },
+            { char: 'ㅑ', roman: 'ya', name: 'ya', koreanName: '야', example: '야' },
+            { char: 'ㅓ', roman: 'eo', name: 'eo', koreanName: '어', example: '어' },
+            { char: 'ㅕ', roman: 'yeo', name: 'yeo', koreanName: '여', example: '여' },
+            { char: 'ㅗ', roman: 'o', name: 'o', koreanName: '오', example: '오' },
+            { char: 'ㅛ', roman: 'yo', name: 'yo', koreanName: '요', example: '요' },
+            { char: 'ㅜ', roman: 'u', name: 'u', koreanName: '우', example: '우' },
+            { char: 'ㅠ', roman: 'yu', name: 'yu', koreanName: '유', example: '유' },
+            { char: 'ㅡ', roman: 'eu', name: 'eu', koreanName: '으', example: '으' },
+            { char: 'ㅣ', roman: 'i', name: 'i', koreanName: '이', example: '이' }
         ];
 
         // Complex consonants (쌍자음)
         this.complexConsonants = [
-            { char: 'ㄲ', roman: 'kk', name: 'ssang-giyeok', example: '까' },
-            { char: 'ㄸ', roman: 'tt', name: 'ssang-digeut', example: '따' },
-            { char: 'ㅃ', roman: 'pp', name: 'ssang-bieup', example: '빠' },
-            { char: 'ㅆ', roman: 'ss', name: 'ssang-siot', example: '싸' },
-            { char: 'ㅉ', roman: 'jj', name: 'ssang-jieut', example: '짜' }
+            { char: 'ㄲ', roman: 'kk', name: 'ssang-giyeok', koreanName: '쌍기역', example: '까' },
+            { char: 'ㄸ', roman: 'tt', name: 'ssang-digeut', koreanName: '쌍디귿', example: '따' },
+            { char: 'ㅃ', roman: 'pp', name: 'ssang-bieup', koreanName: '쌍비읍', example: '빠' },
+            { char: 'ㅆ', roman: 'ss', name: 'ssang-siot', koreanName: '쌍시옷', example: '싸' },
+            { char: 'ㅉ', roman: 'jj', name: 'ssang-jieut', koreanName: '쌍지읒', example: '짜' }
         ];
 
         // Complex vowels (복합모음)
         this.complexVowels = [
-            { char: 'ㅐ', roman: 'ae', name: 'ae', example: '애' },
-            { char: 'ㅒ', roman: 'yae', name: 'yae', example: '얘' },
-            { char: 'ㅔ', roman: 'e', name: 'e', example: '에' },
-            { char: 'ㅖ', roman: 'ye', name: 'ye', example: '예' },
-            { char: 'ㅘ', roman: 'wa', name: 'wa', example: '와' },
-            { char: 'ㅙ', roman: 'wae', name: 'wae', example: '왜' },
-            { char: 'ㅚ', roman: 'oe', name: 'oe', example: '외' },
-            { char: 'ㅝ', roman: 'wo', name: 'wo', example: '워' },
-            { char: 'ㅞ', roman: 'we', name: 'we', example: '웨' },
-            { char: 'ㅟ', roman: 'wi', name: 'wi', example: '위' },
-            { char: 'ㅢ', roman: 'ui', name: 'ui', example: '의' }
+            { char: 'ㅐ', roman: 'ae', name: 'ae', koreanName: '애', example: '애' },
+            { char: 'ㅒ', roman: 'yae', name: 'yae', koreanName: '얘', example: '얘' },
+            { char: 'ㅔ', roman: 'e', name: 'e', koreanName: '에', example: '에' },
+            { char: 'ㅖ', roman: 'ye', name: 'ye', koreanName: '예', example: '예' },
+            { char: 'ㅘ', roman: 'wa', name: 'wa', koreanName: '와', example: '와' },
+            { char: 'ㅙ', roman: 'wae', name: 'wae', koreanName: '왜', example: '왜' },
+            { char: 'ㅚ', roman: 'oe', name: 'oe', koreanName: '외', example: '외' },
+            { char: 'ㅝ', roman: 'wo', name: 'wo', koreanName: '워', example: '워' },
+            { char: 'ㅞ', roman: 'we', name: 'we', koreanName: '웨', example: '웨' },
+            { char: 'ㅟ', roman: 'wi', name: 'wi', koreanName: '위', example: '위' },
+            { char: 'ㅢ', roman: 'ui', name: 'ui', koreanName: '의', example: '의' }
         ];
 
         // Batchim rules and examples
         this.batchimRules = [
             {
                 title: "Final Consonant ㄱ, ㄲ, ㅋ → [k] sound",
-                description: "These consonants at the end of syllables are pronounced as [k]",
+                description: "These consonants at the end of syllables are pronounced as unreleased [k]",
                 examples: [
-                    { korean: '학교', roman: 'hakgyo', meaning: 'school' },
-                    { korean: '부엌', roman: 'bueok', meaning: 'kitchen' },
-                    { korean: '밖', roman: 'bakk', meaning: 'outside' }
+                    { korean: '학교', roman: 'hak-gyo', meaning: 'school' },
+                    { korean: '부엌', roman: 'bu-eok', meaning: 'kitchen' },
+                    { korean: '밖', roman: 'bakk', meaning: 'outside' },
+                    { korean: '책', roman: 'chaek', meaning: 'book' },
+                    { korean: '죽', roman: 'juk', meaning: 'porridge' }
                 ]
             },
             {
@@ -201,16 +203,21 @@ export class HangulReferenceComponent {
                 examples: [
                     { korean: '손', roman: 'son', meaning: 'hand' },
                     { korean: '문', roman: 'mun', meaning: 'door' },
-                    { korean: '은', roman: 'eun', meaning: 'silver/topic particle' }
+                    { korean: '은', roman: 'eun', meaning: 'silver/topic particle' },
+                    { korean: '한국', roman: 'han-guk', meaning: 'Korea' },
+                    { korean: '눈', roman: 'nun', meaning: 'eye/snow' }
                 ]
             },
             {
                 title: "Final Consonant ㄷ, ㅅ, ㅆ, ㅈ, ㅊ, ㅌ, ㅎ → [t] sound",
-                description: "These consonants at the end are all pronounced as [t]",
+                description: "These consonants at the end are all pronounced as unreleased [t]",
                 examples: [
                     { korean: '맛', roman: 'mat', meaning: 'taste' },
                     { korean: '옷', roman: 'ot', meaning: 'clothes' },
-                    { korean: '꽃', roman: 'kkot', meaning: 'flower' }
+                    { korean: '꽃', roman: 'kkot', meaning: 'flower' },
+                    { korean: '밑', roman: 'mit', meaning: 'under' },
+                    { korean: '빛', roman: 'bit', meaning: 'light' },
+                    { korean: '낳', roman: 'nat', meaning: 'give birth' }
                 ]
             },
             {
@@ -219,7 +226,9 @@ export class HangulReferenceComponent {
                 examples: [
                     { korean: '물', roman: 'mul', meaning: 'water' },
                     { korean: '말', roman: 'mal', meaning: 'word/horse' },
-                    { korean: '길', roman: 'gil', meaning: 'road' }
+                    { korean: '길', roman: 'gil', meaning: 'road' },
+                    { korean: '날', roman: 'nal', meaning: 'day' },
+                    { korean: '발', roman: 'bal', meaning: 'foot' }
                 ]
             },
             {
@@ -227,17 +236,21 @@ export class HangulReferenceComponent {
                 description: "ㅁ at the end maintains its [m] sound",
                 examples: [
                     { korean: '집', roman: 'jip', meaning: 'house' },
-                    { korean: '김', roman: 'gim', meaning: 'seaweed/name' },
-                    { korean: '남', roman: 'nam', meaning: 'south/male' }
+                    { korean: '김', roman: 'kim', meaning: 'seaweed/name' },
+                    { korean: '남', roman: 'nam', meaning: 'south/male' },
+                    { korean: '밤', roman: 'bam', meaning: 'night/chestnut' },
+                    { korean: '품', roman: 'pum', meaning: 'item/quality' }
                 ]
             },
             {
                 title: "Final Consonant ㅂ, ㅍ → [p] sound",
-                description: "These consonants at the end are pronounced as [p]",
+                description: "These consonants at the end are pronounced as unreleased [p]",
                 examples: [
                     { korean: '입', roman: 'ip', meaning: 'mouth' },
                     { korean: '앞', roman: 'ap', meaning: 'front' },
-                    { korean: '잎', roman: 'ip', meaning: 'leaf' }
+                    { korean: '잎', roman: 'ip', meaning: 'leaf' },
+                    { korean: '숲', roman: 'sup', meaning: 'forest' },
+                    { korean: '깊', roman: 'gip', meaning: 'deep' }
                 ]
             },
             {
@@ -246,7 +259,9 @@ export class HangulReferenceComponent {
                 examples: [
                     { korean: '강', roman: 'gang', meaning: 'river' },
                     { korean: '방', roman: 'bang', meaning: 'room' },
-                    { korean: '공', roman: 'gong', meaning: 'ball/air' }
+                    { korean: '공', roman: 'gong', meaning: 'ball/air' },
+                    { korean: '사랑', roman: 'sa-rang', meaning: 'love' },
+                    { korean: '영', roman: 'yeong', meaning: 'zero/spirit' }
                 ]
             }
         ];
@@ -254,51 +269,135 @@ export class HangulReferenceComponent {
         // Consonant assimilation rules
         this.assimilationRules = [
             {
-                title: "ㄱ + ㄴ → [ng + n]",
-                description: "When ㄱ meets ㄴ, ㄱ becomes ㅇ",
+                title: "Nasalization: ㄱ + ㄴ/ㅁ → [ng + n/m] (비음화)",
+                description: "When ㄱ meets ㄴ or ㅁ, ㄱ becomes ㅇ (ng sound)",
                 examples: [
-                    { korean: '학년', roman: 'hangnyeon', meaning: 'school year' },
-                    { korean: '국내', roman: 'gungnae', meaning: 'domestic' }
+                    { korean: '학년', roman: 'hang-nyeon', meaning: 'school year' },
+                    { korean: '국내', roman: 'gung-nae', meaning: 'domestic' },
+                    { korean: '국물', roman: 'gung-mul', meaning: 'soup' },
+                    { korean: '학문', roman: 'hang-mun', meaning: 'learning' },
+                    { korean: '백년', roman: 'baeng-nyeon', meaning: '100 years' }
                 ]
             },
             {
-                title: "ㄱ + ㅁ → [ng + m]",
-                description: "When ㄱ meets ㅁ, ㄱ becomes ㅇ",
+                title: "Nasalization: ㄷ + ㄴ/ㅁ → [n + n/m] (비음화)",
+                description: "When ㄷ meets ㄴ or ㅁ, ㄷ becomes ㄴ",
                 examples: [
-                    { korean: '국물', roman: 'gungmul', meaning: 'soup' },
-                    { korean: '학문', roman: 'hangmun', meaning: 'learning' }
+                    { korean: '받는다', roman: 'ban-neun-da', meaning: 'receive' },
+                    { korean: '믿는다', roman: 'min-neun-da', meaning: 'believe' },
+                    { korean: '듣는다', roman: 'deun-neun-da', meaning: 'listen' },
+                    { korean: '받문', roman: 'ban-mun', meaning: 'to receive a document' },
+                    { korean: '맞먹다', roman: 'man-meok-da', meaning: 'be equal to' }
                 ]
             },
             {
-                title: "ㄷ + ㄴ → [n + n]",
-                description: "When ㄷ meets ㄴ, ㄷ becomes ㄴ",
+                title: "Nasalization: ㅂ + ㄴ/ㅁ → [m + n/m] (비음화)",
+                description: "When ㅂ meets ㄴ or ㅁ, ㅂ becomes ㅁ",
                 examples: [
-                    { korean: '닫는', roman: 'danneun', meaning: 'closing' },
-                    { korean: '받는', roman: 'banneun', meaning: 'receiving' }
+                    { korean: '입니다', roman: 'im-ni-da', meaning: 'is/am/are (formal)' },
+                    { korean: '십년', roman: 'sim-nyeon', meaning: 'ten years' },
+                    { korean: '깁니다', roman: 'gim-ni-da', meaning: 'is long (formal)' },
+                    { korean: '입문', roman: 'im-mun', meaning: 'introduction' },
+                    { korean: '집무', roman: 'jim-mu', meaning: 'office work' }
                 ]
             },
             {
-                title: "ㄷ + ㅁ → [n + m]",
-                description: "When ㄷ meets ㅁ, ㄷ becomes ㄴ",
+                title: "Liquid Assimilation: ㄴ + ㄹ → [l + l] (유음화)",
+                description: "When ㄴ meets ㄹ, both become ㄹ",
                 examples: [
-                    { korean: '닫문', roman: 'danmun', meaning: 'closed door' },
-                    { korean: '맛만', roman: 'manman', meaning: 'only taste' }
+                    { korean: '신라', roman: 'sil-la', meaning: 'Silla (dynasty)' },
+                    { korean: '원래', roman: 'wol-lae', meaning: 'originally' },
+                    { korean: '천리', roman: 'cheoL-li', meaning: '1000 ri (distance)' },
+                    { korean: '인류', roman: 'il-lyu', meaning: 'mankind' },
+                    { korean: '관련', roman: 'gwal-lyeon', meaning: 'relation' }
                 ]
             },
             {
-                title: "ㅂ + ㄴ → [m + n]",
-                description: "When ㅂ meets ㄴ, ㅂ becomes ㅁ",
+                title: "Liquid Assimilation: ㄹ + ㄴ → [l + l] (유음화)",
+                description: "When ㄹ meets ㄴ, both become ㄹ",
                 examples: [
-                    { korean: '입니다', roman: 'imnida', meaning: 'is/am/are (formal)' },
-                    { korean: '십년', roman: 'simnyeon', meaning: 'ten years' }
+                    { korean: '물냉면', roman: 'mul-laeng-myeon', meaning: 'cold noodles' },
+                    { korean: '설날', roman: 'seol-lal', meaning: 'New Year\'s Day' },
+                    { korean: '실내', roman: 'sil-lae', meaning: 'indoor' },
+                    { korean: '일년', roman: 'il-lyeon', meaning: 'one year' },
+                    { korean: '칠년', roman: 'chil-lyeon', meaning: 'seven years' }
                 ]
             },
             {
-                title: "ㅂ + ㅁ → [m + m]",
-                description: "When ㅂ meets ㅁ, ㅂ becomes ㅁ",
+                title: "Aspiration: ㅎ + ㄱ/ㄷ/ㅂ/ㅈ → [k/t/p/ch + aspiration] (기음화)",
+                description: "When ㅎ meets certain consonants, it creates aspirated sounds",
                 examples: [
-                    { korean: '입문', roman: 'immun', meaning: 'introduction' },
-                    { korean: '집무', roman: 'jimmu', meaning: 'office work' }
+                    { korean: '좋다', roman: 'jo-ta', meaning: 'good' },
+                    { korean: '놓다', roman: 'no-ta', meaning: 'put/place' },
+                    { korean: '북한', roman: 'bu-kan', meaning: 'North Korea' },
+                    { korean: '법학', roman: 'beop-hak', meaning: 'law study' },
+                    { korean: '입학', roman: 'i-pak', meaning: 'admission' }
+                ]
+            },
+            {
+                title: "Tensification: Stop + ㄱ/ㄷ/ㅂ/ㅅ/ㅈ → [reinforced consonants] (경음화)",
+                description: "After stops, certain consonants become tense (doubled)",
+                examples: [
+                    { korean: '학기', roman: 'hak-kki', meaning: 'semester' },
+                    { korean: '먹다', roman: 'meok-tta', meaning: 'eat' },
+                    { korean: '각색', roman: 'gak-ssaek', meaning: 'adaptation' },
+                    { korean: '녹저', roman: 'nok-jjeo', meaning: 'rust stain' },
+                    { korean: '밭벼', roman: 'bat-ppyeo', meaning: 'field rice' }
+                ]
+            },
+            {
+                title: "Palatalization: ㄷ/ㅌ + ㅣ/y-vowels → [j/ch] (구개음화)",
+                description: "When ㄷ or ㅌ meets ㅣ or y-vowels, they become ㅈ or ㅊ",
+                examples: [
+                    { korean: '같이', roman: 'ga-chi', meaning: 'together' },
+                    { korean: '굳이', roman: 'gu-ji', meaning: 'purposely' },
+                    { korean: '닫히다', roman: 'da-chi-da', meaning: 'be closed' },
+                    { korean: '곧이듣다', roman: 'go-ji-deut-da', meaning: 'believe readily' },
+                    { korean: '받히다', roman: 'ba-chi-da', meaning: 'be supported' }
+                ]
+            },
+            {
+                title: "ㅎ Deletion: ㅎ + vowel → [vowel only] (ㅎ 탈락)",
+                description: "ㅎ at the end is often dropped before vowels",
+                examples: [
+                    { korean: '좋아', roman: 'jo-a', meaning: 'good (informal)' },
+                    { korean: '많아', roman: 'ma-na', meaning: 'many (informal)' },
+                    { korean: '놓아', roman: 'no-a', meaning: 'put (informal)' },
+                    { korean: '싫어', roman: 'si-reo', meaning: 'dislike' },
+                    { korean: '않아', roman: 'a-na', meaning: 'not (informal)' }
+                ]
+            },
+            {
+                title: "ㄴ Insertion: Consonant + ㅣ/y-vowels → [n + vowel] (ㄴ 첨가)",
+                description: "ㄴ is inserted between final consonants and words starting with ㅣ or y-vowels",
+                examples: [
+                    { korean: '색연필', roman: 'saeng-nyeon-pil', meaning: 'colored pencil' },
+                    { korean: '나뭇잎', roman: 'na-mun-nip', meaning: 'tree leaf' },
+                    { korean: '꽃잎', roman: 'kkon-nip', meaning: 'flower petal' },
+                    { korean: '밭일', roman: 'ban-nil', meaning: 'farm work' },
+                    { korean: '옷입다', roman: 'on-nip-da', meaning: 'wear clothes' }
+                ]
+            },
+            {
+                title: "ㅎ + ㅅ → ㅆ (Tensification with ㅎ)",
+                description: "When ㅎ meets ㅅ, they become tense ㅆ",
+                examples: [
+                    { korean: '좋습니다', roman: 'jo-sseum-ni-da', meaning: 'is good (formal)' },
+                    { korean: '많습니다', roman: 'man-sseum-ni-da', meaning: 'is many (formal)' },
+                    { korean: '놓습니다', roman: 'no-sseum-ni-da', meaning: 'put (formal)' },
+                    { korean: '않습니다', roman: 'an-sseum-ni-da', meaning: 'is not (formal)' },
+                    { korean: '넣습니다', roman: 'neo-sseum-ni-da', meaning: 'put in (formal)' }
+                ]
+            },
+            {
+                title: "ㅎ + ㄴ → ㄴ (ㅎ weakening before ㄴ)",
+                description: "When ㅎ meets ㄴ, ㅎ disappears and ㄴ remains",
+                examples: [
+                    { korean: '않는', roman: 'an-neun', meaning: 'not (present)' },
+                    { korean: '놓는', roman: 'no-neun', meaning: 'putting' },
+                    { korean: '좋네', roman: 'jon-ne', meaning: 'good (exclamation)' },
+                    { korean: '많네', roman: 'man-ne', meaning: 'many (exclamation)' },
+                    { korean: '싫네', roman: 'sin-ne', meaning: 'dislike (exclamation)' }
                 ]
             }
         ];
@@ -356,12 +455,15 @@ export class HangulReferenceComponent {
         // Add event listeners for audio buttons
         this.modalBody.addEventListener('click', (event) => {
             const audioBtn = event.target.closest('.hangul-audio-btn');
-            const exampleBtn = event.target.closest('.hangul-example');
             
             if (audioBtn) {
-                this.handleLetterAudio(event);
-            } else if (exampleBtn) {
-                this.handleExampleAudio(event);
+                // Check if it's a letter audio button or example audio button
+                const isLetterAudio = audioBtn.dataset.letter || audioBtn.closest('.hangul-letter');
+                if (isLetterAudio) {
+                    this.handleLetterAudio(event);
+                } else {
+                    this.handleExampleAudio(event);
+                }
             }
         });
     }
@@ -370,8 +472,9 @@ export class HangulReferenceComponent {
         return `
             <div class="hangul-letter">
                 <div class="hangul-letter-char">${letter.char}</div>
-                <div class="hangul-letter-roman">${letter.roman}</div>
+                <div class="hangul-letter-roman">[${letter.roman}]</div>
                 <div class="hangul-letter-name">${letter.name}</div>
+                <div class="hangul-letter-korean">${letter.koreanName}</div>
                 <div class="hangul-letter-audio">
                     <button class="hangul-audio-btn" data-letter="${letter.char}" data-example="${letter.example}" aria-label="Play ${letter.char} pronunciation">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -396,7 +499,7 @@ export class HangulReferenceComponent {
                             <span class="hangul-example-roman">[${example.roman}]</span>
                             <span class="hangul-example-meaning">${example.meaning}</span>
                             <div class="hangul-example-audio">
-                                <button class="hangul-audio-btn" data-letter="" data-example="${example.korean}" aria-label="Play ${example.korean} pronunciation">
+                                <button class="hangul-audio-btn" data-example="${example.korean}" data-romanization="${example.roman}" aria-label="Play ${example.korean} pronunciation">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                                         <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>

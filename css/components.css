@@ -755,7 +755,7 @@ input[type="range"]::-moz-range-thumb {
   width: 95%;
   max-width: 1200px;
   height: 90%;
-  max-height: 800px;
+  max-height: 840px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -807,7 +807,7 @@ input[type="range"]::-moz-range-thumb {
 
 .hangul-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: var(--spacing-md);
   margin-bottom: var(--spacing-lg);
 }
@@ -820,6 +820,11 @@ input[type="range"]::-moz-range-thumb {
   text-align: center;
   transition: all var(--transition-fast);
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 180px;
+  aspect-ratio: 1;
 }
 
 .hangul-letter:hover {
@@ -849,8 +854,18 @@ input[type="range"]::-moz-range-thumb {
   font-style: italic;
 }
 
+.hangul-letter-korean {
+  font-size: 0.85rem;
+  color: var(--accent-color);
+  font-weight: 500;
+  margin-top: var(--spacing-xs);
+}
+
 .hangul-letter-audio {
   margin-top: var(--spacing-sm);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hangul-audio-btn {
@@ -865,6 +880,7 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
   color: var(--text-secondary);
   transition: all var(--transition-fast);
+  margin: 0 auto;
 }
 
 /* Ensure icons inside audio buttons don't block clicks */
@@ -941,6 +957,12 @@ input[type="range"]::-moz-range-thumb {
 .hangul-example-roman {
   color: var(--text-secondary);
   font-size: 0.9rem;
+}
+
+.hangul-example-meaning {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  font-style: italic;
 }
 
 .hangul-example-audio {
