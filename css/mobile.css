@@ -41,6 +41,23 @@
     padding: 2px var(--spacing-xs);
   }
 
+  /* Mobile adjustments for front card badges */
+  .header-badges .frequency-badge,
+  .header-badges .difficulty-badge {
+    font-size: 0.6rem;
+    padding: 2px 4px;
+  }
+
+  .header-badges .category-badge {
+    font-size: 0.65rem;
+    padding: 2px 4px;
+  }
+
+  .frequency-info-front .frequency-label,
+  .difficulty-info-front .difficulty-label {
+    font-size: 0.55rem;
+  }
+
   /* Main content adjustments */
   .main-content {
     padding: var(--spacing-md);

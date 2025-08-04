@@ -268,19 +268,33 @@ body {
   align-items: flex-end;
 }
 
+/* Style the front card frequency and difficulty info */
 .frequency-info-front,
-.difficulty-info-front {
+.difficulty-info-front,
+.word-category {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: 4px; /* Smaller gap for tighter layout */
   font-size: 0.75rem;
 }
 
 .frequency-info-front .frequency-label,
-.difficulty-info-front .difficulty-label {
+.difficulty-info-front .difficulty-label,
+.word-category .category-label {
   color: var(--text-secondary);
   font-weight: 500;
-  font-size: 0.7rem;
+  font-size: 0.65rem; /* Slightly smaller labels */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Make front card badges slightly smaller for better fit */
+.header-badges .frequency-badge,
+.header-badges .difficulty-badge,
+.header-badges .category-badge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  font-weight: 700;
 }
 
 .word-position {
@@ -290,15 +304,6 @@ body {
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   font-weight: 600;
-}
-
-.word-category {
-  background-color: var(--accent-color);
-  color: white;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-md);
-  font-size: 0.75rem;
-  font-weight: 500;
 }
 
 .main-word {
@@ -528,61 +533,80 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
+  border: 1px solid transparent;
 }
 
+/* Frequency badges - Green tones for high frequency */
 .frequency-badge.high {
-  background-color: #10b981;
+  background-color: #059669; /* Darker green for better contrast */
   color: white;
+  border-color: #047857;
 }
 
 .frequency-badge.medium {
-  background-color: #f59e0b;
+  background-color: #d97706; /* Darker orange for better contrast */
   color: white;
+  border-color: #b45309;
 }
 
 .frequency-badge.low {
-  background-color: #6b7280;
+  background-color: #4b5563; /* Darker gray for better contrast */
   color: white;
+  border-color: #374151;
 }
 
+/* Difficulty badges - Blue tones for difficulty levels */
 .difficulty-badge.beginner {
-  background-color: #10b981;
+  background-color: #2563eb; /* Blue instead of green to differentiate from frequency */
   color: white;
+  border-color: #1d4ed8;
 }
 
 .difficulty-badge.intermediate {
-  background-color: #f59e0b;
+  background-color: #dc2626; /* Red for intermediate to show progression */
   color: white;
+  border-color: #b91c1c;
 }
 
 .difficulty-badge.advanced {
-  background-color: #ef4444;
+  background-color: #7c2d12; /* Dark red/brown for advanced */
   color: white;
+  border-color: #581c87;
 }
 
 .category-badge {
   font-size: 0.75rem;
   font-weight: 500;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  text-transform: capitalize;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 .category-badge.nouns {
-  background-color: #3b82f6;
-  color: white;
+  background-color: #3b82f6 !important;
+  color: white !important;
+  border-color: #2563eb !important;
 }
 
 .category-badge.verbs {
   background-color: #10b981;
   color: white;
+  border-color: #059669;
 }
 
 .category-badge.하다-verbs {
   background-color: #8b5cf6;
   color: white;
+  border-color: #7c3aed;
 }
 
 .category-badge.date-time-place {
   background-color: #f59e0b;
   color: white;
+  border-color: #d97706;
 }
 
 /* Expandable Sections */

@@ -187,37 +187,53 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-/* Word Type Badge Variations */
+/* Word Type Badge Variations - Improved contrast and readability */
 .word-type-badge.noun {
   background-color: #3b82f6; /* Blue */
+  color: white;
+  border: none;
 }
 
 .word-type-badge.verb {
   background-color: #10b981; /* Green */
+  color: white;
+  border: none;
 }
 
 .word-type-badge.adjective {
   background-color: #f59e0b; /* Yellow */
+  color: white;
+  border: none;
 }
 
 .word-type-badge.adverb {
   background-color: #8b5cf6; /* Purple */
+  color: white;
+  border: none;
 }
 
 .word-type-badge.particle {
   background-color: #ef4444; /* Red */
+  color: white;
+  border: none;
 }
 
 .word-type-badge.conjunction {
   background-color: #06b6d4; /* Cyan */
+  color: white;
+  border: none;
 }
 
 .word-type-badge.interjection {
   background-color: #f97316; /* Orange */
+  color: white;
+  border: none;
 }
 
 .word-type-badge.pronoun {
   background-color: #84cc16; /* Lime */
+  color: white;
+  border: none;
 }
 
 /* Transition States */
