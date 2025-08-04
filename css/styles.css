@@ -397,7 +397,20 @@ body {
 .audio-btn.primary:hover {
   background-color: var(--primary-color);
   color: white;
-  transform: scale(1.05);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.audio-btn.primary:active {
+  transform: translateY(0) scale(1.02);
+  transition: all 0.1s ease;
+}
+
+.audio-btn.primary.playing {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+  animation: pulse 1.5s infinite;
 }
 
 .word-hints {
@@ -526,7 +539,20 @@ body {
 .audio-btn.secondary:hover {
   background-color: var(--secondary-color);
   color: white;
-  transform: scale(1.05);
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 3px 8px rgba(156, 163, 175, 0.4);
+}
+
+.audio-btn.secondary:active {
+  transform: translateY(0) scale(1.05);
+  transition: all 0.1s ease;
+}
+
+.audio-btn.secondary.playing {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+  animation: pulse 1.5s infinite;
 }
 
 .sentence-content {
@@ -942,5 +968,20 @@ input:focus-visible {
   }
   50% {
     box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
   }
 }
