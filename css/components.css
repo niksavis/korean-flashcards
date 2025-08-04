@@ -641,7 +641,7 @@ input[type="range"]::-moz-range-thumb {
 .go-to-input {
   width: 80px;
   padding: var(--spacing-md) var(--spacing-sm);
-  border: none;
+  border: 2px solid transparent;
   border-radius: var(--radius-md);
   background-color: var(--bg-secondary);
   color: var(--text-primary);
@@ -649,16 +649,30 @@ input[type="range"]::-moz-range-thumb {
   font-weight: 500;
   text-align: center;
   transition: all var(--transition-fast);
-  /* Remove default number input arrows */
+  /* Remove default number input arrows completely */
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: none;
 }
 
+/* Hide all number input spinners/arrows */
 .go-to-input::-webkit-outer-spin-button,
 .go-to-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+  display: none;
+}
+
+/* Firefox number input spinner removal */
+.go-to-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Enhanced focus state for better UX without spinners */
+.go-to-input:hover {
+  border-color: var(--primary-color);
+  background-color: var(--bg-primary);
 }
 
 .go-to-input:focus {
