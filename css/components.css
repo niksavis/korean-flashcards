@@ -172,6 +172,13 @@ input[type="range"]::-moz-range-thumb {
   animation: pulse 1.5s infinite;
 }
 
+/* Ensure icons inside all audio buttons don't block clicks */
+.audio-btn > *,
+.audio-btn.primary > *,
+.audio-btn.secondary > * {
+  pointer-events: none;
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -858,6 +865,11 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
   color: var(--text-secondary);
   transition: all var(--transition-fast);
+}
+
+/* Ensure icons inside audio buttons don't block clicks */
+.hangul-audio-btn > * {
+  pointer-events: none;
 }
 
 .hangul-audio-btn:hover {

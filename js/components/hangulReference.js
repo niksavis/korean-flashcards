@@ -355,9 +355,12 @@ export class HangulReferenceComponent {
 
         // Add event listeners for audio buttons
         this.modalBody.addEventListener('click', (event) => {
-            if (event.target.classList.contains('hangul-audio-btn')) {
+            const audioBtn = event.target.closest('.hangul-audio-btn');
+            const exampleBtn = event.target.closest('.hangul-example');
+            
+            if (audioBtn) {
                 this.handleLetterAudio(event);
-            } else if (event.target.classList.contains('hangul-example')) {
+            } else if (exampleBtn) {
                 this.handleExampleAudio(event);
             }
         });
