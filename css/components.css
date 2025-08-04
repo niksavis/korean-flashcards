@@ -617,11 +617,12 @@ input[type="range"]::-moz-range-thumb {
   background-color: var(--bg-primary);
   border: 2px solid var(--primary-color);
   border-radius: var(--radius-lg);
-  padding: 3px var(--spacing-md) 3px var(--spacing-md);
+  padding: 2px var(--spacing-md) 2px var(--spacing-md);
   min-width: 200px;
   justify-content: center;
   transition: all var(--transition-fast);
   height: auto;
+  min-height: 65px;
 }
 
 .go-to-card:hover {
@@ -711,6 +712,13 @@ input[type="range"]::-moz-range-thumb {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+/* Ensure all navigation buttons have consistent 65px height on desktop */
+.nav-btn,
+.flip-btn,
+.audio-btn {
+  min-height: 65px;
 }
 
 /* Hangul Reference Modal */
