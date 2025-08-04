@@ -452,9 +452,8 @@ input[type="range"]::-moz-range-thumb {
 
 .clear-btn {
   position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 2px;
+  bottom: 6px; /* Position from bottom of container */
   background: none;
   border: none;
   color: var(--text-secondary);
@@ -468,7 +467,7 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   justify-content: center;
   transition: background-color var(--transition-fast);
-  z-index: 1;
+  z-index: 10;
 }
 
 .clear-btn:hover {
