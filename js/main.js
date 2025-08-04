@@ -112,7 +112,9 @@ class KoreanFlashcardApp {
 
     initializeComponents() {
         // Initialize flashcard component
-        this.flashcardComponent.init();
+        this.flashcardComponent.init({
+            onFlip: this.handleFlipCard
+        });
         
         // Initialize navigation component
         this.navigationComponent.init({

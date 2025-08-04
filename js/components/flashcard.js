@@ -8,6 +8,9 @@ export class FlashcardComponent {
         this.isFlipped = false;
         this.isAnimating = false;
         
+        // Callbacks
+        this.onFlipCallback = null;
+        
         // DOM elements
         this.flashcardElement = null;
         this.frontElement = null;
@@ -38,9 +41,11 @@ export class FlashcardComponent {
     bindMethods() {
         this.handleWordAudio = this.handleWordAudio.bind(this);
         this.handleSentenceAudio = this.handleSentenceAudio.bind(this);
+        this.handleFlashcardClick = this.handleFlashcardClick.bind(this);
     }
 
-    init() {
+    init(callbacks = {}) {
+        this.onFlipCallback = callbacks.onFlip;
         this.cacheElements();
         this.setupEventListeners();
         console.log('Flashcard component initialized');
@@ -105,6 +110,21 @@ export class FlashcardComponent {
             this.sentenceAudioBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 this.handleSentenceAudio();
+            });
+        }
+
+        // Flashcard click to flip
+        if (this.flashcardElement) {
+            this.flashcardElement.addEventListener('click', (e) => {
+                // Don't flip if clicking on audio buttons or other interactive elements
+                if (e.target.closest('.audio-btn') || 
+                    e.target.closest('.expand-btn') || 
+                    e.target.closest('button')) {
+                    return;
+                }
+                
+                // Trigger flip through main app callback
+                this.handleFlashcardClick();
             });
         }
     }
@@ -266,6 +286,16 @@ export class FlashcardComponent {
         } catch (error) {
             console.warn('Failed to play sentence audio:', error);
             this.showAudioError();
+        }
+    }
+
+    handleFlashcardClick() {
+        // Prevent flip during animation
+        if (this.isAnimating) return;
+        
+        // Call the flip callback if provided
+        if (this.onFlipCallback && typeof this.onFlipCallback === 'function') {
+            this.onFlipCallback();
         }
     }
 
