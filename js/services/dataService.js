@@ -336,4 +336,121 @@ export class DataService {
             words: this.words
         };
     }
+
+    // Filter words based on criteria
+    filterWords(criteria = {}) {
+        return this.words.filter(word => {
+            // Topic filter
+            if (criteria.topic && criteria.topic !== 'all') {
+                if (word.topic !== criteria.topic) return false;
+            }
+
+            // Word type filter
+            if (criteria.wordType && criteria.wordType !== 'all') {
+                if (word.wordType !== criteria.wordType) return false;
+            }
+
+            // Difficulty filter
+            if (criteria.difficulty && criteria.difficulty !== 'all') {
+                if (word.difficulty !== criteria.difficulty) return false;
+            }
+
+            // Search query
+            if (criteria.search && criteria.search.trim()) {
+                const searchTerm = criteria.search.toLowerCase().trim();
+                const hangul = (word.hangul || '').toLowerCase();
+                const romanization = (word.romanization || '').toLowerCase();
+                const english = (word.english || '').toLowerCase();
+                
+                if (!hangul.includes(searchTerm) && 
+                    !romanization.includes(searchTerm) && 
+                    !english.includes(searchTerm)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }
+
+    // Search words by text
+    searchWords(searchTerm) {
+        if (!searchTerm || !searchTerm.trim()) {
+            return this.words;
+        }
+
+        const term = searchTerm.toLowerCase().trim();
+        return this.words.filter(word => {
+            const hangul = (word.hangul || '').toLowerCase();
+            const romanization = (word.romanization || '').toLowerCase();
+            const english = (word.english || '').toLowerCase();
+            
+            return hangul.includes(term) || 
+                   romanization.includes(term) || 
+                   english.includes(term);
+        });
+    }
+
+    // Get unique topics from words
+    getUniqueTopics() {
+        const topics = new Set();
+        this.words.forEach(word => {
+            if (word.topic) {
+                topics.add(word.topic);
+            }
+        });
+        return Array.from(topics).sort();
+    }
+
+    // Get unique word types
+    getUniqueWordTypes() {
+        const types = new Set();
+        this.words.forEach(word => {
+            if (word.wordType) {
+                types.add(word.wordType);
+            }
+        });
+        return Array.from(types).sort();
+    }
+
+    // Get words by topic
+    getWordsByTopic(topic) {
+        return this.words.filter(word => word.topic === topic);
+    }
+
+    // Get words by word type
+    getWordsByType(type) {
+        return this.words.filter(word => word.wordType === type);
+    }
+
+    // Get filtered statistics
+    getFilteredStatistics(filteredWords) {
+        const stats = {
+            total: filteredWords.length,
+            byDifficulty: {},
+            byType: {},
+            byTopic: {},
+            byFrequency: {}
+        };
+
+        filteredWords.forEach(word => {
+            // Count by difficulty
+            const difficulty = word.difficulty || 'unknown';
+            stats.byDifficulty[difficulty] = (stats.byDifficulty[difficulty] || 0) + 1;
+
+            // Count by word type
+            const type = word.wordType || 'unknown';
+            stats.byType[type] = (stats.byType[type] || 0) + 1;
+
+            // Count by topic
+            const topic = word.topic || 'unknown';
+            stats.byTopic[topic] = (stats.byTopic[topic] || 0) + 1;
+
+            // Count by frequency
+            const frequency = word.frequency || 'unknown';
+            stats.byFrequency[frequency] = (stats.byFrequency[frequency] || 0) + 1;
+        });
+
+        return stats;
+    }
 }

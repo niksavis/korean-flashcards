@@ -14,8 +14,18 @@ export class SettingsComponent {
         this.controls = {
             showRomanization: null,
             showAudioControls: null,
-            autoPlayAudio: null
+            autoPlayAudio: null,
+            topicFilter: null,
+            wordTypeFilter: null,
+            searchQuery: null
         };
+        
+        // Filter controls
+        this.searchInput = null;
+        this.clearSearchBtn = null;
+        this.clearFiltersBtn = null;
+        this.filterStatus = null;
+        this.quickTopicBtns = [];
         
         this.bindMethods();
     }
@@ -25,6 +35,10 @@ export class SettingsComponent {
         this.handleOverlayClick = this.handleOverlayClick.bind(this);
         this.handleSettingChange = this.handleSettingChange.bind(this);
         this.handleEscapeKey = this.handleEscapeKey.bind(this);
+        this.handleSearchInput = this.handleSearchInput.bind(this);
+        this.handleClearSearch = this.handleClearSearch.bind(this);
+        this.handleClearFilters = this.handleClearFilters.bind(this);
+        this.handleQuickTopic = this.handleQuickTopic.bind(this);
     }
 
     init(callbacks = {}) {
@@ -43,6 +57,15 @@ export class SettingsComponent {
         this.controls.showRomanization = document.getElementById('show-romanization');
         this.controls.showAudioControls = document.getElementById('show-audio-controls');
         this.controls.autoPlayAudio = document.getElementById('auto-play-audio');
+        this.controls.topicFilter = document.getElementById('topic-filter');
+        this.controls.wordTypeFilter = document.getElementById('word-type-filter');
+        
+        // Search and filter controls
+        this.searchInput = document.getElementById('word-search');
+        this.clearSearchBtn = document.getElementById('clear-search');
+        this.clearFiltersBtn = document.getElementById('clear-filters');
+        this.filterStatus = document.getElementById('filter-status');
+        this.quickTopicBtns = document.querySelectorAll('.topic-btn');
         
         // Create overlay if it doesn't exist
         this.createOverlay();
@@ -81,6 +104,24 @@ export class SettingsComponent {
             }
         });
         
+        // Search controls
+        if (this.searchInput) {
+            this.searchInput.addEventListener('input', this.handleSearchInput);
+        }
+        
+        if (this.clearSearchBtn) {
+            this.clearSearchBtn.addEventListener('click', this.handleClearSearch);
+        }
+        
+        if (this.clearFiltersBtn) {
+            this.clearFiltersBtn.addEventListener('click', this.handleClearFilters);
+        }
+        
+        // Quick topic buttons
+        this.quickTopicBtns.forEach(btn => {
+            btn.addEventListener('click', this.handleQuickTopic);
+        });
+        
         // Keyboard events
         document.addEventListener('keydown', this.handleEscapeKey);
     }
@@ -112,6 +153,90 @@ export class SettingsComponent {
         if (this.callbacks.onChange) {
             this.callbacks.onChange(this.settingsService.getSettings());
         }
+        
+        // Update filter status if it's a filter control
+        if (['topicFilter', 'wordTypeFilter'].includes(settingKey)) {
+            this.updateFilterStatus();
+        }
+    }
+
+    handleSearchInput(event) {
+        const searchQuery = event.target.value;
+        this.settingsService.setSetting('searchQuery', searchQuery);
+        
+        // Show/hide clear button
+        if (this.clearSearchBtn) {
+            this.clearSearchBtn.style.display = searchQuery ? 'flex' : 'none';
+        }
+        
+        // Notify parent component
+        if (this.callbacks.onChange) {
+            this.callbacks.onChange(this.settingsService.getSettings());
+        }
+        
+        this.updateFilterStatus();
+    }
+
+    handleClearSearch() {
+        if (this.searchInput) {
+            this.searchInput.value = '';
+            this.settingsService.setSetting('searchQuery', '');
+            
+            if (this.clearSearchBtn) {
+                this.clearSearchBtn.style.display = 'none';
+            }
+            
+            if (this.callbacks.onChange) {
+                this.callbacks.onChange(this.settingsService.getSettings());
+            }
+            
+            this.updateFilterStatus();
+        }
+    }
+
+    handleClearFilters() {
+        // Reset all filters
+        this.settingsService.setSetting('topicFilter', 'all');
+        this.settingsService.setSetting('wordTypeFilter', 'all');
+        this.settingsService.setSetting('searchQuery', '');
+        
+        // Update UI
+        if (this.controls.topicFilter) this.controls.topicFilter.value = 'all';
+        if (this.controls.wordTypeFilter) this.controls.wordTypeFilter.value = 'all';
+        if (this.searchInput) this.searchInput.value = '';
+        if (this.clearSearchBtn) this.clearSearchBtn.style.display = 'none';
+        
+        // Update quick topic buttons
+        this.quickTopicBtns.forEach(btn => btn.classList.remove('active'));
+        
+        // Notify parent component
+        if (this.callbacks.onChange) {
+            this.callbacks.onChange(this.settingsService.getSettings());
+        }
+        
+        this.updateFilterStatus();
+    }
+
+    handleQuickTopic(event) {
+        const topic = event.target.dataset.topic;
+        
+        // Update topic filter
+        this.settingsService.setSetting('topicFilter', topic);
+        if (this.controls.topicFilter) {
+            this.controls.topicFilter.value = topic;
+        }
+        
+        // Update button states
+        this.quickTopicBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.topic === topic);
+        });
+        
+        // Notify parent component
+        if (this.callbacks.onChange) {
+            this.callbacks.onChange(this.settingsService.getSettings());
+        }
+        
+        this.updateFilterStatus();
     }
 
     loadCurrentSettings() {
@@ -127,6 +252,103 @@ export class SettingsComponent {
                 }
             }
         });
+        
+        // Update search input
+        if (this.searchInput && settings.searchQuery) {
+            this.searchInput.value = settings.searchQuery;
+            if (this.clearSearchBtn) {
+                this.clearSearchBtn.style.display = settings.searchQuery ? 'flex' : 'none';
+            }
+        }
+        
+        // Update quick topic buttons
+        this.quickTopicBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.topic === settings.topicFilter);
+        });
+        
+        this.updateFilterStatus();
+    }
+
+    // Initialize filter options with data
+    initializeFilterOptions(dataService) {
+        this.dataService = dataService;
+        
+        // Populate topic filter
+        if (this.controls.topicFilter && dataService.isDataLoaded()) {
+            const topics = dataService.getUniqueTopics();
+            const topicSelect = this.controls.topicFilter;
+            
+            // Clear existing options (except "All Topics")
+            while (topicSelect.children.length > 1) {
+                topicSelect.removeChild(topicSelect.lastChild);
+            }
+            
+            // Add topic options
+            topics.forEach(topic => {
+                const option = document.createElement('option');
+                option.value = topic;
+                option.textContent = topic;
+                topicSelect.appendChild(option);
+            });
+        }
+        
+        // Populate word type filter
+        if (this.controls.wordTypeFilter && dataService.isDataLoaded()) {
+            const wordTypes = dataService.getUniqueWordTypes();
+            const typeSelect = this.controls.wordTypeFilter;
+            
+            // Clear existing options (except "All Types")
+            while (typeSelect.children.length > 1) {
+                typeSelect.removeChild(typeSelect.lastChild);
+            }
+            
+            // Add word type options
+            wordTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+                typeSelect.appendChild(option);
+            });
+        }
+        
+        this.updateFilterStatus();
+    }
+
+    // Update filter status display
+    updateFilterStatus() {
+        if (!this.filterStatus || !this.dataService || !this.dataService.isDataLoaded()) {
+            return;
+        }
+        
+        const settings = this.settingsService.getSettings();
+        const criteria = {
+            topic: settings.topicFilter,
+            wordType: settings.wordTypeFilter,
+            search: settings.searchQuery
+        };
+        
+        const filteredWords = this.dataService.filterWords(criteria);
+        const totalWords = this.dataService.getAllWords().length;
+        
+        // Build status text
+        let statusText = `Showing ${filteredWords.length} of ${totalWords} words`;
+        
+        const activeFilters = [];
+        if (settings.topicFilter && settings.topicFilter !== 'all') {
+            activeFilters.push(`Topic: ${settings.topicFilter}`);
+        }
+        if (settings.wordTypeFilter && settings.wordTypeFilter !== 'all') {
+            activeFilters.push(`Type: ${settings.wordTypeFilter}`);
+        }
+        if (settings.searchQuery && settings.searchQuery.trim()) {
+            activeFilters.push(`Search: "${settings.searchQuery}"`);
+        }
+        
+        if (activeFilters.length > 0) {
+            statusText += ` (${activeFilters.join(', ')})`;
+        }
+        
+        this.filterStatus.textContent = statusText;
     }
 
     open() {

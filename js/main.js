@@ -32,6 +32,7 @@ class KoreanFlashcardApp {
         this.state = {
             currentWordIndex: 0,
             words: [],
+            filteredWords: [], // New: filtered subset of words
             isFlipped: false,
             isLoading: true,
             studySession: {
@@ -69,6 +70,7 @@ class KoreanFlashcardApp {
             await this.dataService.loadWords();
             console.log('Word data loaded, getting words...');
             this.state.words = this.dataService.getAllWords();
+            this.state.filteredWords = this.state.words; // Initialize with all words
             console.log(`Loaded ${this.state.words.length} words`);
             
             // Initialize components
@@ -131,7 +133,13 @@ class KoreanFlashcardApp {
             onChange: this.handleSettingsChange
         });
         
-        // Initialize keyboard handler
+            // Initialize filter options after data is loaded
+            this.settingsComponent.initializeFilterOptions(this.dataService);
+            
+            // Apply initial filters
+            console.log('Applying initial filters...');
+            this.updateFilteredWords(this.settingsService.getSettings());
+            console.log('Initial filters applied');        // Initialize keyboard handler
         this.keyboardHandler.init({
             onNext: this.handleNextCard,
             onPrev: this.handlePrevCard,
@@ -177,7 +185,7 @@ class KoreanFlashcardApp {
     }
 
     handleNextCard() {
-        if (this.state.currentWordIndex < this.state.words.length - 1) {
+        if (this.state.currentWordIndex < this.state.filteredWords.length - 1) {
             this.state.currentWordIndex++;
             this.state.isFlipped = false;
             this.state.studySession.cardsStudied++;
@@ -225,11 +233,42 @@ class KoreanFlashcardApp {
         // Apply settings changes immediately
         this.applySettings();
         
+        // Update filtered words if filter settings changed
+        this.updateFilteredWords(settings);
+        
         // Re-render current card with new settings
         this.displayCurrentCard();
         
         // Save settings
         this.settingsService.saveSettings();
+    }
+
+    updateFilteredWords(settings) {
+        const criteria = {
+            topic: settings.topicFilter,
+            wordType: settings.wordTypeFilter,
+            search: settings.searchQuery
+        };
+        
+        const previousFilteredLength = this.state.filteredWords.length;
+        this.state.filteredWords = this.dataService.filterWords(criteria);
+        
+        // Adjust current index if necessary
+        if (this.state.currentWordIndex >= this.state.filteredWords.length) {
+            this.state.currentWordIndex = Math.max(0, this.state.filteredWords.length - 1);
+        }
+        
+        // If the word list changed significantly, reset to the beginning
+        if (previousFilteredLength !== this.state.filteredWords.length) {
+            console.log(`Filtered words: ${this.state.filteredWords.length} of ${this.state.words.length} total`);
+            
+            // If we have no words matching the filter, reset to all words
+            if (this.state.filteredWords.length === 0) {
+                console.warn('No words match current filters, showing all words');
+                this.state.filteredWords = this.state.words;
+                this.state.currentWordIndex = 0;
+            }
+        }
     }
 
     applySettings() {
@@ -258,14 +297,14 @@ class KoreanFlashcardApp {
         // Update progress
         this.progressComponent.updateProgress(
             this.state.currentWordIndex + 1,
-            this.state.words.length,
+            this.state.filteredWords.length,
             currentWord.difficulty
         );
         
         // Update navigation states
         this.navigationComponent.updateStates(
             this.state.currentWordIndex > 0, // canGoPrev
-            this.state.currentWordIndex < this.state.words.length - 1, // canGoNext
+            this.state.currentWordIndex < this.state.filteredWords.length - 1, // canGoNext
             this.state.isFlipped
         );
         
@@ -278,7 +317,7 @@ class KoreanFlashcardApp {
     }
 
     getCurrentWord() {
-        return this.state.words[this.state.currentWordIndex] || null;
+        return this.state.filteredWords[this.state.currentWordIndex] || null;
     }
 
     async playCurrentWordAudio() {

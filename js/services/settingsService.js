@@ -24,6 +24,11 @@ export class SettingsService {
             studyMode: 'sequential', // 'sequential', 'random', 'difficulty'
             difficultyFilter: 'all', // 'all', 'beginner', 'intermediate', 'advanced'
             
+            // Filter settings
+            topicFilter: 'all', // 'all', specific topic name
+            wordTypeFilter: 'all', // 'all', specific word type
+            searchQuery: '', // search text
+            
             // Accessibility settings
             reducedMotion: false,
             highContrast: false,
@@ -35,7 +40,7 @@ export class SettingsService {
             enableStatistics: true,
             
             // Version for migration
-            version: '1.0'
+            version: '2.0'
         };
     }
 

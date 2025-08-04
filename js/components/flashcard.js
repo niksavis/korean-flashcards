@@ -21,6 +21,7 @@ export class FlashcardComponent {
         this.hangulElement = null;
         this.romanizationElement = null;
         this.englishElement = null;
+        this.wordTopicElement = null;
         this.wordTypeElement = null;
         this.usageElement = null;
         this.exampleSentenceElement = null;
@@ -60,8 +61,10 @@ export class FlashcardComponent {
         // Front side elements
         this.wordPositionElement = document.getElementById('word-position');
         this.hangulElement = document.getElementById('hangul-text');
-        this.wordCategoryElement = document.getElementById('word-category');
-        this.wordTypeHintElement = document.getElementById('word-type-hint');
+        this.wordTopicElement = document.getElementById('word-topic');
+        this.wordTypeElement = document.getElementById('word-type');
+        this.wordCategoryElement = document.getElementById('word-category'); // Legacy fallback
+        this.wordTypeHintElement = document.getElementById('word-type-hint'); // Legacy fallback
         this.romanizationElement = document.getElementById('romanization-text');
         this.romanizationDisplay = document.getElementById('romanization-display');
         
@@ -177,13 +180,24 @@ export class FlashcardComponent {
             this.hangulElement.textContent = word.hangul || '';
         }
         
-        // Category (helpful context)
-        if (this.wordCategoryElement) {
-            this.wordCategoryElement.textContent = word.category || '';
-            this.wordCategoryElement.className = `category-badge ${(word.category || '').toLowerCase().replace(/\s+/g, '-')}`;
+        // Topic (enhanced display)
+        if (this.wordTopicElement) {
+            this.wordTopicElement.textContent = word.topic || word.category || '';
+            this.wordTopicElement.className = `topic-badge ${(word.topic || word.category || '').toLowerCase().replace(/\s+/g, '-')}`;
         }
         
-        // Word type hint (small hint)
+        // Word type (enhanced display)
+        if (this.wordTypeElement) {
+            this.wordTypeElement.textContent = word.wordType || '';
+            this.wordTypeElement.className = `type-badge ${word.wordType || ''}`;
+        }
+        
+        // Legacy fallbacks for existing elements
+        if (this.wordCategoryElement) {
+            this.wordCategoryElement.textContent = word.topic || word.category || '';
+            this.wordCategoryElement.className = `category-badge ${(word.topic || word.category || '').toLowerCase().replace(/\s+/g, '-')}`;
+        }
+        
         if (this.wordTypeHintElement) {
             this.wordTypeHintElement.textContent = word.wordType || '';
             this.wordTypeHintElement.className = `type-badge ${word.wordType || ''}`;

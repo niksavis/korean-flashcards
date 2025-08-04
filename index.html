@@ -61,8 +61,12 @@
                             </div>
                             <div class="header-badges">
                                 <div class="word-category">
-                                    <span class="category-label">Type:</span>
-                                    <span id="word-category" class="category-badge">Nouns</span>
+                                    <span class="category-label">Topic:</span>
+                                    <span id="word-topic" class="topic-badge">Basic Words</span>
+                                </div>
+                                <div class="word-type-info">
+                                    <span class="type-label">Type:</span>
+                                    <span id="word-type" class="type-badge">noun</span>
                                 </div>
                                 <div class="frequency-info-front">
                                     <span class="frequency-label">Freq:</span>
@@ -90,9 +94,6 @@
                         </div>
 
                         <div class="word-hints">
-                            <div class="word-type-hint">
-                                <span id="word-type-hint" class="type-badge">noun</span>
-                            </div>
                             <div class="romanization-display" id="romanization-display">
                                 <span id="romanization-text">geot</span>
                             </div>
@@ -171,26 +172,78 @@
                     </button>
                 </div>
                 <div class="settings-body">
-                    <div class="setting-group">
-                        <label class="setting-label">
-                            <input type="checkbox" id="show-romanization" checked>
-                            <span class="checkmark"></span>
-                            Show Romanization
-                        </label>
+                    <!-- Search Section -->
+                    <div class="settings-section">
+                        <h3>Search & Filters</h3>
+                        <div class="setting-group">
+                            <label for="word-search" class="setting-label-text">Search Words:</label>
+                            <input type="text" id="word-search" class="search-input" placeholder="Search by Hangul, English, or romanization...">
+                            <button id="clear-search" class="clear-btn" aria-label="Clear search">×</button>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label for="topic-filter" class="setting-label-text">Filter by Topic:</label>
+                            <select id="topic-filter" class="filter-select">
+                                <option value="all">All Topics</option>
+                                <!-- Topic options will be populated dynamically -->
+                            </select>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <label for="word-type-filter" class="setting-label-text">Filter by Word Type:</label>
+                            <select id="word-type-filter" class="filter-select">
+                                <option value="all">All Types</option>
+                                <!-- Word type options will be populated dynamically -->
+                            </select>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <div class="filter-actions">
+                                <button id="clear-filters" class="action-btn secondary">Clear All Filters</button>
+                                <span id="filter-status" class="filter-status">Showing all 6,358 words</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="setting-group">
-                        <label class="setting-label">
-                            <input type="checkbox" id="show-audio-controls">
-                            <span class="checkmark"></span>
-                            Show Audio Controls
-                        </label>
+                    
+                    <!-- Quick Topic Access -->
+                    <div class="settings-section">
+                        <h3>Quick Topics</h3>
+                        <div class="quick-topics">
+                            <button class="topic-btn" data-topic="Basic Words">Basic Words</button>
+                            <button class="topic-btn" data-topic="Numbers">Numbers</button>
+                            <button class="topic-btn" data-topic="Family">Family</button>
+                            <button class="topic-btn" data-topic="Food">Food</button>
+                            <button class="topic-btn" data-topic="Greetings">Greetings</button>
+                            <button class="topic-btn" data-topic="Colors">Colors</button>
+                            <button class="topic-btn" data-topic="Time">Time</button>
+                            <button class="topic-btn" data-topic="Jobs">Jobs</button>
+                        </div>
                     </div>
-                    <div class="setting-group">
-                        <label class="setting-label">
-                            <input type="checkbox" id="auto-play-audio">
-                            <span class="checkmark"></span>
-                            Auto-play Audio
-                        </label>
+                    
+                    <!-- Display Settings -->
+                    <div class="settings-section">
+                        <h3>Display Options</h3>
+                        <div class="setting-group">
+                            <label class="setting-label">
+                                <input type="checkbox" id="show-romanization" checked>
+                                <span class="checkmark"></span>
+                                Show Romanization
+                            </label>
+                        </div>
+                        <div class="setting-group">
+                            <label class="setting-label">
+                                <input type="checkbox" id="show-audio-controls">
+                                <span class="checkmark"></span>
+                                Show Audio Controls
+                            </label>
+                        </div>
+                        <div class="setting-group">
+                            <label class="setting-label">
+                                <input type="checkbox" id="auto-play-audio">
+                                <span class="checkmark"></span>
+                                Auto-play Audio
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
