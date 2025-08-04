@@ -36,7 +36,6 @@ export class FlashcardComponent {
     }
 
     bindMethods() {
-        this.handleFlipClick = this.handleFlipClick.bind(this);
         this.handleWordAudio = this.handleWordAudio.bind(this);
         this.handleSentenceAudio = this.handleSentenceAudio.bind(this);
     }
@@ -94,11 +93,6 @@ export class FlashcardComponent {
     }
 
     setupEventListeners() {
-        // Flashcard click to flip
-        if (this.flashcardElement) {
-            this.flashcardElement.addEventListener('click', this.handleFlipClick);
-        }
-        
         // Audio buttons
         if (this.wordAudioBtn) {
             this.wordAudioBtn.addEventListener('click', (e) => {
@@ -167,8 +161,8 @@ export class FlashcardComponent {
         
         // Word type hint (small hint)
         if (this.wordTypeHintElement) {
-            this.wordTypeHintElement.textContent = word.wordType || '';
-            this.wordTypeHintElement.className = `type-badge ${word.wordType || ''}`;
+            this.wordTypeHintElement.textContent = word.word_type || '';
+            this.wordTypeHintElement.className = `type-badge ${word.word_type || ''}`;
         }
         
         // Romanization (pronunciation help)
@@ -251,25 +245,6 @@ export class FlashcardComponent {
         setTimeout(() => {
             this.isAnimating = false;
         }, 350); // Match CSS transition duration
-    }
-
-    handleFlipClick(event) {
-        if (this.isAnimating) return;
-        
-        // Don't flip if clicking on interactive elements
-        if (event.target.closest('.audio-btn, .toggle-btn, .expand-btn')) {
-            return;
-        }
-        
-        this.flip(!this.isFlipped);
-        
-        // Notify parent about flip
-        document.dispatchEvent(new CustomEvent('flashcardFlip', {
-            detail: { 
-                isFlipped: this.isFlipped,
-                word: this.currentWord 
-            }
-        }));
     }
 
     async handleWordAudio() {

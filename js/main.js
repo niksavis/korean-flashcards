@@ -160,24 +160,7 @@ class KoreanFlashcardApp {
                 this.themeManager.toggleTheme();
             });
         }
-        
-        // Flip button
-        const flipBtn = document.getElementById('flip-btn');
-        if (flipBtn) {
-            flipBtn.addEventListener('click', this.handleFlipCard);
-        }
-        
-        // Navigation buttons
-        const prevBtn = document.getElementById('prev-btn');
-        if (prevBtn) {
-            prevBtn.addEventListener('click', this.handlePrevCard);
-        }
-        
-        const nextBtn = document.getElementById('next-btn');
-        if (nextBtn) {
-            nextBtn.addEventListener('click', this.handleNextCard);
-        }
-        
+
         // Window events
         window.addEventListener('beforeunload', () => {
             this.saveProgress();
@@ -213,6 +196,13 @@ class KoreanFlashcardApp {
     handleFlipCard() {
         this.state.isFlipped = !this.state.isFlipped;
         this.flashcardComponent.flip(this.state.isFlipped);
+        
+        // Update navigation states to reflect the new flip state
+        this.navigationComponent.updateStates(
+            this.state.currentWordIndex > 0, // canGoPrev
+            this.state.currentWordIndex < this.state.words.length - 1, // canGoNext
+            this.state.isFlipped
+        );
     }
 
     handleSettingsToggle() {

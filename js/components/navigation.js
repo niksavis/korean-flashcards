@@ -21,6 +21,16 @@ export class NavigationComponent {
         this.callbacks = callbacks;
         this.cacheElements();
         this.setupEventListeners();
+        
+        // Ensure flip button starts with correct text
+        if (this.flipBtn) {
+            const flipText = this.flipBtn.querySelector('span');
+            if (flipText) {
+                flipText.textContent = 'Flip';
+                console.log('Navigation: Set flip button text to "Flip"');
+            }
+        }
+        
         console.log('Navigation component initialized');
     }
 
@@ -95,11 +105,11 @@ export class NavigationComponent {
         if (this.flipBtn) {
             const flipText = this.flipBtn.querySelector('span');
             if (flipText) {
-                flipText.textContent = isFlipped ? 'Show Front' : 'Show Back';
+                flipText.textContent = 'Flip';
             }
             
             this.flipBtn.setAttribute('aria-label', 
-                isFlipped ? 'Show front of card' : 'Show back of card'
+                isFlipped ? 'Flip to front of card' : 'Flip to back of card'
             );
         }
     }
