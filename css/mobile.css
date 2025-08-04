@@ -60,43 +60,59 @@
 
   /* Specific mobile overflow handling for back side */
   .flashcard-back {
-    display: flex;
-    flex-direction: column;
+    justify-content: flex-start !important; /* Override center alignment */
+    align-items: stretch !important; /* Allow sections to use full width */
     gap: var(--spacing-sm);
+    padding: var(--spacing-md); /* Reduce padding to save space */
   }
 
-  /* Compress spacing on mobile for better fit */
+  /* Reset margins and make content more compact */
   .flashcard-back .answer-section {
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs); /* Reduce margin significantly */
     flex-shrink: 0; /* Keep answer section visible */
   }
 
   .flashcard-back .example-section {
-    margin-bottom: var(--spacing-sm);
-    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs); /* Reduce margin significantly */
+    padding: var(--spacing-sm); /* Reduce internal padding */
     flex-shrink: 1; /* Allow example section to compress */
   }
 
   .flashcard-back .word-details {
-    margin-top: auto; /* Push to bottom if space available */
+    margin-top: 0; /* Remove auto margin */
+    margin-bottom: 0; /* Remove bottom margin */
     flex-shrink: 0; /* Keep word details visible */
     padding: var(--spacing-sm);
   }
 
-  /* Reduce font sizes for better mobile fit */
+  /* Significantly reduce font sizes for mobile */
+  .flashcard-back #english-text {
+    font-size: 1.5rem !important; /* Override default 2.25rem */
+    line-height: 1.2;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .flashcard-back .romanization-full {
+    font-size: 1rem !important; /* Override default 1.5rem */
+    margin-bottom: var(--spacing-sm);
+  }
+
   .example-section .sentence-korean {
-    font-size: 1.125rem;
-    line-height: 1.4;
+    font-size: 1rem !important; /* Smaller than before */
+    line-height: 1.3;
+    margin-bottom: var(--spacing-xs);
   }
 
   .example-section .sentence-romanization {
-    font-size: 0.875rem;
-    line-height: 1.3;
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-xs);
   }
 
   .example-section .sentence-english {
-    font-size: 0.875rem;
-    line-height: 1.3;
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+    margin-bottom: 0;
   }
 
   .word-position {
@@ -253,11 +269,69 @@
   }
 }
 
-/* Medium devices (tablets, 768px and down) */
+/* Medium devices - tablets and small desktops (768px to 991px) - OVERFLOW SOLVED */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  /* Frequency and Level moved to front card - back card overflow issue resolved */
+  .flashcard-back {
+    justify-content: center !important; /* Restore original centering */
+    align-items: center !important;
+    padding: var(--spacing-lg) !important;
+  }
+
+  /* Moderate font size reductions for readability */
+  .flashcard-back #english-text {
+    font-size: 1.8rem !important;
+    line-height: 1.3;
+  }
+
+  .flashcard-back .romanization-full {
+    font-size: 1.25rem !important;
+  }
+
+  .example-section .sentence-korean {
+    font-size: 1.1rem !important;
+    line-height: 1.4;
+  }
+
+  .example-section .sentence-romanization,
+  .example-section .sentence-english {
+    font-size: 0.95rem !important;
+    line-height: 1.3;
+  }
+}
+
+/* Medium devices (tablets, 768px and down) - OVERFLOW SOLVED */
 @media (max-width: 767.98px) {
   .flashcard-container {
     max-width: 500px;
     height: 380px;
+  }
+
+  /* Frequency and Level moved to front card - back card overflow issue resolved */
+  .flashcard-back {
+    justify-content: center !important; /* Restore original centering */
+    align-items: center !important;
+    padding: var(--spacing-lg) !important;
+  }
+
+  .flashcard-back #english-text {
+    font-size: 1.6rem !important;
+    line-height: 1.3;
+  }
+
+  .flashcard-back .romanization-full {
+    font-size: 1.2rem !important;
+  }
+
+  .example-section .sentence-korean {
+    font-size: 1.05rem !important;
+    line-height: 1.4;
+  }
+
+  .example-section .sentence-romanization,
+  .example-section .sentence-english {
+    font-size: 0.9rem !important;
+    line-height: 1.3;
   }
 
   #hangul-text {
@@ -266,10 +340,6 @@
 
   #romanization-text {
     font-size: 1.25rem;
-  }
-
-  #english-text {
-    font-size: 1.75rem;
   }
 
   .navigation-controls {
@@ -347,38 +417,63 @@
 
   .flashcard-front,
   .flashcard-back {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm); /* Even smaller padding in landscape */
     overflow-y: auto; /* Critical for landscape overflow */
   }
 
   /* Compress content heavily in landscape */
   .flashcard-back {
-    gap: var(--spacing-xs);
+    gap: 2px; /* Minimal gap between sections */
+    padding: var(--spacing-sm) !important;
   }
 
   .flashcard-back .answer-section {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 2px; /* Minimal margin */
   }
 
   .flashcard-back .example-section {
-    margin-bottom: var(--spacing-xs);
-    padding: var(--spacing-xs);
+    margin-bottom: 2px; /* Minimal margin */
+    padding: var(--spacing-xs); /* Very small padding */
   }
 
   .flashcard-back .word-details {
     padding: var(--spacing-xs);
+    margin: 0; /* Remove all margins */
   }
 
   /* Ultra-compact text in landscape */
+  .flashcard-back #english-text {
+    font-size: 1.2rem !important;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .flashcard-back .romanization-full {
+    font-size: 0.9rem !important;
+    margin-bottom: 4px;
+  }
+
   .example-section .sentence-korean {
-    font-size: 1rem;
+    font-size: 0.9rem !important;
     line-height: 1.2;
+    margin-bottom: 2px;
   }
 
   .example-section .sentence-romanization,
   .example-section .sentence-english {
-    font-size: 0.75rem;
-    line-height: 1.2;
+    font-size: 0.75rem !important;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  /* Compress section headers */
+  .section-header h4 {
+    font-size: 0.8rem !important;
+    margin: 0;
+  }
+
+  .section-header {
+    margin-bottom: 4px !important;
   }
 
   #hangul-text {

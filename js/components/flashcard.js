@@ -75,6 +75,10 @@ export class FlashcardComponent {
         this.frequencyLevelElement = document.getElementById('frequency-level');
         this.difficultyLevelElement = document.getElementById('difficulty-level');
         
+        // New front card frequency/difficulty elements
+        this.frequencyLevelFrontElement = document.getElementById('frequency-level-front');
+        this.difficultyLevelFrontElement = document.getElementById('difficulty-level-front');
+        
         // Audio buttons
         this.wordAudioBtn = document.getElementById('word-audio-btn');
         this.sentenceAudioBtn = document.getElementById('sentence-audio-btn');
@@ -214,18 +218,30 @@ export class FlashcardComponent {
             }
         }
         
-        // Frequency information
+        // Frequency information (both back and front card)
         if (this.frequencyLevelElement) {
             const frequency = word.frequency || 'medium';
             this.frequencyLevelElement.textContent = frequency.charAt(0).toUpperCase() + frequency.slice(1);
             this.frequencyLevelElement.className = `frequency-badge ${frequency}`;
         }
         
-        // Difficulty information
+        if (this.frequencyLevelFrontElement) {
+            const frequency = word.frequency || 'medium';
+            this.frequencyLevelFrontElement.textContent = frequency.charAt(0).toUpperCase() + frequency.slice(1);
+            this.frequencyLevelFrontElement.className = `frequency-badge ${frequency}`;
+        }
+        
+        // Difficulty information (both back and front card)
         if (this.difficultyLevelElement) {
             const difficulty = word.difficulty || 'intermediate';
             this.difficultyLevelElement.textContent = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
             this.difficultyLevelElement.className = `difficulty-badge ${difficulty}`;
+        }
+        
+        if (this.difficultyLevelFrontElement) {
+            const difficulty = word.difficulty || 'intermediate';
+            this.difficultyLevelFrontElement.textContent = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+            this.difficultyLevelFrontElement.className = `difficulty-badge ${difficulty}`;
         }
     }
 
