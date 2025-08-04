@@ -3,7 +3,7 @@ export class AudioService {
     constructor() {
         this.speechSynthesis = window.speechSynthesis;
         this.isSupported = 'speechSynthesis' in window;
-        this.currentSpeed = 0.8;
+        this.currentSpeed = 1.0; // Fixed speed since Google TTS doesn't support variable speed
         this.autoPlay = false;
         this.isPlaying = false;
         this.currentAudio = null;
@@ -593,15 +593,6 @@ export class AudioService {
             }
         } catch (error) {
             console.warn('Error resuming audio:', error);
-        }
-    }
-
-    setSpeed(speed) {
-        this.currentSpeed = Math.max(0.1, Math.min(2.0, speed));
-        
-        // Update current audio if playing
-        if (this.currentAudio && this.currentAudio.playbackRate !== undefined) {
-            this.currentAudio.playbackRate = this.currentSpeed;
         }
     }
 

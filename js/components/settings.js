@@ -13,11 +13,8 @@ export class SettingsComponent {
         // Setting controls
         this.controls = {
             showRomanization: null,
-            koreanOnlyMode: null,
             showAudioControls: null,
-            autoPlayAudio: null,
-            audioSpeed: null,
-            audioSpeedValue: null
+            autoPlayAudio: null
         };
         
         this.bindMethods();
@@ -27,7 +24,6 @@ export class SettingsComponent {
         this.handleCloseClick = this.handleCloseClick.bind(this);
         this.handleOverlayClick = this.handleOverlayClick.bind(this);
         this.handleSettingChange = this.handleSettingChange.bind(this);
-        this.handleAudioSpeedChange = this.handleAudioSpeedChange.bind(this);
         this.handleEscapeKey = this.handleEscapeKey.bind(this);
     }
 
@@ -45,11 +41,8 @@ export class SettingsComponent {
         
         // Get setting controls
         this.controls.showRomanization = document.getElementById('show-romanization');
-        this.controls.koreanOnlyMode = document.getElementById('korean-only-mode');
         this.controls.showAudioControls = document.getElementById('show-audio-controls');
         this.controls.autoPlayAudio = document.getElementById('auto-play-audio');
-        this.controls.audioSpeed = document.getElementById('audio-speed');
-        this.controls.audioSpeedValue = document.getElementById('audio-speed-value');
         
         // Create overlay if it doesn't exist
         this.createOverlay();
@@ -84,11 +77,7 @@ export class SettingsComponent {
         // Setting controls
         Object.entries(this.controls).forEach(([key, element]) => {
             if (element) {
-                if (key === 'audioSpeed') {
-                    element.addEventListener('input', this.handleAudioSpeedChange);
-                } else {
-                    element.addEventListener('change', this.handleSettingChange);
-                }
+                element.addEventListener('change', this.handleSettingChange);
             }
         });
         
@@ -125,23 +114,6 @@ export class SettingsComponent {
         }
     }
 
-    handleAudioSpeedChange(event) {
-        const speed = parseFloat(event.target.value);
-        
-        // Update speed display
-        if (this.controls.audioSpeedValue) {
-            this.controls.audioSpeedValue.textContent = `${speed}x`;
-        }
-        
-        // Update setting
-        this.settingsService.setSetting('audioSpeed', speed);
-        
-        // Notify parent component
-        if (this.callbacks.onChange) {
-            this.callbacks.onChange(this.settingsService.getSettings());
-        }
-    }
-
     loadCurrentSettings() {
         const settings = this.settingsService.getSettings();
         
@@ -150,13 +122,6 @@ export class SettingsComponent {
             if (element && settings.hasOwnProperty(key)) {
                 if (element.type === 'checkbox') {
                     element.checked = settings[key];
-                } else if (element.type === 'range') {
-                    element.value = settings[key];
-                    
-                    // Update speed display
-                    if (key === 'audioSpeed' && this.controls.audioSpeedValue) {
-                        this.controls.audioSpeedValue.textContent = `${settings[key]}x`;
-                    }
                 } else {
                     element.value = settings[key];
                 }
@@ -235,10 +200,7 @@ export class SettingsComponent {
     // Add setting validation
     validateSetting(key, value) {
         switch (key) {
-            case 'audioSpeed':
-                return value >= 0.1 && value <= 2.0;
             case 'showRomanization':
-            case 'koreanOnlyMode':
             case 'showAudioControls':
             case 'autoPlayAudio':
                 return typeof value === 'boolean';

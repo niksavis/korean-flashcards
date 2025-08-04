@@ -3,6 +3,7 @@ export class KeyboardHandler {
     constructor() {
         this.callbacks = {};
         this.isEnabled = true;
+        this.settingsComponent = null;
         this.shortcuts = {
             next: ['ArrowRight', 'KeyN'],
             prev: ['ArrowLeft', 'KeyP'],
@@ -28,6 +29,11 @@ export class KeyboardHandler {
 
     handleKeyDown(event) {
         if (!this.isEnabled) return;
+        
+        // Don't handle shortcuts when settings panel is open
+        if (this.settingsComponent && this.settingsComponent.isOpen()) {
+            return;
+        }
         
         // Don't handle shortcuts when user is typing in inputs
         if (this.isTypingContext(event.target)) {
@@ -88,6 +94,10 @@ export class KeyboardHandler {
 
     updateCallbacks(newCallbacks) {
         this.callbacks = { ...this.callbacks, ...newCallbacks };
+    }
+
+    setSettingsComponent(settingsComponent) {
+        this.settingsComponent = settingsComponent;
     }
 
     getShortcutInfo() {

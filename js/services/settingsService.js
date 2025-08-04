@@ -10,16 +10,14 @@ export class SettingsService {
         return {
             // Display settings
             showRomanization: true,
-            koreanOnlyMode: true, // Hide English translation by default
             showAudioControls: true, // Show audio controls by default for language learning
             
             // Audio settings
             autoPlayAudio: false,
-            audioSpeed: 0.8,
             preferredVoice: null,
             
             // Theme settings
-            theme: 'auto', // 'light', 'dark', 'auto'
+            theme: 'dark', // 'light', 'dark'
             
             // Study settings
             autoAdvanceTime: 0, // 0 = manual advance only
@@ -148,17 +146,11 @@ export class SettingsService {
     validateSettings(settings) {
         const errors = [];
         
-        // Validate audio speed
-        if (settings.audioSpeed < 0.1 || settings.audioSpeed > 2.0) {
-            errors.push('Audio speed must be between 0.1 and 2.0');
-            settings.audioSpeed = Math.max(0.1, Math.min(2.0, settings.audioSpeed));
-        }
-        
         // Validate theme
-        const validThemes = ['light', 'dark', 'auto'];
+        const validThemes = ['light', 'dark'];
         if (!validThemes.includes(settings.theme)) {
             errors.push('Invalid theme value');
-            settings.theme = 'auto';
+            settings.theme = 'dark';
         }
         
         // Validate study mode
@@ -242,26 +234,20 @@ export class SettingsService {
         return {
             beginner: {
                 showRomanization: true,
-                koreanOnlyMode: false,
                 showAudioControls: true,
                 autoPlayAudio: true,
-                audioSpeed: 0.7,
                 difficultyFilter: 'beginner'
             },
             intermediate: {
                 showRomanization: true,
-                koreanOnlyMode: true,
                 showAudioControls: false,
                 autoPlayAudio: false,
-                audioSpeed: 0.8,
                 difficultyFilter: 'intermediate'
             },
             advanced: {
                 showRomanization: false,
-                koreanOnlyMode: true,
                 showAudioControls: false,
                 autoPlayAudio: false,
-                audioSpeed: 1.0,
                 difficultyFilter: 'advanced'
             }
         };
@@ -279,10 +265,6 @@ export class SettingsService {
     // Quick toggle methods for common settings
     toggleRomanization() {
         this.setSetting('showRomanization', !this.settings.showRomanization);
-    }
-
-    toggleKoreanOnlyMode() {
-        this.setSetting('koreanOnlyMode', !this.settings.koreanOnlyMode);
     }
 
     toggleAudioControls() {

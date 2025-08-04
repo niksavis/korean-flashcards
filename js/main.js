@@ -139,6 +139,9 @@ class KoreanFlashcardApp {
             onSettings: this.handleSettingsToggle
         });
         
+        // Pass settings component reference for keyboard blocking
+        this.keyboardHandler.setSettingsComponent(this.settingsComponent);
+        
         // Initialize theme manager
         this.themeManager.init();
     }
@@ -156,6 +159,23 @@ class KoreanFlashcardApp {
             themeToggleBtn.addEventListener('click', () => {
                 this.themeManager.toggleTheme();
             });
+        }
+        
+        // Flip button
+        const flipBtn = document.getElementById('flip-btn');
+        if (flipBtn) {
+            flipBtn.addEventListener('click', this.handleFlipCard);
+        }
+        
+        // Navigation buttons
+        const prevBtn = document.getElementById('prev-btn');
+        if (prevBtn) {
+            prevBtn.addEventListener('click', this.handlePrevCard);
+        }
+        
+        const nextBtn = document.getElementById('next-btn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', this.handleNextCard);
         }
         
         // Window events
@@ -205,7 +225,8 @@ class KoreanFlashcardApp {
             return;
         }
         
-        this.keyboardHandler.handleKeyDown(event);
+        // Don't duplicate the keyboard handler's own processing
+        // The keyboardHandler.handleKeyDown will be called by its own event listener
     }
 
     handleSettingsChange(settings) {
@@ -227,9 +248,6 @@ class KoreanFlashcardApp {
         
         // Apply audio controls visibility
         this.flashcardComponent.setAudioControlsVisible(settings.showAudioControls);
-        
-        // Apply audio speed
-        this.audioService.setSpeed(settings.audioSpeed);
         
         // Apply auto-play setting
         this.audioService.setAutoPlay(settings.autoPlayAudio);
@@ -388,13 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.koreanFlashcardApp.init().catch(error => {
         console.error('Failed to initialize app:', error);
     });
-});
-
-// Handle keyboard events globally
-document.addEventListener('keydown', (event) => {
-    if (window.koreanFlashcardApp && window.koreanFlashcardApp.keyboardHandler) {
-        window.koreanFlashcardApp.handleKeyboard(event);
-    }
 });
 
 // Export for module use

@@ -2,19 +2,24 @@
 .settings-panel {
   position: fixed;
   top: 0;
-  right: -400px;
+  right: -450px; /* Move completely off-screen (panel width + margin) */
   width: 400px;
   height: 100vh;
   background-color: var(--bg-primary);
   border-left: 1px solid var(--border-color);
   box-shadow: var(--shadow-xl);
   z-index: 200;
-  transition: right var(--transition-normal);
+  transition: right var(--transition-normal), opacity var(--transition-normal),
+    visibility var(--transition-normal);
   overflow-y: auto;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .settings-panel.open {
   right: 0;
+  visibility: visible;
+  opacity: 1;
 }
 
 .settings-content {

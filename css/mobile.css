@@ -127,10 +127,14 @@
   .settings-panel {
     width: 100%;
     right: -100%;
+    opacity: 0;
+    visibility: hidden;
   }
 
   .settings-panel.open {
     right: 0;
+    opacity: 1;
+    visibility: visible;
   }
 
   .settings-header {

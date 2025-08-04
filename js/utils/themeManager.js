@@ -32,25 +32,27 @@ export class ThemeManager {
 
     handleSystemThemeChange(event) {
         this.systemTheme = event.matches ? 'dark' : 'light';
-        
-        // If current theme is auto, apply the new system theme
-        if (this.currentTheme === 'auto') {
-            this.applyTheme('auto');
-        }
+        // Note: We no longer use auto mode, so no action needed here
     }
 
     applyInitialTheme() {
-        // Get saved theme from localStorage or use auto
-        const savedTheme = localStorage.getItem('korean-flashcard-theme') || 'auto';
-        this.setTheme(savedTheme);
+        // Get saved theme from localStorage or default to dark
+        const savedTheme = localStorage.getItem('korean-flashcard-theme');
+        
+        // Handle legacy 'auto' theme or invalid values
+        if (!savedTheme || !['light', 'dark'].includes(savedTheme)) {
+            this.setTheme('dark');
+        } else {
+            this.setTheme(savedTheme);
+        }
     }
 
     setTheme(theme) {
-        const validThemes = ['light', 'dark', 'auto'];
+        const validThemes = ['light', 'dark'];
         
         if (!validThemes.includes(theme)) {
             console.warn('Invalid theme:', theme);
-            theme = 'auto';
+            theme = 'dark';
         }
 
         this.currentTheme = theme;
@@ -65,24 +67,18 @@ export class ThemeManager {
         html.classList.remove('theme-light', 'theme-dark');
         html.removeAttribute('data-theme');
         
-        let effectiveTheme = theme;
-        
-        if (theme === 'auto') {
-            effectiveTheme = this.systemTheme;
-        }
-        
-        // Apply theme
-        html.classList.add(`theme-${effectiveTheme}`);
-        html.setAttribute('data-theme', effectiveTheme);
+        // Apply theme directly (no auto mode)
+        html.classList.add(`theme-${theme}`);
+        html.setAttribute('data-theme', theme);
         
         // Update theme-color meta tag for mobile browsers
-        this.updateThemeColorMeta(effectiveTheme);
+        this.updateThemeColorMeta(theme);
         
         // Dispatch theme change event
         document.dispatchEvent(new CustomEvent('themeChange', {
             detail: { 
                 theme: this.currentTheme,
-                effectiveTheme: effectiveTheme
+                effectiveTheme: theme
             }
         }));
     }
@@ -120,9 +116,6 @@ export class ThemeManager {
     }
 
     getEffectiveTheme() {
-        if (this.currentTheme === 'auto') {
-            return this.systemTheme;
-        }
         return this.currentTheme;
     }
 
@@ -131,12 +124,14 @@ export class ThemeManager {
     }
 
     toggleTheme() {
-        const themes = ['light', 'dark', 'auto'];
-        const currentIndex = themes.indexOf(this.currentTheme);
-        const nextIndex = (currentIndex + 1) % themes.length;
-        
-        this.setTheme(themes[nextIndex]);
-        return themes[nextIndex];
+        // Simple two-state toggle: light ↔ dark
+        if (this.currentTheme === 'light') {
+            this.setTheme('dark');
+            return 'dark';
+        } else {
+            this.setTheme('light');
+            return 'light';
+        }
     }
 
     // CSS custom properties for theme-aware components
