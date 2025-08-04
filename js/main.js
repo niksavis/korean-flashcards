@@ -251,24 +251,38 @@ class KoreanFlashcardApp {
         };
         
         const previousFilteredLength = this.state.filteredWords.length;
+        const previousCurrentWord = this.getCurrentWord();
+        
         this.state.filteredWords = this.dataService.filterWords(criteria);
         
-        // Adjust current index if necessary
+        console.log(`Filter update: ${this.state.filteredWords.length} words match criteria`);
+        
+        // If we have no words matching the filter, reset to all words
+        if (this.state.filteredWords.length === 0) {
+            console.warn('No words match current filters, showing all words');
+            this.state.filteredWords = this.state.words;
+        }
+        
+        // Try to keep the same word if it exists in the filtered set
+        if (previousCurrentWord) {
+            const newIndex = this.state.filteredWords.findIndex(word => word.id === previousCurrentWord.id);
+            if (newIndex >= 0) {
+                this.state.currentWordIndex = newIndex;
+            } else {
+                // Word not in filtered set, go to beginning
+                this.state.currentWordIndex = 0;
+            }
+        } else {
+            // No previous word, start at beginning
+            this.state.currentWordIndex = 0;
+        }
+        
+        // Ensure index is within bounds
         if (this.state.currentWordIndex >= this.state.filteredWords.length) {
             this.state.currentWordIndex = Math.max(0, this.state.filteredWords.length - 1);
         }
         
-        // If the word list changed significantly, reset to the beginning
-        if (previousFilteredLength !== this.state.filteredWords.length) {
-            console.log(`Filtered words: ${this.state.filteredWords.length} of ${this.state.words.length} total`);
-            
-            // If we have no words matching the filter, reset to all words
-            if (this.state.filteredWords.length === 0) {
-                console.warn('No words match current filters, showing all words');
-                this.state.filteredWords = this.state.words;
-                this.state.currentWordIndex = 0;
-            }
-        }
+        console.log(`Current index after filtering: ${this.state.currentWordIndex} of ${this.state.filteredWords.length}`);
     }
 
     applySettings() {

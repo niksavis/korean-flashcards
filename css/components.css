@@ -452,13 +452,13 @@ input[type="range"]::-moz-range-thumb {
 
 .clear-btn {
   position: absolute;
-  right: var(--spacing-sm);
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   color: var(--text-secondary);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   padding: 0;
   width: 1.5rem;
@@ -468,6 +468,7 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   justify-content: center;
   transition: background-color var(--transition-fast);
+  z-index: 1;
 }
 
 .clear-btn:hover {
@@ -477,6 +478,7 @@ input[type="range"]::-moz-range-thumb {
 
 .setting-group {
   position: relative;
+  margin-bottom: var(--spacing-md);
 }
 
 .filter-actions {

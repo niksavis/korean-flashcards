@@ -27,6 +27,9 @@ export class SettingsComponent {
         this.filterStatus = null;
         this.quickTopicBtns = [];
         
+        // Debouncing
+        this.searchDebounceTimeout = null;
+        
         this.bindMethods();
     }
 
@@ -162,19 +165,28 @@ export class SettingsComponent {
 
     handleSearchInput(event) {
         const searchQuery = event.target.value;
-        this.settingsService.setSetting('searchQuery', searchQuery);
         
-        // Show/hide clear button
+        // Clear previous debounce timeout
+        if (this.searchDebounceTimeout) {
+            clearTimeout(this.searchDebounceTimeout);
+        }
+        
+        // Show/hide clear button immediately for UI responsiveness
         if (this.clearSearchBtn) {
             this.clearSearchBtn.style.display = searchQuery ? 'flex' : 'none';
         }
         
-        // Notify parent component
-        if (this.callbacks.onChange) {
-            this.callbacks.onChange(this.settingsService.getSettings());
-        }
-        
-        this.updateFilterStatus();
+        // Debounce the actual search to avoid rapid filtering
+        this.searchDebounceTimeout = setTimeout(() => {
+            this.settingsService.setSetting('searchQuery', searchQuery);
+            
+            // Notify parent component
+            if (this.callbacks.onChange) {
+                this.callbacks.onChange(this.settingsService.getSettings());
+            }
+            
+            this.updateFilterStatus();
+        }, 300); // 300ms debounce
     }
 
     handleClearSearch() {
@@ -219,17 +231,32 @@ export class SettingsComponent {
 
     handleQuickTopic(event) {
         const topic = event.target.dataset.topic;
+        const currentTopicFilter = this.settingsService.getSettings().topicFilter;
         
-        // Update topic filter
-        this.settingsService.setSetting('topicFilter', topic);
-        if (this.controls.topicFilter) {
-            this.controls.topicFilter.value = topic;
+        // If clicking the same topic that's already active, deselect it
+        if (currentTopicFilter === topic) {
+            // Deselect the topic (set to 'all')
+            this.settingsService.setSetting('topicFilter', 'all');
+            if (this.controls.topicFilter) {
+                this.controls.topicFilter.value = 'all';
+            }
+            
+            // Update button states - remove active from all
+            this.quickTopicBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+        } else {
+            // Select the new topic
+            this.settingsService.setSetting('topicFilter', topic);
+            if (this.controls.topicFilter) {
+                this.controls.topicFilter.value = topic;
+            }
+            
+            // Update button states
+            this.quickTopicBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.topic === topic);
+            });
         }
-        
-        // Update button states
-        this.quickTopicBtns.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.topic === topic);
-        });
         
         // Notify parent component
         if (this.callbacks.onChange) {
