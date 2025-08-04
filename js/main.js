@@ -161,11 +161,15 @@ class KoreanFlashcardApp {
             onFlip: this.handleFlipCard,
             onWordAudio: () => this.playCurrentWordAudio(),
             onSentenceAudio: () => this.playCurrentSentenceAudio(),
-            onSettings: this.handleSettingsToggle
+            onSettings: this.handleSettingsToggle,
+            onHangul: this.handleHangulReference
         });
         
         // Pass settings component reference for keyboard blocking
         this.keyboardHandler.setSettingsComponent(this.settingsComponent);
+        
+        // Pass hangul reference component for keyboard blocking
+        this.keyboardHandler.setHangulReferenceComponent(this.hangulReferenceComponent);
         
         // Initialize theme manager
         this.themeManager.init();
@@ -253,7 +257,11 @@ class KoreanFlashcardApp {
     }
 
     handleHangulReference() {
-        this.hangulReferenceComponent.open();
+        if (this.hangulReferenceComponent.isOpen()) {
+            this.hangulReferenceComponent.close();
+        } else {
+            this.hangulReferenceComponent.open();
+        }
     }
 
     handleGoToCard() {

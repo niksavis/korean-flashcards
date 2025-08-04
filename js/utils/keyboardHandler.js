@@ -4,6 +4,7 @@ export class KeyboardHandler {
         this.callbacks = {};
         this.isEnabled = true;
         this.settingsComponent = null;
+        this.hangulReferenceComponent = null;
         this.shortcuts = {
             next: ['ArrowRight', 'KeyN'],
             prev: ['ArrowLeft', 'KeyP'],
@@ -11,6 +12,7 @@ export class KeyboardHandler {
             wordAudio: ['KeyA'],
             sentenceAudio: ['KeyS'],
             settings: ['KeyQ'],
+            hangul: ['KeyH'],
             escape: ['Escape']
         };
         
@@ -30,18 +32,43 @@ export class KeyboardHandler {
     handleKeyDown(event) {
         if (!this.isEnabled) return;
         
-        // Don't handle shortcuts when settings panel is open
-        if (this.settingsComponent && this.settingsComponent.isOpen()) {
+        // Handle each shortcut
+        const code = event.code;
+        
+        // Always allow escape key
+        if (this.shortcuts.escape.includes(code)) {
+            event.preventDefault();
+            this.executeCallback('onEscape');
             return;
         }
         
-        // Don't handle shortcuts when user is typing in inputs
+        // Allow settings key (Q) to work even when settings panel is open (for toggle)
+        if (this.shortcuts.settings.includes(code)) {
+            event.preventDefault();
+            this.executeCallback('onSettings');
+            return;
+        }
+        
+        // Allow hangul key (H) to work even when hangul modal is open (for toggle)
+        if (this.shortcuts.hangul.includes(code)) {
+            event.preventDefault();
+            this.executeCallback('onHangul');
+            return;
+        }
+        
+        // Don't handle shortcuts when user is typing in inputs (but AFTER checking toggle keys)
         if (this.isTypingContext(event.target)) {
             return;
         }
         
-        // Handle each shortcut
-        const code = event.code;
+        // Don't handle other shortcuts when modal panels are open
+        if (this.settingsComponent && this.settingsComponent.isOpen()) {
+            return;
+        }
+        
+        if (this.hangulReferenceComponent && this.hangulReferenceComponent.isOpen()) {
+            return;
+        }
         
         if (this.shortcuts.next.includes(code)) {
             event.preventDefault();
@@ -58,12 +85,6 @@ export class KeyboardHandler {
         } else if (this.shortcuts.sentenceAudio.includes(code)) {
             event.preventDefault();
             this.executeCallback('onSentenceAudio');
-        } else if (this.shortcuts.settings.includes(code)) {
-            event.preventDefault();
-            this.executeCallback('onSettings');
-        } else if (this.shortcuts.escape.includes(code)) {
-            event.preventDefault();
-            this.executeCallback('onEscape');
         }
     }
 
@@ -100,12 +121,17 @@ export class KeyboardHandler {
         this.settingsComponent = settingsComponent;
     }
 
+    setHangulReferenceComponent(hangulReferenceComponent) {
+        this.hangulReferenceComponent = hangulReferenceComponent;
+    }
+
     getShortcutInfo() {
         return [
             { key: 'Space', action: 'Flip card' },
             { key: '← →', action: 'Previous / Next' },
             { key: 'A', action: 'Play audio' },
             { key: 'S', action: 'Settings' },
+            { key: 'H', action: 'Korean Alphabet' },
             { key: 'Esc', action: 'Close panels' }
         ];
     }

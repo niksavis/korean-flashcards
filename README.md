@@ -179,6 +179,7 @@ The application uses a simple JSON format for word data:
 | `A`     | Play word audio     |
 | `S`     | Play sentence audio |
 | `Q`     | Open settings       |
+| `H`     | Korean Alphabet     |
 | `Esc`   | Close panels        |
 
 ## 📱 Mobile Support
