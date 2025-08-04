@@ -716,8 +716,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* Ensure all navigation buttons have consistent 65px height on desktop */
 .nav-btn,
-.flip-btn,
-.audio-btn {
+.flip-btn {
   min-height: 65px;
 }
 
@@ -1015,8 +1014,7 @@ input[type="range"]::-moz-range-thumb {
 
   /* Ensure navigation buttons are 60px height */
   .nav-btn,
-  .flip-btn,
-  .audio-btn {
+  .flip-btn {
     min-height: 60px;
   }
 
@@ -1048,8 +1046,7 @@ input[type="range"]::-moz-range-thumb {
 @media (max-width: 574px) {
   /* Increase navigation button heights to match go-to-card */
   .nav-btn,
-  .flip-btn,
-  .audio-btn {
+  .flip-btn {
     padding: calc(var(--spacing-md) + 4px) var(--spacing-lg);
     min-height: 52px;
   }
