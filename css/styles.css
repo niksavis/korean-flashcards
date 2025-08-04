@@ -20,6 +20,10 @@
   --bg-tertiary: #f3f4f6;
   --bg-dark: #1f2937;
 
+  /* Card-specific backgrounds with subtle color tints */
+  --card-bg: #fdfcfb; /* Very subtle warm cream tint */
+  --card-bg-secondary: #fcfbf9; /* Slightly warmer variation */
+
   /* Text Colors */
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
@@ -30,13 +34,19 @@
   --border-color: #e5e7eb;
   --border-hover: #d1d5db;
 
-  /* Shadows */
+  /* Enhanced shadows for better card visibility */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 0.25),
     0 8px 20px -6px rgb(0 0 0 / 0.15), 0 0 0 1px rgb(0 0 0 / 0.05);
+
+  /* Enhanced card-specific shadows for better contrast */
+  --card-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 10px 10px -5px rgb(0 0 0 / 0.04), 0 0 0 1px rgb(0 0 0 / 0.05);
+  --card-shadow-hover: 0 25px 50px -12px rgb(0 0 0 / 0.25),
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 0 0 1px rgb(0 0 0 / 0.08);
 
   /* Typography */
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -70,6 +80,10 @@
   --bg-tertiary: #374151;
   --bg-dark: #000000;
 
+  /* Dark theme card backgrounds with subtle color tints */
+  --card-bg: #1a1f2e; /* Subtle blue-gray tint */
+  --card-bg-secondary: #1c2130; /* Slightly lighter blue-gray variation */
+
   --text-primary: #f9fafb;
   --text-secondary: #d1d5db;
   --text-muted: #9ca3af;
@@ -77,9 +91,17 @@
   --border-color: #374151;
   --border-hover: #4b5563;
 
-  /* Enhanced shadows for dark theme */
+  /* Enhanced shadows for dark theme with better visibility */
   --shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 0.5),
     0 8px 20px -6px rgb(0 0 0 / 0.3), 0 0 0 1px rgb(255 255 255 / 0.1);
+
+  /* Dark theme card shadows with subtle border glow */
+  --card-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4),
+    0 10px 10px -5px rgb(0 0 0 / 0.2), 0 0 0 1px rgb(255 255 255 / 0.1),
+    inset 0 1px 0 0 rgb(255 255 255 / 0.1);
+  --card-shadow-hover: 0 25px 50px -12px rgb(0 0 0 / 0.6),
+    0 20px 25px -5px rgb(0 0 0 / 0.3), 0 0 0 1px rgb(255 255 255 / 0.15),
+    inset 0 1px 0 0 rgb(255 255 255 / 0.15);
 }
 
 /* Base Styles */
@@ -283,15 +305,17 @@ body {
   height: 100%;
   backface-visibility: hidden;
   border-radius: var(--radius-xl);
-  background-color: var(--bg-primary);
+  background-color: var(--card-bg);
   border: 2px solid var(--border-color);
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: var(--spacing-xl);
   text-align: center;
+  transition: box-shadow var(--transition-normal),
+    background-color var(--transition-normal);
 }
 
 .flashcard-back {
@@ -325,6 +349,7 @@ body {
   align-items: center;
   gap: 4px; /* Smaller gap for tighter layout */
   font-size: 0.75rem;
+  font-family: var(--font-family); /* Standardized font family */
 }
 
 .frequency-info-front .frequency-label,
@@ -333,19 +358,21 @@ body {
 .word-type-info .type-label {
   color: var(--text-secondary);
   font-weight: 500;
-  font-size: 0.65rem; /* Slightly smaller labels */
+  font-size: 0.65rem; /* Standardized size */
+  font-family: var(--font-family); /* Standardized font family */
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-/* Make front card badges slightly smaller for better fit */
+/* Make front card badges consistent with standardized fonts */
 .header-badges .frequency-badge,
 .header-badges .difficulty-badge,
 .header-badges .category-badge,
 .header-badges .type-badge {
   font-size: 0.65rem;
+  font-family: var(--font-family); /* Standardized font family */
+  font-weight: 600; /* Standardized weight */
   padding: 2px 6px;
-  font-weight: 700;
 }
 
 .word-position {
@@ -354,7 +381,8 @@ body {
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-md);
   font-size: 0.875rem;
-  font-weight: 600;
+  font-family: var(--font-family); /* Standardized font family */
+  font-weight: 600; /* Standardized weight to match other badges */
 }
 
 .main-word {
@@ -949,6 +977,12 @@ input:focus-visible {
 /* Hover Effects */
 .flashcard-container:hover .flashcard {
   transform: translateY(-4px);
+}
+
+.flashcard-container:hover .flashcard .flashcard-front,
+.flashcard-container:hover .flashcard .flashcard-back {
+  box-shadow: var(--card-shadow-hover);
+  background-color: var(--card-bg-secondary);
 }
 
 .flashcard-container:hover .flashcard.flipped {
