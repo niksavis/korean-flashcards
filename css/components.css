@@ -928,8 +928,56 @@ input[type="range"]::-moz-range-thumb {
   margin-left: auto;
 }
 
-/* Responsive Design for Modal */
-@media (max-width: 768px) {
+/* Responsive Design for Modal and Go To Card Component */
+
+/* Large screens below 1200px */
+@media (max-width: 1199px) {
+  .go-to-card {
+    padding: 2px var(--spacing-md) 4px var(--spacing-md);
+    min-width: 180px;
+  }
+
+  .go-to-input {
+    padding: calc(var(--spacing-md) - 1px) var(--spacing-sm);
+    font-size: 0.95rem;
+  }
+
+  .go-to-btn {
+    padding: calc(var(--spacing-md) - 1px) var(--spacing-lg);
+    font-size: 0.95rem;
+  }
+
+  .go-to-label {
+    font-size: 0.95rem;
+  }
+}
+
+/* Medium screens below 990px */
+@media (max-width: 989px) {
+  .go-to-card {
+    padding: 1px var(--spacing-md) 7px var(--spacing-md);
+    min-width: 170px;
+  }
+
+  .go-to-input {
+    width: 70px;
+    padding: calc(var(--spacing-md) - 3px) var(--spacing-sm);
+    font-size: 0.9rem;
+  }
+
+  .go-to-btn {
+    padding: calc(var(--spacing-md) - 3px) var(--spacing-md);
+    font-size: 0.9rem;
+    min-width: 55px;
+  }
+
+  .go-to-label {
+    font-size: 0.9rem;
+  }
+}
+
+/* Tablets and smaller screens below 770px */
+@media (max-width: 769px) {
   .hangul-modal-content {
     width: 98%;
     height: 95%;
@@ -957,24 +1005,68 @@ input[type="range"]::-moz-range-thumb {
     font-size: 1.5rem;
   }
 
+  /* Ensure navigation buttons are 60px height */
+  .nav-btn,
+  .flip-btn,
+  .audio-btn {
+    min-height: 60px;
+  }
+
   .go-to-card {
+    padding: 2px var(--spacing-md) 8px var(--spacing-md);
     min-width: 160px;
-    padding: var(--spacing-sm) var(--spacing-md);
-    flex-wrap: nowrap;
+    gap: var(--spacing-xs);
+    min-height: 60px;
   }
 
   .go-to-input {
     width: 60px;
-    font-size: 0.9rem;
+    padding: calc(var(--spacing-md) - 1px) var(--spacing-xs);
+    font-size: 0.85rem;
   }
 
   .go-to-btn {
-    font-size: 0.9rem;
+    padding: calc(var(--spacing-md) - 1px) var(--spacing-md);
+    font-size: 0.85rem;
     min-width: 50px;
   }
 
   .go-to-label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile screens below 575px */
+@media (max-width: 574px) {
+  /* Increase navigation button heights to match go-to-card */
+  .nav-btn,
+  .flip-btn,
+  .audio-btn {
+    padding: calc(var(--spacing-md) + 4px) var(--spacing-lg);
+    min-height: 52px;
+  }
+
+  .go-to-card {
+    padding: 4px var(--spacing-sm) 8px var(--spacing-sm);
+    min-width: 140px;
+    gap: var(--spacing-xs);
+    min-height: 52px;
+  }
+
+  .go-to-input {
+    width: 50px;
+    padding: calc(var(--spacing-sm) + 2px) var(--spacing-xs);
+    font-size: 0.8rem;
+  }
+
+  .go-to-btn {
+    padding: calc(var(--spacing-sm) + 2px) var(--spacing-sm);
+    font-size: 0.8rem;
+    min-width: 45px;
+  }
+
+  .go-to-label {
+    font-size: 0.8rem;
   }
 }
 
