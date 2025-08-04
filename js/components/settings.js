@@ -28,7 +28,6 @@ export class SettingsComponent {
         this.clearSearchBtn = null;
         this.clearFiltersBtn = null;
         this.filterStatus = null;
-        this.quickTopicBtns = [];
         
         // Debouncing
         this.searchDebounceTimeout = null;
@@ -44,7 +43,6 @@ export class SettingsComponent {
         this.handleSearchInput = this.handleSearchInput.bind(this);
         this.handleClearSearch = this.handleClearSearch.bind(this);
         this.handleClearFilters = this.handleClearFilters.bind(this);
-        this.handleQuickTopic = this.handleQuickTopic.bind(this);
     }
 
     init(callbacks = {}) {
@@ -71,7 +69,6 @@ export class SettingsComponent {
         this.clearSearchBtn = document.getElementById('clear-search');
         this.clearFiltersBtn = document.getElementById('clear-filters');
         this.filterStatus = document.getElementById('filter-status');
-        this.quickTopicBtns = document.querySelectorAll('.topic-btn');
         
         // Session controls
         this.sessionMode = document.getElementById('session-mode');
@@ -131,11 +128,6 @@ export class SettingsComponent {
         if (this.clearFiltersBtn) {
             this.clearFiltersBtn.addEventListener('click', this.handleClearFilters);
         }
-        
-        // Quick topic buttons
-        this.quickTopicBtns.forEach(btn => {
-            btn.addEventListener('click', this.handleQuickTopic);
-        });
         
         // Session controls
         if (this.sessionMode) {
@@ -247,46 +239,6 @@ export class SettingsComponent {
         if (this.searchInput) this.searchInput.value = '';
         if (this.clearSearchBtn) this.clearSearchBtn.style.display = 'none';
         
-        // Update quick topic buttons
-        this.quickTopicBtns.forEach(btn => btn.classList.remove('active'));
-        
-        // Notify parent component
-        if (this.callbacks.onChange) {
-            this.callbacks.onChange(this.settingsService.getSettings());
-        }
-        
-        this.updateFilterStatus();
-    }
-
-    handleQuickTopic(event) {
-        const topic = event.target.dataset.topic;
-        const currentTopicFilter = this.settingsService.getSettings().topicFilter;
-        
-        // If clicking the same topic that's already active, deselect it
-        if (currentTopicFilter === topic) {
-            // Deselect the topic (set to 'all')
-            this.settingsService.setSetting('topicFilter', 'all');
-            if (this.controls.topicFilter) {
-                this.controls.topicFilter.value = 'all';
-            }
-            
-            // Update button states - remove active from all
-            this.quickTopicBtns.forEach(btn => {
-                btn.classList.remove('active');
-            });
-        } else {
-            // Select the new topic
-            this.settingsService.setSetting('topicFilter', topic);
-            if (this.controls.topicFilter) {
-                this.controls.topicFilter.value = topic;
-            }
-            
-            // Update button states
-            this.quickTopicBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.topic === topic);
-            });
-        }
-        
         // Notify parent component
         if (this.callbacks.onChange) {
             this.callbacks.onChange(this.settingsService.getSettings());
@@ -316,11 +268,6 @@ export class SettingsComponent {
                 this.clearSearchBtn.style.display = settings.searchQuery ? 'flex' : 'none';
             }
         }
-        
-        // Update quick topic buttons
-        this.quickTopicBtns.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.topic === settings.topicFilter);
-        });
         
         this.updateFilterStatus();
     }
