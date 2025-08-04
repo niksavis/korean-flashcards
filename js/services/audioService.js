@@ -8,6 +8,12 @@ export class AudioService {
         this.isPlaying = false;
         this.currentAudio = null;
         
+        // Background tone for speaker activation
+        this.backgroundToneEnabled = true; // Enable pleasant background tone
+        this.audioContext = null;
+        this.backgroundGainNode = null;
+        this.backgroundOscillators = [];
+        
         // Audio source preferences (ordered by reliability)
         this.audioMethods = ['speechAPI', 'googleTTS'];
         this.currentMethodIndex = 0;
@@ -17,6 +23,7 @@ export class AudioService {
         this.voicesLoaded = false;
         
         this.initializeVoices();
+        this.initializeAudioContext();
     }
 
     initializeVoices() {
@@ -67,6 +74,118 @@ export class AudioService {
         }
     }
 
+    initializeAudioContext() {
+        try {
+            // Initialize Web Audio API for background tones
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create main gain node for background tone
+            this.backgroundGainNode = this.audioContext.createGain();
+            this.backgroundGainNode.connect(this.audioContext.destination);
+            this.backgroundGainNode.gain.setValueAtTime(0.005, this.audioContext.currentTime); // Much quieter
+            
+            console.log('Audio context initialized for background tones');
+        } catch (error) {
+            console.warn('Web Audio API not available:', error);
+            this.backgroundToneEnabled = false;
+        }
+    }
+
+    createPleasantBackgroundTone() {
+        if (!this.backgroundToneEnabled || !this.audioContext) {
+            return null;
+        }
+
+        try {
+            // Create a pleasant chord with multiple frequencies (C major triad in low octave)
+            const frequencies = [130.81, 164.81, 196.00]; // C3, E3, G3 - soft, pleasant chord
+            const oscillators = [];
+            const gainNodes = [];
+
+            frequencies.forEach((freq, index) => {
+                // Create oscillator for each frequency
+                const osc = this.audioContext.createOscillator();
+                const gain = this.audioContext.createGain();
+                
+                // Use sine wave for smooth, pleasant sound
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, this.audioContext.currentTime);
+                
+                // Set individual gains (make lower frequencies slightly quieter)
+                const individualGain = index === 0 ? 0.1 : 0.15; // Much quieter individual gains
+                gain.gain.setValueAtTime(individualGain, this.audioContext.currentTime);
+                
+                // Connect: oscillator -> gain -> background gain -> destination
+                osc.connect(gain);
+                gain.connect(this.backgroundGainNode);
+                
+                oscillators.push(osc);
+                gainNodes.push(gain);
+            });
+
+            return { oscillators, gainNodes };
+        } catch (error) {
+            console.warn('Failed to create background tone:', error);
+            return null;
+        }
+    }
+
+    async startBackgroundTone(duration) {
+        if (!this.backgroundToneEnabled) {
+            return null;
+        }
+
+        const toneComponents = this.createPleasantBackgroundTone();
+        if (!toneComponents) {
+            return null;
+        }
+
+        const { oscillators, gainNodes } = toneComponents;
+
+        try {
+            const currentTime = this.audioContext.currentTime;
+            
+            // Fade in over 0.1 seconds (shorter fade)
+            gainNodes.forEach(gain => {
+                gain.gain.setValueAtTime(0, currentTime);
+                gain.gain.linearRampToValueAtTime(gain.gain.value || 0.15, currentTime + 0.1);
+            });
+
+            // Start all oscillators
+            oscillators.forEach(osc => {
+                osc.start(currentTime);
+                osc.stop(currentTime + duration);
+            });
+
+            // Store for potential cleanup
+            this.backgroundOscillators = oscillators;
+
+            console.log(`Started pleasant background tone for ${duration} seconds`);
+            return { oscillators, gainNodes };
+        } catch (error) {
+            console.warn('Failed to start background tone:', error);
+            // Cleanup on error
+            oscillators.forEach(osc => {
+                try { osc.stop(); } catch (e) { }
+            });
+            return null;
+        }
+    }
+
+    stopBackgroundTone() {
+        if (this.backgroundOscillators.length > 0) {
+            try {
+                this.backgroundOscillators.forEach(osc => {
+                    try { osc.stop(); } catch (e) { }
+                });
+                this.backgroundOscillators = [];
+                console.log('Stopped background tone');
+            } catch (error) {
+                console.warn('Error stopping background tone:', error);
+            }
+        }
+    }
+
     async playWord(hangul, speed = null) {
         try {
             console.log(`Playing Korean word: ${hangul}`);
@@ -97,7 +216,7 @@ export class AudioService {
             
             console.log(`Using Google TTS URL for sentence: ${audioUrl}`);
             
-            // Play audio directly
+            // Play audio directly (background tone will be handled in playDirectAudio)
             return await this.playDirectAudio(audioUrl, speed);
             
         } catch (error) {
@@ -109,7 +228,7 @@ export class AudioService {
     }
 
     async playDirectAudio(audioUrl, speed = null) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             // Use the audio element from the DOM (exactly like StackOverflow solution)
             const audioEl = document.getElementById('tts-audio');
             
@@ -117,28 +236,46 @@ export class AudioService {
                 reject(new Error('Audio element not found'));
                 return;
             }
+
+            // Start background tone 200ms before TTS
+            console.log('Starting background tone 200ms before TTS...');
+            const backgroundToneComponents = await this.startBackgroundTone(0.3); // 300ms total (0.2s before + estimated TTS duration)
+            
+            // Wait 200ms for speakers to activate
+            await new Promise(resolve => setTimeout(resolve, 200));
             
             // Simple event handlers
             const onEnded = () => {
                 this.isPlaying = false;
+                this.stopBackgroundTone(); // Stop background tone when TTS ends
                 this.notifyAudioEnd();
                 audioEl.removeEventListener('ended', onEnded);
                 audioEl.removeEventListener('error', onError);
+                audioEl.removeEventListener('loadedmetadata', onLoadedMetadata);
                 resolve();
             };
             
             const onError = (event) => {
                 this.isPlaying = false;
+                this.stopBackgroundTone(); // Stop background tone on error
                 this.notifyAudioEnd();
                 audioEl.removeEventListener('ended', onEnded);
                 audioEl.removeEventListener('error', onError);
+                audioEl.removeEventListener('loadedmetadata', onLoadedMetadata);
                 // Don't log verbose error details for normal audio interruptions
                 reject(new Error('Audio fallback needed'));
+            };
+
+            const onLoadedMetadata = () => {
+                // Once we know the duration, we can adjust the background tone if needed
+                const ttsDuration = audioEl.duration;
+                console.log(`TTS duration: ${ttsDuration}s, background tone should continue`);
             };
             
             // Add event listeners
             audioEl.addEventListener('ended', onEnded);
             audioEl.addEventListener('error', onError);
+            audioEl.addEventListener('loadedmetadata', onLoadedMetadata);
             
             // Set source and play (exactly like StackOverflow example)
             audioEl.src = audioUrl;
@@ -149,9 +286,11 @@ export class AudioService {
             // Play the audio
             audioEl.play()
                 .then(() => {
-                    console.log('Google TTS audio started playing');
+                    console.log('Google TTS audio started playing with background tone');
                 })
                 .catch(error => {
+                    // Stop background tone on play failure
+                    this.stopBackgroundTone();
                     // Don't log aborted/interrupted errors as they're normal
                     if (error.name === 'AbortError' || error.message.includes('aborted')) {
                         console.log('Audio playback interrupted (normal when switching quickly)');
@@ -541,6 +680,9 @@ export class AudioService {
 
     stop() {
         try {
+            // Stop background tone first
+            this.stopBackgroundTone();
+            
             // Stop Speech API
             if (this.isSupported && this.speechSynthesis.speaking) {
                 this.speechSynthesis.cancel();
@@ -670,6 +812,16 @@ export class AudioService {
             return this.audioMethods[this.currentMethodIndex];
         }
         return 'none';
+    }
+
+    setBackgroundTone(enabled) {
+        this.backgroundToneEnabled = enabled;
+        console.log(`Background tone ${enabled ? 'enabled' : 'disabled'}`);
+        
+        // Stop any currently playing background tone if disabled
+        if (!enabled) {
+            this.stopBackgroundTone();
+        }
     }
 
     // Legacy methods for compatibility
