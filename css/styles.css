@@ -537,6 +537,12 @@ body {
 }
 
 /* Frequency badges - Green palette for frequency levels */
+.frequency-badge.very_high {
+  background-color: #065f46; /* Dark emerald green for very high frequency */
+  color: white;
+  border-color: #064e3b;
+}
+
 .frequency-badge.high {
   background-color: #059669; /* Emerald green for high frequency */
   color: white;
@@ -553,6 +559,12 @@ body {
   background-color: #84cc16; /* Light green for low frequency */
   color: white;
   border-color: #65a30d;
+}
+
+.frequency-badge.very_low {
+  background-color: #a3a3a3; /* Gray for very low frequency */
+  color: white;
+  border-color: #737373;
 }
 
 /* Difficulty badges - Purple/Violet palette for difficulty levels */

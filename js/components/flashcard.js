@@ -221,13 +221,13 @@ export class FlashcardComponent {
         // Frequency information (both back and front card)
         if (this.frequencyLevelElement) {
             const frequency = word.frequency || 'medium';
-            this.frequencyLevelElement.textContent = frequency.charAt(0).toUpperCase() + frequency.slice(1);
+            this.frequencyLevelElement.textContent = this.formatFrequencyText(frequency);
             this.frequencyLevelElement.className = `frequency-badge ${frequency}`;
         }
         
         if (this.frequencyLevelFrontElement) {
             const frequency = word.frequency || 'medium';
-            this.frequencyLevelFrontElement.textContent = frequency.charAt(0).toUpperCase() + frequency.slice(1);
+            this.frequencyLevelFrontElement.textContent = this.formatFrequencyText(frequency);
             this.frequencyLevelFrontElement.className = `frequency-badge ${frequency}`;
         }
         
@@ -400,6 +400,18 @@ export class FlashcardComponent {
         setTimeout(() => {
             document.body.removeChild(announcement_element);
         }, 1000);
+    }
+
+    // Format frequency values for display
+    formatFrequencyText(frequency) {
+        const frequencyMap = {
+            'very_high': 'Very High',
+            'high': 'High',
+            'medium': 'Medium',
+            'low': 'Low',
+            'very_low': 'Very Low'
+        };
+        return frequencyMap[frequency] || frequency.charAt(0).toUpperCase() + frequency.slice(1);
     }
 
     // Error handling
