@@ -29,6 +29,10 @@ export class SettingsService {
             wordTypeFilter: 'all', // 'all', specific word type
             searchQuery: '', // search text
             
+            // Session settings
+            sessionMode: 'all', // 'all', 'session'
+            selectedSession: null, // null or session ID string
+            
             // Accessibility settings
             reducedMotion: false,
             highContrast: false,

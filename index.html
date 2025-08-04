@@ -18,6 +18,12 @@
             <div class="header-content">
                 <h1 class="app-title">Korean Flashcards</h1>
                 <div class="header-controls">
+                    <button id="hangul-reference-btn" class="icon-btn" aria-label="Korean Alphabet Reference">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 8.5a4.5 4.5 0 0 0-9 0v7a4.5 4.5 0 1 0 9 0v-7z"></path>
+                            <path d="M4 8.5a4.5 4.5 0 0 1 9 0v7a4.5 4.5 0 1 1-9 0v-7z"></path>
+                        </svg>
+                    </button>
                     <button id="theme-toggle-btn" class="icon-btn" aria-label="Toggle theme">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="5"></circle>
@@ -38,10 +44,12 @@
         <div class="progress-container">
             <div class="progress-info">
                 <span id="progress-text">Word 1 of 6000</span>
+                <span id="session-info" class="session-info"></span>
                 <span id="difficulty-badge" class="difficulty-badge">Beginner</span>
             </div>
             <div class="progress-bar">
                 <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                <div id="session-markers" class="session-markers"></div>
             </div>
         </div>
 
@@ -140,6 +148,13 @@
                     <span>Previous</span>
                 </button>
                 
+                <!-- Go To Card Feature -->
+                <div class="go-to-card">
+                    <label for="go-to-input" class="go-to-label">Go to:</label>
+                    <input type="number" id="go-to-input" class="go-to-input" placeholder="1" min="1" max="6358" title="Enter card number to jump to">
+                    <button id="go-to-btn" class="go-to-btn" aria-label="Go to card">Go</button>
+                </div>
+                
                 <button id="flip-btn" class="flip-btn" aria-label="Flip card">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
@@ -220,6 +235,40 @@
                         </div>
                     </div>
                     
+                    <!-- Learning Sessions -->
+                    <div class="settings-section">
+                        <h3>📚 Learning Sessions</h3>
+                        <p class="setting-description">Choose between studying all words or focused thematic sessions designed for optimal learning.</p>
+                        
+                        <div class="setting-group">
+                            <label for="session-mode" class="setting-label-text">Study Mode:</label>
+                            <select id="session-mode" class="filter-select">
+                                <option value="all">Study All Words</option>
+                                <option value="session">Focused Learning Sessions</option>
+                            </select>
+                        </div>
+                        
+                        <div id="session-selection" class="session-selection" style="display: none;">
+                            <div class="setting-group">
+                                <label for="session-picker" class="setting-label-text">Choose Learning Session:</label>
+                                <select id="session-picker" class="filter-select">
+                                    <!-- Sessions will be populated dynamically -->
+                                </select>
+                            </div>
+                            
+                            <div class="session-info-display">
+                                <div class="session-stats">
+                                    <span id="session-range" class="session-detail">No session selected</span>
+                                    <span id="session-count" class="session-detail">0 cards</span>
+                                </div>
+                                <div class="session-actions">
+                                    <button id="start-session" class="action-btn">Start Session</button>
+                                    <button id="reset-session" class="action-btn secondary">Study All Words</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Display Settings -->
                     <div class="settings-section">
                         <h3>Display Options</h3>
@@ -245,6 +294,25 @@
                             </label>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hangul Reference Modal -->
+        <div id="hangul-modal" class="hangul-modal">
+            <div class="hangul-modal-content">
+                <div class="hangul-modal-header">
+                    <h2>Korean Alphabet - Hangul (한글)</h2>
+                    <button id="close-hangul-btn" class="icon-btn" aria-label="Close Hangul reference">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="hangul-modal-body">
+                    <!-- Content will be dynamically loaded -->
+                    <div class="hangul-loading">Loading Hangul reference...</div>
                 </div>
             </div>
         </div>

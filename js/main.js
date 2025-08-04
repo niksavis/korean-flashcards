@@ -3,10 +3,12 @@ import { DataService } from './services/dataService.js';
 import { AudioService } from './services/audioService.js';
 import { SettingsService } from './services/settingsService.js';
 import { StorageService } from './services/storageService.js';
+import { SessionService } from './services/sessionService.js';
 import { FlashcardComponent } from './components/flashcard.js';
 import { NavigationComponent } from './components/navigation.js';
 import { ProgressComponent } from './components/progress.js';
 import { SettingsComponent } from './components/settings.js';
+import { HangulReferenceComponent } from './components/hangulReference.js';
 import { KeyboardHandler } from './utils/keyboardHandler.js';
 import { ThemeManager } from './utils/themeManager.js';
 
@@ -17,12 +19,14 @@ class KoreanFlashcardApp {
         this.audioService = new AudioService();
         this.settingsService = new SettingsService();
         this.storageService = new StorageService();
+        this.sessionService = new SessionService(this.dataService);
         
         // Initialize components
         this.flashcardComponent = new FlashcardComponent(this.audioService, this.settingsService);
         this.navigationComponent = new NavigationComponent();
         this.progressComponent = new ProgressComponent();
-        this.settingsComponent = new SettingsComponent(this.settingsService);
+        this.settingsComponent = new SettingsComponent(this.settingsService, this.sessionService);
+        this.hangulReferenceComponent = new HangulReferenceComponent();
         
         // Initialize utilities
         this.keyboardHandler = new KeyboardHandler();
@@ -49,6 +53,8 @@ class KoreanFlashcardApp {
         this.handleSettingsToggle = this.handleSettingsToggle.bind(this);
         this.handleKeyboard = this.handleKeyboard.bind(this);
         this.handleSettingsChange = this.handleSettingsChange.bind(this);
+        this.handleHangulReference = this.handleHangulReference.bind(this);
+        this.handleGoToCard = this.handleGoToCard.bind(this);
     }
 
     async init() {
@@ -72,6 +78,11 @@ class KoreanFlashcardApp {
             this.state.words = this.dataService.getAllWords();
             this.state.filteredWords = this.state.words; // Initialize with all words
             console.log(`Loaded ${this.state.words.length} words`);
+            
+            // Initialize session service after data is loaded
+            console.log('Initializing sessions...');
+            await this.sessionService.initialize();
+            console.log('Sessions initialized');
             
             // Initialize components
             console.log('Initializing components...');
@@ -130,8 +141,12 @@ class KoreanFlashcardApp {
         
         // Initialize settings component
         this.settingsComponent.init({
-            onChange: this.handleSettingsChange
+            onChange: this.handleSettingsChange,
+            onStartSession: this.handleStartSession.bind(this)
         });
+        
+        // Initialize hangul reference component
+        this.hangulReferenceComponent.init(this.audioService);
         
             // Initialize filter options after data is loaded
             this.settingsComponent.initializeFilterOptions(this.dataService);
@@ -161,6 +176,24 @@ class KoreanFlashcardApp {
         const settingsBtn = document.getElementById('settings-btn');
         if (settingsBtn) {
             settingsBtn.addEventListener('click', this.handleSettingsToggle);
+        }
+        
+        // Hangul reference button
+        const hangulBtn = document.getElementById('hangul-reference-btn');
+        if (hangulBtn) {
+            hangulBtn.addEventListener('click', this.handleHangulReference);
+        }
+        
+        // Go to card functionality
+        const goToBtn = document.getElementById('go-to-btn');
+        const goToInput = document.getElementById('go-to-input');
+        if (goToBtn && goToInput) {
+            goToBtn.addEventListener('click', this.handleGoToCard);
+            goToInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    this.handleGoToCard();
+                }
+            });
         }
         
         // Theme toggle button
@@ -219,6 +252,45 @@ class KoreanFlashcardApp {
         this.settingsComponent.toggle();
     }
 
+    handleHangulReference() {
+        this.hangulReferenceComponent.open();
+    }
+
+    handleGoToCard() {
+        const goToInput = document.getElementById('go-to-input');
+        if (!goToInput) return;
+        
+        const cardNumber = parseInt(goToInput.value, 10);
+        const totalCards = this.state.filteredWords.length;
+        
+        // Validate input
+        if (isNaN(cardNumber) || cardNumber < 1 || cardNumber > totalCards) {
+            // Show feedback
+            goToInput.style.borderColor = 'var(--error-color)';
+            goToInput.title = `Please enter a number between 1 and ${totalCards}`;
+            
+            // Reset after 2 seconds
+            setTimeout(() => {
+                goToInput.style.borderColor = '';
+                goToInput.title = 'Enter card number to jump to';
+            }, 2000);
+            return;
+        }
+        
+        // Navigate to card (subtract 1 for 0-based index)
+        this.state.currentWordIndex = cardNumber - 1;
+        this.state.isFlipped = false;
+        this.displayCurrentCard();
+        this.saveProgress();
+        
+        // Clear input and show success
+        goToInput.value = '';
+        goToInput.style.borderColor = 'var(--accent-color)';
+        setTimeout(() => {
+            goToInput.style.borderColor = '';
+        }, 1000);
+    }
+
     handleKeyboard(event) {
         // Prevent keyboard actions when settings panel is open
         if (this.settingsComponent.isOpen()) {
@@ -233,8 +305,17 @@ class KoreanFlashcardApp {
         // Apply settings changes immediately
         this.applySettings();
         
-        // Update filtered words if filter settings changed
-        this.updateFilteredWords(settings);
+        // Handle session mode changes
+        if (settings.sessionMode === 'all') {
+            // Reset to show all filtered words (not session-limited)
+            this.updateFilteredWords(settings);
+        } else if (settings.sessionMode === 'session' && settings.selectedSession) {
+            // Apply session filtering - start the selected session
+            this.handleStartSession(settings.selectedSession);
+        } else {
+            // Update filtered words for session mode but no session selected yet
+            this.updateFilteredWords(settings);
+        }
         
         // Re-render current card with new settings
         this.displayCurrentCard();
@@ -321,6 +402,13 @@ class KoreanFlashcardApp {
             this.state.currentWordIndex < this.state.filteredWords.length - 1, // canGoNext
             this.state.isFlipped
         );
+        
+        // Update Go To Card input max value
+        const goToInput = document.getElementById('go-to-input');
+        if (goToInput) {
+            goToInput.max = this.state.filteredWords.length;
+            goToInput.placeholder = `1-${this.state.filteredWords.length}`;
+        }
         
         // Auto-play audio if enabled
         if (this.settingsService.getSettings().autoPlayAudio && !this.state.isFlipped) {
@@ -420,6 +508,36 @@ class KoreanFlashcardApp {
             this.displayCurrentCard();
             this.saveProgress();
         }
+    }
+
+    handleStartSession(sessionId) {
+        if (!this.sessionService) {
+            console.error('Session service not initialized');
+            return;
+        }
+
+        const session = this.sessionService.getSession(sessionId);
+        if (!session) {
+            console.error('Session not found:', sessionId);
+            return;
+        }
+        
+        // Set the filtered words to the session's words
+        this.state.filteredWords = session.words;
+        this.state.currentWordIndex = 0;
+        this.state.isFlipped = false;
+        
+        // Ensure we start fresh with the first card front-side
+        this.displayCurrentCard();
+        
+        // Update navigation to reflect new session
+        this.navigationComponent.updateStates(
+            false, // can't go prev from first card
+            this.state.filteredWords.length > 1, // can go next if more than 1 card
+            false // not flipped
+        );
+        
+        console.log(`Started session "${session.title}": showing ${session.words.length} cards`);
     }
 
     getCurrentWordData() {

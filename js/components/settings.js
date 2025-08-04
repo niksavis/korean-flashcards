@@ -1,7 +1,10 @@
 // Settings Component - Manages settings panel UI and interactions
+import { SessionService } from '../services/sessionService.js';
+
 export class SettingsComponent {
-    constructor(settingsService) {
+    constructor(settingsService, sessionService = null) {
         this.settingsService = settingsService;
+        this.sessionService = sessionService;
         this.isVisible = false;
         this.callbacks = {};
         
@@ -70,6 +73,15 @@ export class SettingsComponent {
         this.filterStatus = document.getElementById('filter-status');
         this.quickTopicBtns = document.querySelectorAll('.topic-btn');
         
+        // Session controls
+        this.sessionMode = document.getElementById('session-mode');
+        this.sessionSelection = document.getElementById('session-selection');
+        this.sessionPicker = document.getElementById('session-picker');
+        this.sessionRange = document.getElementById('session-range');
+        this.sessionCount = document.getElementById('session-count');
+        this.startSessionBtn = document.getElementById('start-session');
+        this.resetSessionBtn = document.getElementById('reset-session');
+        
         // Create overlay if it doesn't exist
         this.createOverlay();
         
@@ -124,6 +136,23 @@ export class SettingsComponent {
         this.quickTopicBtns.forEach(btn => {
             btn.addEventListener('click', this.handleQuickTopic);
         });
+        
+        // Session controls
+        if (this.sessionMode) {
+            this.sessionMode.addEventListener('change', this.handleSessionModeChange.bind(this));
+        }
+        
+        if (this.sessionPicker) {
+            this.sessionPicker.addEventListener('change', this.handleSessionSelection.bind(this));
+        }
+        
+        if (this.startSessionBtn) {
+            this.startSessionBtn.addEventListener('click', this.handleStartSession.bind(this));
+        }
+        
+        if (this.resetSessionBtn) {
+            this.resetSessionBtn.addEventListener('click', this.handleResetSession.bind(this));
+        }
         
         // Keyboard events
         document.addEventListener('keydown', this.handleEscapeKey);
@@ -543,6 +572,146 @@ export class SettingsComponent {
         };
         
         input.click();
+    }
+
+    // Session Management Methods
+    handleSessionModeChange(event) {
+        const mode = event.target.value;
+        this.settingsService.setSetting('sessionMode', mode);
+        
+        // Show/hide session picker based on mode
+        if (this.sessionSelection) {
+            this.sessionSelection.style.display = mode === 'session' ? 'block' : 'none';
+        }
+        
+        // Update session picker with current filtered words
+        if (mode === 'session') {
+            this.updateSessionPicker();
+        }
+        
+        // Notify parent component
+        if (this.callbacks.onChange) {
+            this.callbacks.onChange(this.settingsService.getSettings());
+        }
+    }
+
+    handleSessionSelection(event) {
+        const sessionId = event.target.value;
+        this.settingsService.setSetting('selectedSession', sessionId || null);
+        
+        // Update session info display
+        this.updateSessionInfo();
+        
+        // Notify parent component
+        if (this.callbacks.onChange) {
+            this.callbacks.onChange(this.settingsService.getSettings());
+        }
+    }
+
+    handleStartSession() {
+        const settings = this.settingsService.getSettings();
+        if (settings.sessionMode === 'session' && settings.selectedSession) {
+            // Get session info for user feedback
+            const session = this.sessionService.getSession(settings.selectedSession);
+            
+            // Start the selected session
+            if (this.callbacks.onStartSession) {
+                this.callbacks.onStartSession(settings.selectedSession);
+            }
+            
+            // Close the settings panel for seamless experience
+            this.close();
+            
+            // Show user feedback about what session started
+            if (session) {
+                this.showUpdateFeedback(`Started: ${session.title} (${session.words.length} cards)`);
+            }
+        } else {
+            // Show error if no session selected
+            this.showUpdateFeedback('Please select a session first');
+        }
+    }
+
+    handleResetSession() {
+        // Reset to study all words mode
+        this.settingsService.setSetting('sessionMode', 'all');
+        this.settingsService.setSetting('selectedSession', null);
+        
+        if (this.sessionMode) {
+            this.sessionMode.value = 'all';
+        }
+        
+        if (this.sessionSelection) {
+            this.sessionSelection.style.display = 'none';
+        }
+        
+        // Notify parent component
+        if (this.callbacks.onChange) {
+            this.callbacks.onChange(this.settingsService.getSettings());
+        }
+        
+        // Close the settings panel
+        this.close();
+        
+        // Show user feedback
+        this.showUpdateFeedback('Switched to studying all words');
+    }
+
+    updateSessionPicker() {
+        if (!this.sessionPicker || !this.sessionService) {
+            return;
+        }
+
+        // Clear existing options
+        this.sessionPicker.innerHTML = '<option value="">Choose a learning session...</option>';
+        
+        // Get sessions organized by category
+        const sessionsByCategory = this.sessionService.getSessionsByCategory();
+        
+        // Add sessions grouped by category
+        Object.entries(sessionsByCategory).forEach(([category, sessions]) => {
+            // Create optgroup for category
+            const optgroup = document.createElement('optgroup');
+            optgroup.label = category;
+            
+            sessions.forEach(session => {
+                const option = document.createElement('option');
+                option.value = session.id;
+                option.textContent = `${session.icon} ${session.title} (${session.words.length} words, ${session.estimatedTime})`;
+                option.setAttribute('data-description', session.description);
+                optgroup.appendChild(option);
+            });
+            
+            this.sessionPicker.appendChild(optgroup);
+        });
+        
+        // Update session info
+        this.updateSessionInfo();
+    }
+
+    updateSessionInfo() {
+        if (!this.sessionRange || !this.sessionCount || !this.sessionService) {
+            return;
+        }
+
+        const settings = this.settingsService.getSettings();
+        const selectedSessionId = settings.selectedSession;
+        
+        if (!selectedSessionId) {
+            this.sessionRange.textContent = 'No session selected';
+            this.sessionCount.textContent = '0 cards';
+            return;
+        }
+
+        const session = this.sessionService.getSession(selectedSessionId);
+        if (!session) {
+            this.sessionRange.textContent = 'Session not found';
+            this.sessionCount.textContent = '0 cards';
+            return;
+        }
+        
+        this.sessionRange.textContent = session.description;
+        this.sessionCount.textContent = `${session.words.length} cards`;
     }
 
     // Update callbacks

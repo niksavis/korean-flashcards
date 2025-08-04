@@ -35,6 +35,7 @@ export class ProgressComponent {
         this.updateProgressText();
         this.updateProgressBar();
         this.updateDifficultyBadge();
+        this.updateSessionInfo();
     }
 
     updateProgressText() {
@@ -214,6 +215,61 @@ export class ProgressComponent {
         // Check for milestone
         if (this.isMilestone(currentIndex) && currentIndex > this.currentIndex) {
             this.showMilestoneCelebration(currentIndex);
+        }
+    }
+    
+    updateSessionInfo() {
+        const sessionInfo = document.getElementById('session-info');
+        if (!sessionInfo) return;
+        
+        // Calculate session information based on typical Korean learning patterns
+        const sessionSize = 20; // Optimal session size for vocabulary learning
+        const currentSession = Math.ceil(this.currentIndex / sessionSize);
+        const totalSessions = Math.ceil(this.totalCards / sessionSize);
+        const sessionProgress = ((this.currentIndex - 1) % sessionSize) + 1;
+        const sessionMax = Math.min(sessionSize, this.totalCards - (currentSession - 1) * sessionSize);
+        
+        if (this.totalCards > sessionSize) {
+            sessionInfo.textContent = `Session ${currentSession}/${totalSessions} (${sessionProgress}/${sessionMax})`;
+            sessionInfo.style.display = 'inline-block';
+            
+            // Add active class if we're in an active learning session
+            if (sessionProgress <= sessionMax) {
+                sessionInfo.classList.add('active');
+            } else {
+                sessionInfo.classList.remove('active');
+            }
+        } else {
+            sessionInfo.style.display = 'none';
+        }
+        
+        this.updateSessionMarkers(currentSession, totalSessions);
+    }
+    
+    updateSessionMarkers(currentSession, totalSessions) {
+        const sessionMarkersContainer = document.getElementById('session-markers');
+        if (!sessionMarkersContainer || totalSessions <= 1) return;
+        
+        // Clear existing markers
+        sessionMarkersContainer.innerHTML = '';
+        
+        // Add session markers (only show if more than 1 session)
+        if (totalSessions > 1) {
+            for (let i = 1; i < totalSessions; i++) {
+                const marker = document.createElement('div');
+                marker.className = 'session-marker';
+                
+                // Calculate position as percentage
+                const position = (i / totalSessions) * 100;
+                marker.style.left = `${position}%`;
+                
+                // Highlight current session marker
+                if (i === currentSession) {
+                    marker.classList.add('current');
+                }
+                
+                sessionMarkersContainer.appendChild(marker);
+            }
         }
     }
 }
