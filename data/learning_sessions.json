@@ -1,0 +1,363 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "created": "2025-08-05",
+    "description": "Progressive Korean learning sessions from basic to advanced",
+    "total_sessions": 24,
+    "progression_levels": 5
+  },
+  "progression": [
+    {
+      "level": 1,
+      "title": "Foundation Level",
+      "description": "Essential words for survival Korean",
+      "difficulty": "beginner",
+      "sessions": [
+        {
+          "id": "foundation-numbers",
+          "title": "Numbers & Counting Basics",
+          "description": "Essential numbers for daily life",
+          "topics": ["Numbers & Counting", "Numbers & Mathematics"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "15 minutes",
+          "icon": "🔢",
+          "prerequisites": [],
+          "word_types": ["numeral", "noun"],
+          "priority_keywords": ["하나", "둘", "셋", "일", "이", "삼"]
+        },
+        {
+          "id": "foundation-family",
+          "title": "Family & People",
+          "description": "Family members and basic person references",
+          "topics": ["Family Members"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "15 minutes",
+          "icon": "👨‍👩‍👧‍👦",
+          "prerequisites": [],
+          "word_types": ["noun"],
+          "priority_keywords": ["가족", "아버지", "어머니", "아들", "딸"]
+        },
+        {
+          "id": "foundation-colors",
+          "title": "Colors",
+          "description": "Basic colors for description",
+          "topics": ["Colors"],
+          "difficulty": "beginner",
+          "target_words": 15,
+          "estimated_time": "12 minutes",
+          "icon": "🌈",
+          "prerequisites": [],
+          "word_types": ["noun", "determiner"],
+          "priority_keywords": ["빨간", "파란", "노란", "검은", "하얀"]
+        },
+        {
+          "id": "foundation-time",
+          "title": "Time Basics",
+          "description": "Essential time-related words",
+          "topics": ["Time", "Time & Temporal"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "15 minutes",
+          "icon": "⏰",
+          "prerequisites": [],
+          "word_types": ["noun", "adverb"],
+          "priority_keywords": ["시간", "날", "오늘", "어제", "내일"]
+        },
+        {
+          "id": "foundation-body",
+          "title": "Body Parts",
+          "description": "Basic body parts vocabulary",
+          "topics": ["Body"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "15 minutes",
+          "icon": "👤",
+          "prerequisites": [],
+          "word_types": ["noun"],
+          "priority_keywords": ["머리", "눈", "코", "입", "손", "발"]
+        },
+        {
+          "id": "foundation-basic-verbs",
+          "title": "Essential Verbs",
+          "description": "Most basic action words",
+          "topics": ["Basic Verbs"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "18 minutes",
+          "icon": "🏃",
+          "prerequisites": [],
+          "word_types": ["verb"],
+          "priority_keywords": ["하다", "보다", "가다", "오다", "먹다", "자다"]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "title": "Basic Communication",
+      "description": "Everyday conversation essentials",
+      "difficulty": "beginner",
+      "sessions": [
+        {
+          "id": "communication-directions",
+          "title": "Directions & Positions",
+          "description": "Find your way around",
+          "topics": ["Directions & Positions", "General Locations"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "16 minutes",
+          "icon": "🧭",
+          "prerequisites": ["foundation-numbers"],
+          "word_types": ["noun", "adverb"],
+          "priority_keywords": ["앞", "뒤", "왼쪽", "오른쪽", "위", "아래"]
+        },
+        {
+          "id": "communication-food",
+          "title": "Food & Drink",
+          "description": "Essential food vocabulary for meals",
+          "topics": ["Food & Drink"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "16 minutes",
+          "icon": "🍚",
+          "prerequisites": ["foundation-numbers"],
+          "word_types": ["noun"],
+          "priority_keywords": ["밥", "물", "차", "커피", "빵", "고기"]
+        },
+        {
+          "id": "communication-transportation",
+          "title": "Transportation",
+          "description": "Getting around in Korea",
+          "topics": ["Transportation"],
+          "difficulty": "beginner",
+          "target_words": 18,
+          "estimated_time": "14 minutes",
+          "icon": "🚌",
+          "prerequisites": ["communication-directions"],
+          "word_types": ["noun", "verb"],
+          "priority_keywords": ["버스", "지하철", "택시", "기차", "비행기"]
+        },
+        {
+          "id": "communication-actions",
+          "title": "Daily Actions",
+          "description": "Common everyday activities",
+          "topics": ["Miscellaneous Actions"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "17 minutes",
+          "icon": "🔄",
+          "prerequisites": ["foundation-basic-verbs"],
+          "word_types": ["verb"],
+          "priority_keywords": ["만들다", "찾다", "열다", "닫다", "사다"]
+        },
+        {
+          "id": "communication-feelings",
+          "title": "Emotions & Feelings",
+          "description": "Express how you feel",
+          "topics": ["Emotions & Feelings"],
+          "difficulty": "intermediate",
+          "target_words": 18,
+          "estimated_time": "15 minutes",
+          "icon": "😊",
+          "prerequisites": ["foundation-basic-verbs"],
+          "word_types": ["noun", "adjective", "verb"],
+          "priority_keywords": ["좋다", "싫다", "기쁘다", "슬프다", "화나다"]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "title": "Practical Vocabulary",
+      "description": "Useful words for daily life",
+      "difficulty": "beginner-intermediate",
+      "sessions": [
+        {
+          "id": "practical-measurements",
+          "title": "Measurements & Quantities",
+          "description": "Sizes, amounts, and measurements",
+          "topics": ["Measurements & Quantities"],
+          "difficulty": "beginner",
+          "target_words": 22,
+          "estimated_time": "18 minutes",
+          "icon": "📏",
+          "prerequisites": ["foundation-numbers", "communication-food"],
+          "word_types": ["noun", "adverb", "determiner"],
+          "priority_keywords": ["크다", "작다", "많다", "적다", "길다"]
+        },
+        {
+          "id": "practical-nature",
+          "title": "Nature & Environment",
+          "description": "Natural world and weather",
+          "topics": ["Nature & Environment"],
+          "difficulty": "beginner",
+          "target_words": 22,
+          "estimated_time": "18 minutes",
+          "icon": "🌳",
+          "prerequisites": ["communication-directions"],
+          "word_types": ["noun"],
+          "priority_keywords": ["날씨", "비", "바람", "산", "바다", "나무"]
+        },
+        {
+          "id": "practical-education",
+          "title": "Education & Learning",
+          "description": "School and learning vocabulary",
+          "topics": ["Education & Learning"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "16 minutes",
+          "icon": "📚",
+          "prerequisites": ["communication-actions"],
+          "word_types": ["noun", "verb"],
+          "priority_keywords": ["학교", "공부", "배우다", "가르치다", "시험"]
+        },
+        {
+          "id": "practical-social",
+          "title": "Social Relationships",
+          "description": "Friends, relationships, and social interactions",
+          "topics": ["Relationships & Social"],
+          "difficulty": "beginner",
+          "target_words": 18,
+          "estimated_time": "15 minutes",
+          "icon": "🤝",
+          "prerequisites": ["foundation-family", "communication-feelings"],
+          "word_types": ["noun", "verb"],
+          "priority_keywords": ["친구", "만나다", "이야기하다", "도와주다"]
+        },
+        {
+          "id": "practical-concepts",
+          "title": "Abstract Concepts",
+          "description": "Ideas, thoughts, and concepts",
+          "topics": ["Abstract Concepts"],
+          "difficulty": "beginner",
+          "target_words": 20,
+          "estimated_time": "17 minutes",
+          "icon": "💭",
+          "prerequisites": ["practical-education"],
+          "word_types": ["noun"],
+          "priority_keywords": ["생각", "문제", "방법", "이유", "경우"]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "title": "Expanding Knowledge",
+      "description": "Intermediate concepts and complex ideas",
+      "difficulty": "intermediate",
+      "sessions": [
+        {
+          "id": "intermediate-work",
+          "title": "Work & Business",
+          "description": "Professional and work vocabulary",
+          "topics": ["Work & Business"],
+          "difficulty": "intermediate",
+          "target_words": 22,
+          "estimated_time": "20 minutes",
+          "icon": "💼",
+          "prerequisites": ["practical-education", "practical-concepts"],
+          "word_types": ["noun", "verb"],
+          "priority_keywords": ["일", "회사", "직업", "일하다", "사업"]
+        },
+        {
+          "id": "intermediate-society",
+          "title": "Society & Politics",
+          "description": "Social structures and civic life",
+          "topics": ["Society & Politics"],
+          "difficulty": "intermediate",
+          "target_words": 20,
+          "estimated_time": "18 minutes",
+          "icon": "🏛️",
+          "prerequisites": ["intermediate-work"],
+          "word_types": ["noun", "verb"],
+          "priority_keywords": ["정부", "법", "권리", "선거", "시민"]
+        },
+        {
+          "id": "intermediate-advanced-actions",
+          "title": "Complex Actions",
+          "description": "Advanced verbs and complex activities",
+          "topics": ["Miscellaneous Actions"],
+          "difficulty": "intermediate",
+          "target_words": 24,
+          "estimated_time": "22 minutes",
+          "icon": "⚡",
+          "prerequisites": ["communication-actions", "practical-concepts"],
+          "word_types": ["verb"],
+          "priority_keywords": ["결정하다", "준비하다", "경험하다", "설명하다"]
+        },
+        {
+          "id": "intermediate-grammar",
+          "title": "Grammar Particles",
+          "description": "Essential Korean grammar particles",
+          "topics": ["Grammar Particles"],
+          "difficulty": "intermediate",
+          "target_words": 20,
+          "estimated_time": "25 minutes",
+          "icon": "⚙️",
+          "prerequisites": ["practical-concepts"],
+          "word_types": ["particle", "noun", "determiner"],
+          "priority_keywords": ["이", "가", "을", "를", "에서", "부터"]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "title": "Advanced Mastery",
+      "description": "Complex vocabulary and specialized topics",
+      "difficulty": "advanced",
+      "sessions": [
+        {
+          "id": "advanced-specialized",
+          "title": "Specialized Vocabulary",
+          "description": "Complex and specialized terms",
+          "topics": ["Miscellaneous Items"],
+          "difficulty": "advanced",
+          "target_words": 25,
+          "estimated_time": "25 minutes",
+          "icon": "🎯",
+          "prerequisites": ["intermediate-advanced-actions"],
+          "word_types": ["noun"],
+          "priority_keywords": ["방식", "과정", "상황", "결과", "영향"]
+        },
+        {
+          "id": "advanced-academic",
+          "title": "Academic & Research",
+          "description": "Academic and research terminology",
+          "topics": ["Education & Learning"],
+          "difficulty": "advanced",
+          "target_words": 22,
+          "estimated_time": "22 minutes",
+          "icon": "🔬",
+          "prerequisites": ["intermediate-work"],
+          "word_types": ["noun", "verb"],
+          "priority_keywords": ["연구", "분석", "이론", "실험", "논문"]
+        },
+        {
+          "id": "advanced-professional",
+          "title": "Professional Contexts",
+          "description": "Advanced professional and business terms",
+          "topics": ["Work & Business"],
+          "difficulty": "advanced",
+          "target_words": 24,
+          "estimated_time": "24 minutes",
+          "icon": "💎",
+          "prerequisites": ["intermediate-work", "intermediate-society"],
+          "word_types": ["noun", "verb"],
+          "priority_keywords": ["관리", "개발", "전략", "계획", "성과"]
+        },
+        {
+          "id": "advanced-complex-concepts",
+          "title": "Complex Abstract Ideas",
+          "description": "Advanced concepts and philosophical ideas",
+          "topics": ["Abstract Concepts"],
+          "difficulty": "advanced",
+          "target_words": 22,
+          "estimated_time": "23 minutes",
+          "icon": "🧠",
+          "prerequisites": ["advanced-academic"],
+          "word_types": ["noun", "verb"],
+          "priority_keywords": ["철학", "개념", "의미", "가치", "본질"]
+        }
+      ]
+    }
+  ]
+}
