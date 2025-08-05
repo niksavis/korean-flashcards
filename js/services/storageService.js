@@ -35,15 +35,8 @@ export class StorageService {
     }
 
     async initIndexedDB() {
-        try {
-            this.dbName = 'KoreanFlashcardsDB';
-            this.dbVersion = 1;
-            
-            // We'll implement IndexedDB for offline word storage later if needed
-            console.log('IndexedDB available for future offline features');
-        } catch (error) {
-            console.warn('IndexedDB initialization failed:', error);
-        }
+        // Placeholder for future IndexedDB implementation
+        // Currently using localStorage for all storage needs
     }
 
     // Progress Management

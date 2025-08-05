@@ -51,7 +51,6 @@ class KoreanFlashcardApp {
         this.handlePrevCard = this.handlePrevCard.bind(this);
         this.handleFlipCard = this.handleFlipCard.bind(this);
         this.handleSettingsToggle = this.handleSettingsToggle.bind(this);
-        this.handleKeyboard = this.handleKeyboard.bind(this);
         this.handleSettingsChange = this.handleSettingsChange.bind(this);
         this.handleHangulReference = this.handleHangulReference.bind(this);
         this.handleGoToCard = this.handleGoToCard.bind(this);
@@ -59,62 +58,37 @@ class KoreanFlashcardApp {
 
     async init() {
         try {
-            console.log('Initializing Korean Flashcard App...');
-            
             // Show loading overlay
-            console.log('Showing loading overlay...');
             this.showLoading(true);
-            console.log('Loading overlay shown');
             
             // Load user settings
-            console.log('Loading settings...');
             await this.settingsService.loadSettings();
-            console.log('Settings loaded');
             
             // Load word data
-            console.log('Loading word data...');
             await this.dataService.loadWords();
-            console.log('Word data loaded, getting words...');
             this.state.words = this.dataService.getAllWords();
             this.state.filteredWords = this.state.words; // Initialize with all words
-            console.log(`Loaded ${this.state.words.length} words`);
             
             // Initialize session service after data is loaded
-            console.log('Initializing sessions...');
             await this.sessionService.initialize();
-            console.log('Sessions initialized');
             
             // Initialize components
-            console.log('Initializing components...');
             this.initializeComponents();
-            console.log('Components initialized');
             
             // Set up event listeners
-            console.log('Setting up event listeners...');
             this.setupEventListeners();
-            console.log('Event listeners set up');
             
             // Apply initial settings
-            console.log('Applying settings...');
             this.applySettings();
-            console.log('Settings applied');
             
             // Start study session
-            console.log('Starting study session...');
             this.startStudySession();
-            console.log('Study session started');
             
             // Display first card
-            console.log('Displaying first card...');
             this.displayCurrentCard();
-            console.log('First card displayed');
             
             // Hide loading overlay
-            console.log('Hiding loading overlay...');
             this.showLoading(false);
-            console.log('Loading overlay hidden');
-
-            console.log('App initialized successfully');
             
         } catch (error) {
             console.error('Failed to initialize app:', error);
@@ -148,13 +122,13 @@ class KoreanFlashcardApp {
         // Initialize hangul reference component
         this.hangulReferenceComponent.init(this.audioService);
         
-            // Initialize filter options after data is loaded
-            this.settingsComponent.initializeFilterOptions(this.dataService);
-            
-            // Apply initial filters
-            console.log('Applying initial filters...');
-            this.updateFilteredWords(this.settingsService.getSettings());
-            console.log('Initial filters applied');        // Initialize keyboard handler
+        // Initialize filter options after data is loaded
+        this.settingsComponent.initializeFilterOptions(this.dataService);
+        
+        // Apply initial filters
+        this.updateFilteredWords(this.settingsService.getSettings());
+        
+        // Initialize keyboard handler
         this.keyboardHandler.init({
             onNext: this.handleNextCard,
             onPrev: this.handlePrevCard,
@@ -299,16 +273,6 @@ class KoreanFlashcardApp {
         }, 1000);
     }
 
-    handleKeyboard(event) {
-        // Prevent keyboard actions when settings panel is open
-        if (this.settingsComponent.isOpen()) {
-            return;
-        }
-        
-        // Don't duplicate the keyboard handler's own processing
-        // The keyboardHandler.handleKeyDown will be called by its own event listener
-    }
-
     handleSettingsChange(settings) {
         // Apply settings changes immediately
         this.applySettings();
@@ -316,9 +280,12 @@ class KoreanFlashcardApp {
         // Handle session mode changes
         if (settings.sessionMode === 'all') {
             // Reset to show all filtered words (not session-limited)
+            // First ensure we're working with the complete dataset
+            console.log('Switching to "all words" mode - resetting from any active session');
             this.updateFilteredWords(settings);
         } else if (settings.sessionMode === 'session' && settings.selectedSession) {
             // Apply session filtering - start the selected session
+            console.log('Switching to session mode:', settings.selectedSession);
             this.handleStartSession(settings.selectedSession);
         } else {
             // Update filtered words for session mode but no session selected yet
@@ -341,9 +308,9 @@ class KoreanFlashcardApp {
         
         const previousFilteredLength = this.state.filteredWords.length;
         
+        // Always filter from the complete word set, not from current filtered words
+        // This ensures proper filtering regardless of previous session state
         this.state.filteredWords = this.dataService.filterWords(criteria);
-        
-        console.log(`Filter update: ${this.state.filteredWords.length} words match criteria`);
         
         // If we have no words matching the filter, reset to all words
         if (this.state.filteredWords.length === 0) {
@@ -355,8 +322,6 @@ class KoreanFlashcardApp {
         // This provides a consistent, predictable experience for users
         this.state.currentWordIndex = 0;
         this.state.isFlipped = false; // Reset to front side when starting new filtered set
-        
-        console.log(`Started filtered set from beginning: showing card 1 of ${this.state.filteredWords.length}`);
     }
 
     applySettings() {
@@ -553,8 +518,6 @@ class KoreanFlashcardApp {
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing Korean Flashcard App...');
-    
     // Create global app instance
     window.koreanFlashcardApp = new KoreanFlashcardApp();
     

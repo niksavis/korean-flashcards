@@ -51,7 +51,6 @@ export class DataService {
             
         } catch (error) {
             console.warn('Failed to load main data file:', error.message);
-            console.log('Falling back to sample data...');
             return this._loadSampleData();
         }
     }
@@ -73,13 +72,11 @@ export class DataService {
             
         } catch (error) {
             console.warn('Failed to load sample data:', error.message);
-            console.log('Creating minimal fallback data...');
             this.words = this._createFallbackData();
         }
     }
 
     _createFallbackData() {
-        console.log('Creating minimal fallback data for demo...');
         return [
             {
                 id: 1,

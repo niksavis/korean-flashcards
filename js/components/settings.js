@@ -50,7 +50,6 @@ export class SettingsComponent {
         this.cacheElements();
         this.setupEventListeners();
         this.loadCurrentSettings();
-        console.log('Settings component initialized');
     }
 
     cacheElements() {

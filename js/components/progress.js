@@ -14,7 +14,6 @@ export class ProgressComponent {
 
     init() {
         this.cacheElements();
-        console.log('Progress component initialized');
     }
 
     cacheElements() {

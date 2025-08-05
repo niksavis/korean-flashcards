@@ -27,11 +27,8 @@ export class NavigationComponent {
             const flipText = this.flipBtn.querySelector('span');
             if (flipText) {
                 flipText.textContent = 'Flip';
-                console.log('Navigation: Set flip button text to "Flip"');
             }
         }
-        
-        console.log('Navigation component initialized');
     }
 
     cacheElements() {

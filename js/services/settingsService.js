@@ -59,10 +59,6 @@ export class SettingsService {
                 
                 // Handle version migration if needed
                 this.migrateSettings();
-                
-                console.log('Settings loaded successfully');
-            } else {
-                console.log('No stored settings found, using defaults');
             }
         } catch (error) {
             console.warn('Failed to load settings, using defaults:', error);
@@ -83,7 +79,6 @@ export class SettingsService {
     saveSettings() {
         try {
             localStorage.setItem(this.storageKey, JSON.stringify(this.settings));
-            console.log('Settings saved successfully');
             this.notifyListeners();
         } catch (error) {
             console.error('Failed to save settings:', error);

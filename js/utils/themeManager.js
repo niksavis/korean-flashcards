@@ -12,7 +12,6 @@ export class ThemeManager {
         this.detectSystemTheme();
         this.setupSystemThemeListener();
         this.applyInitialTheme();
-        console.log('Theme manager initialized');
     }
 
     detectSystemTheme() {

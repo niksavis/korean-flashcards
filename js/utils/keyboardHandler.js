@@ -22,7 +22,6 @@ export class KeyboardHandler {
     init(callbacks = {}) {
         this.callbacks = callbacks;
         this.setupEventListeners();
-        console.log('Keyboard handler initialized');
     }
 
     setupEventListeners() {

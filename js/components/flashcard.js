@@ -49,7 +49,6 @@ export class FlashcardComponent {
         this.onFlipCallback = callbacks.onFlip;
         this.cacheElements();
         this.setupEventListeners();
-        console.log('Flashcard component initialized');
     }
 
     cacheElements() {

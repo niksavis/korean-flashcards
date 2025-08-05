@@ -25,7 +25,6 @@ export class HangulReferenceComponent {
         this.audioService = audioService;
         this.cacheElements();
         this.setupEventListeners();
-        console.log('Hangul Reference component initialized');
     }
 
     cacheElements() {
@@ -109,8 +108,6 @@ export class HangulReferenceComponent {
         if (this.modalBody && this.modalBody.innerHTML.includes('Loading')) {
             this.loadHangulContent();
         }
-        
-        console.log('Hangul reference opened');
     }
 
     close() {
@@ -119,8 +116,6 @@ export class HangulReferenceComponent {
         this.isVisible = false;
         this.modal.classList.remove('open');
         document.body.style.overflow = '';
-        
-        console.log('Hangul reference closed');
     }
 
     isOpen() {

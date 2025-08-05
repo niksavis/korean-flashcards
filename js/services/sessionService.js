@@ -19,7 +19,6 @@ export class SessionService {
         try {
             const response = await fetch('./data/learning_sessions.json');
             this.progressiveSessions = await response.json();
-            console.log(`Loaded ${this.progressiveSessions.metadata.total_sessions} progressive sessions`);
         } catch (error) {
             console.error('Failed to load progressive sessions:', error);
             // Fallback to empty structure if load fails
@@ -34,8 +33,6 @@ export class SessionService {
 
         const allWords = this.dataService.getAllWords();
         this.sessions = await this.createProgressiveSessionsWithWords(allWords);
-        
-        console.log(`Generated ${this.sessions.length} learning sessions`);
     }
 
     async createProgressiveSessionsWithWords(words) {
