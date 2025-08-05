@@ -79,31 +79,15 @@ coverage/
 .nyc_output
 .coverage
 
-# Data processing scripts and temporary files
-scripts/
-scripts/data-collection/*.tmp
-scripts/data-collection/temp/
-scripts/data-collection/output/
-scripts/data-collection/*.csv
-scripts/data-collection/*.json
+# Data processing scripts and temporary files - ignore everything in scripts except the regenerate script
+scripts/*
+# But allow the essential regenerate script for users adding words
+!scripts/regenerate_cascading_filters.py
 
 # Source data files (used to create korean-words.json)
 data/*.csv
 data/sample-*.json
 data/test-*.json
-
-# Audio cache (if you implement audio caching)
-audio-cache/
-.audio-cache/
-
-# User data and settings (keep user privacy)
-user-data/
-user-settings.json
-progress-backup.json
-
-# Large data files that shouldn't be in git
-data/korean-words-full.json
-data/korean-words-6000.json
 
 # Project documentation (keep local only)
 TODO.md

@@ -46,28 +46,37 @@ Happy Learning! 화이팅!
 
 ## 🛠️ Contributing Words
 
-To add new words, edit `data/korean-words.json` following this format:
+To add new words to the app:
 
-```json
-{
-  "id": 1,
-  "position": 1,
-  "hangul": "경우",
-  "romanization": "gyeong-u",
-  "english": "case, circumstances, scenario; reasonable",
-  "pronunciation_url": "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=%EA%B2%BD%EC%9A%B0",
-  "difficulty": "beginner",
-  "frequency": "very_high",
-  "exampleSentence": {
-    "korean": "이것은 경우입니다.",
-    "romanization": "i-geo-seun gyeong-u-ip-ni-da.",
-    "english": "This is case, circumstances, scenario; reasonable.",
-    "pronunciation_url": "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=%EC%9D%B4%EA%B2%83%EC%9D%80%20%EA%B2%BD%EC%9A%B0%EC%9E%85%EB%8B%88%EB%8B%A4."
-  },
-  "topic": "Abstract Concepts",
-  "partOfSpeech": "noun"
-}
-```
+1. **Edit the data file**: Add your words to `data/korean-words.json` following this format:
+
+  ```json
+  {
+    "id": 4244,
+    "position": 4244,
+    "hangul": "경우",
+    "romanization": "gyeong-u",
+    "english": "case, circumstances, scenario; reasonable",
+    "pronunciation_url": "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=%EA%B2%BD%EC%9A%B0",
+    "difficulty": "beginner",
+    "frequency": "very_high",
+    "exampleSentence": {
+     "korean": "이것은 경우입니다.",
+     "romanization": "i-geo-seun gyeong-u-ip-ni-da.",
+     "english": "This is case, circumstances, scenario; reasonable.",
+     "pronunciation_url": "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=%EC%9D%B4%EA%B2%83%EC%9D%80%20%EA%B2%BD%EC%9A%B0%EC%9E%85%EB%8B%88%EB%8B%A4."
+    },
+    "topic": "Abstract Concepts",
+    "partOfSpeech": "noun"
+  }
+  ```
+
+2. **Update filters**: After adding words, run this command to update the filtering system:
+
+  ```bash
+  cd scripts
+  python regenerate_cascading_filters.py
+  ```
 
 ## 🙏 Acknowledgments
 
