@@ -88,7 +88,7 @@ export class DataService {
                 romanization: "geot",
                 english: "A thing or an object",
                 pronunciation_url: "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=" + encodeURIComponent("것"),
-                wordType: "noun",
+                partOfSpeech: "noun",
                 difficulty: "beginner",
                 frequency: "high",
                 exampleSentence: {
@@ -113,7 +113,7 @@ export class DataService {
                 romanization: "hada",
                 english: "To do",
                 pronunciation_url: "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=" + encodeURIComponent("하다"),
-                wordType: "verb",
+                partOfSpeech: "verb",
                 difficulty: "beginner",
                 frequency: "high",
                 exampleSentence: {
@@ -138,7 +138,7 @@ export class DataService {
                 romanization: "itda",
                 english: "To exist, to have",
                 pronunciation_url: "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=" + encodeURIComponent("있다"),
-                wordType: "verb",
+                partOfSpeech: "verb",
                 difficulty: "beginner",
                 frequency: "high",
                 exampleSentence: {
@@ -163,7 +163,7 @@ export class DataService {
                 romanization: "saram",
                 english: "Person, people",
                 pronunciation_url: "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=" + encodeURIComponent("사람"),
-                wordType: "noun",
+                partOfSpeech: "noun",
                 difficulty: "beginner",
                 frequency: "high",
                 exampleSentence: {
@@ -188,7 +188,7 @@ export class DataService {
                 romanization: "geu",
                 english: "That, the",
                 pronunciation_url: "https://translate.google.com/translate_tts?ie=UTF-8&tl=ko&client=tw-ob&q=" + encodeURIComponent("그"),
-                wordType: "determiner",
+                partOfSpeech: "determiner",
                 difficulty: "beginner",
                 frequency: "high",
                 exampleSentence: {
@@ -225,7 +225,7 @@ export class DataService {
 
         // Validate a sample of words
         const sampleWord = words[0];
-        const requiredFields = ['hangul', 'romanization', 'english', 'wordType'];
+        const requiredFields = ['hangul', 'romanization', 'english', 'partOfSpeech'];
         
         for (const field of requiredFields) {
             if (!sampleWord.hasOwnProperty(field)) {
@@ -266,8 +266,8 @@ export class DataService {
         return this.words.filter(word => word.difficulty === difficulty);
     }
 
-    getWordsByType(wordType) {
-        return this.words.filter(word => word.wordType === wordType);
+    getWordsByType(partOfSpeech) {
+        return this.words.filter(word => word.partOfSpeech === partOfSpeech);
     }
 
     getWordsByFrequency(frequency) {
@@ -301,7 +301,7 @@ export class DataService {
             stats.byDifficulty[difficulty] = (stats.byDifficulty[difficulty] || 0) + 1;
 
             // Count by word type
-            const type = word.wordType || 'unknown';
+            const type = word.partOfSpeech || 'unknown';
             stats.byType[type] = (stats.byType[type] || 0) + 1;
 
             // Count by frequency
@@ -346,8 +346,8 @@ export class DataService {
             }
 
             // Word type filter
-            if (criteria.wordType && criteria.wordType !== 'all') {
-                if (word.wordType !== criteria.wordType) return false;
+            if (criteria.partOfSpeech && criteria.partOfSpeech !== 'all') {
+                if (word.partOfSpeech !== criteria.partOfSpeech) return false;
             }
 
             // Difficulty filter
@@ -402,12 +402,17 @@ export class DataService {
         return Array.from(topics).sort();
     }
 
-    // Get unique word types
+    // Get unique word types (legacy method name)
     getUniqueWordTypes() {
+        return this.getUniquePartOfSpeech();
+    }
+    
+    // Get unique parts of speech
+    getUniquePartOfSpeech() {
         const types = new Set();
         this.words.forEach(word => {
-            if (word.wordType) {
-                types.add(word.wordType);
+            if (word.partOfSpeech) {
+                types.add(word.partOfSpeech);
             }
         });
         return Array.from(types).sort();
@@ -420,7 +425,7 @@ export class DataService {
 
     // Get words by word type
     getWordsByType(type) {
-        return this.words.filter(word => word.wordType === type);
+        return this.words.filter(word => word.partOfSpeech === type);
     }
 
     // Get filtered statistics
@@ -439,7 +444,7 @@ export class DataService {
             stats.byDifficulty[difficulty] = (stats.byDifficulty[difficulty] || 0) + 1;
 
             // Count by word type
-            const type = word.wordType || 'unknown';
+            const type = word.partOfSpeech || 'unknown';
             stats.byType[type] = (stats.byType[type] || 0) + 1;
 
             // Count by topic
@@ -453,4 +458,66 @@ export class DataService {
 
         return stats;
     }
+
+    // Cascading filter methods
+    getTopicsByPartOfSpeech(partOfSpeech) {
+        if (partOfSpeech === 'all') {
+            return [...new Set(this.words.map(word => word.topic))].sort();
+        }
+        
+        const topics = new Set();
+        this.words.forEach(word => {
+            if (word.partOfSpeech === partOfSpeech) {
+                topics.add(word.topic);
+            }
+        });
+        
+        return Array.from(topics).sort();
+    }
+
+    filterWordsByPartOfSpeechAndTopic(partOfSpeech = 'all', topic = 'all') {
+        return this.words.filter(word => {
+            const posMatch = partOfSpeech === 'all' || word.partOfSpeech === partOfSpeech;
+            const topicMatch = topic === 'all' || word.topic === topic;
+            return posMatch && topicMatch;
+        });
+    }
+
+    getCascadingFilterOptions() {
+        const options = {
+            partsOfSpeech: {},
+            topicsByPartOfSpeech: {}
+        };
+        
+        // Korean part of speech names
+        const koreanNames = {
+            "noun": "명사", "verb": "동사", "adjective": "형용사",
+            "pronoun": "대명사", "adverb": "부사", "ending": "어미",
+            "particle": "조사", "determiner": "관형사", 
+            "interjection": "감탄사", "numeral": "수사"
+        };
+        
+        this.words.forEach(word => {
+            const pos = word.partOfSpeech;
+            const topic = word.topic;
+            
+            if (!options.partsOfSpeech[pos]) {
+                const koreanName = koreanNames[pos] || pos;
+                options.partsOfSpeech[pos] = `${pos.charAt(0).toUpperCase() + pos.slice(1)} - ${koreanName}`;
+            }
+            
+            if (!options.topicsByPartOfSpeech[pos]) {
+                options.topicsByPartOfSpeech[pos] = new Set();
+            }
+            options.topicsByPartOfSpeech[pos].add(topic);
+        });
+        
+        // Convert sets to arrays
+        Object.keys(options.topicsByPartOfSpeech).forEach(pos => {
+            options.topicsByPartOfSpeech[pos] = Array.from(options.topicsByPartOfSpeech[pos]).sort();
+        });
+        
+        return options;
+    }
+
 }

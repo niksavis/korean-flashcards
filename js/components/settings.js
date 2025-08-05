@@ -273,31 +273,20 @@ export class SettingsComponent {
     }
 
     // Initialize filter options with data
-    initializeFilterOptions(dataService) {
+    async initializeFilterOptions(dataService) {
         this.dataService = dataService;
         
-        // Populate topic filter
-        if (this.controls.topicFilter && dataService.isDataLoaded()) {
-            const topics = dataService.getUniqueTopics();
-            const topicSelect = this.controls.topicFilter;
-            
-            // Clear existing options (except "All Topics")
-            while (topicSelect.children.length > 1) {
-                topicSelect.removeChild(topicSelect.lastChild);
-            }
-            
-            // Add topic options
-            topics.forEach(topic => {
-                const option = document.createElement('option');
-                option.value = topic;
-                option.textContent = topic;
-                topicSelect.appendChild(option);
-            });
+        // Load cascading filter data
+        try {
+            const response = await fetch('./data/cascading_filters.json');
+            this.cascadingData = await response.json();
+        } catch (error) {
+            console.warn('Failed to load cascading filter data:', error);
+            this.cascadingData = null;
         }
         
-        // Populate word type filter
+        // Populate part of speech filter (with Korean names)
         if (this.controls.wordTypeFilter && dataService.isDataLoaded()) {
-            const wordTypes = dataService.getUniqueWordTypes();
             const typeSelect = this.controls.wordTypeFilter;
             
             // Clear existing options (except "All Types")
@@ -305,16 +294,86 @@ export class SettingsComponent {
                 typeSelect.removeChild(typeSelect.lastChild);
             }
             
-            // Add word type options
-            wordTypes.forEach(type => {
-                const option = document.createElement('option');
-                option.value = type;
-                option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-                typeSelect.appendChild(option);
-            });
+            if (this.cascadingData && this.cascadingData.parts_of_speech) {
+                // Use cascading data with Korean names
+                Object.keys(this.cascadingData.parts_of_speech).forEach(displayName => {
+                    const option = document.createElement('option');
+                    option.value = this.cascadingData.parts_of_speech[displayName].english_name;
+                    option.textContent = displayName;
+                    typeSelect.appendChild(option);
+                });
+            } else {
+                // Fallback to simple word types
+                const wordTypes = dataService.getUniquePartOfSpeech();
+                wordTypes.forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type;
+                    option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+                    typeSelect.appendChild(option);
+                });
+            }
         }
         
+        // Populate topic filter (initially all topics)
+        this.populateTopicFilter();
+        
+        // Set up cascading behavior
+        this.setupCascadingFilters();
+        
         this.updateFilterStatus();
+    }
+    
+    // Populate topic filter based on selected part of speech
+    populateTopicFilter(selectedPartOfSpeech = null) {
+        if (!this.controls.topicFilter || !this.dataService.isDataLoaded()) return;
+        
+        const topicSelect = this.controls.topicFilter;
+        
+        // Clear existing options (except "All Topics")
+        while (topicSelect.children.length > 1) {
+            topicSelect.removeChild(topicSelect.lastChild);
+        }
+        
+        let availableTopics = [];
+        
+        if (selectedPartOfSpeech && selectedPartOfSpeech !== 'all' && this.cascadingData) {
+            // Find the display name for the selected part of speech
+            const partOfSpeechEntry = Object.entries(this.cascadingData.parts_of_speech)
+                .find(([displayName, data]) => data.english_name === selectedPartOfSpeech);
+            
+            if (partOfSpeechEntry) {
+                availableTopics = partOfSpeechEntry[1].topics;
+            }
+        } else {
+            // Show all topics
+            availableTopics = this.dataService.getUniqueTopics();
+        }
+        
+        // Add topic options
+        availableTopics.forEach(topic => {
+            const option = document.createElement('option');
+            option.value = topic;
+            option.textContent = topic;
+            topicSelect.appendChild(option);
+        });
+    }
+    
+    // Set up cascading filter behavior
+    setupCascadingFilters() {
+        if (this.controls.wordTypeFilter) {
+            this.controls.wordTypeFilter.addEventListener('change', (e) => {
+                const selectedPartOfSpeech = e.target.value;
+                this.populateTopicFilter(selectedPartOfSpeech);
+                
+                // Reset topic selection when part of speech changes
+                if (this.controls.topicFilter) {
+                    this.controls.topicFilter.value = 'all';
+                    this.settingsService.setSetting('topicFilter', 'all');
+                }
+                
+                this.updateFilterStatus();
+            });
+        }
     }
 
     // Update filter status display
@@ -326,7 +385,7 @@ export class SettingsComponent {
         const settings = this.settingsService.getSettings();
         const criteria = {
             topic: settings.topicFilter,
-            wordType: settings.wordTypeFilter,
+            partOfSpeech: settings.wordTypeFilter,
             search: settings.searchQuery
         };
         
@@ -341,7 +400,16 @@ export class SettingsComponent {
             activeFilters.push(`Topic: ${settings.topicFilter}`);
         }
         if (settings.wordTypeFilter && settings.wordTypeFilter !== 'all') {
-            activeFilters.push(`Type: ${settings.wordTypeFilter}`);
+            // Find the display name for the part of speech
+            let partOfSpeechDisplayName = settings.wordTypeFilter;
+            if (this.cascadingData && this.cascadingData.parts_of_speech) {
+                const partOfSpeechEntry = Object.entries(this.cascadingData.parts_of_speech)
+                    .find(([displayName, data]) => data.english_name === settings.wordTypeFilter);
+                if (partOfSpeechEntry) {
+                    partOfSpeechDisplayName = partOfSpeechEntry[0];
+                }
+            }
+            activeFilters.push(`Type: ${partOfSpeechDisplayName}`);
         }
         if (settings.searchQuery && settings.searchQuery.trim()) {
             activeFilters.push(`Search: "${settings.searchQuery}"`);

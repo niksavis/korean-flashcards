@@ -153,7 +153,7 @@ export class SessionService {
 
         verbSessions.forEach((config, index) => {
             const sessionWords = words.filter(word => 
-                config.wordTypes.includes(word.wordType) && 
+                config.wordTypes.includes(word.partOfSpeech) && 
                 word.difficulty === config.difficulty
             ).slice(0, config.maxWords);
 
@@ -200,7 +200,7 @@ export class SessionService {
 
         grammarSessions.forEach((config, index) => {
             const sessionWords = words.filter(word => 
-                word.wordType === config.wordType && 
+                word.partOfSpeech === config.wordType && 
                 word.difficulty === config.difficulty
             ).slice(0, config.maxWords);
 

@@ -188,8 +188,8 @@ export class FlashcardComponent {
         
         // Word type (enhanced display)
         if (this.wordTypeElement) {
-            this.wordTypeElement.textContent = word.wordType || '';
-            this.wordTypeElement.className = `type-badge ${word.wordType || ''}`;
+            this.wordTypeElement.textContent = word.partOfSpeech || '';
+            this.wordTypeElement.className = `type-badge ${(word.partOfSpeech || '').toLowerCase()}`;
         }
         
         // Legacy fallbacks for existing elements
@@ -199,8 +199,8 @@ export class FlashcardComponent {
         }
         
         if (this.wordTypeHintElement) {
-            this.wordTypeHintElement.textContent = word.wordType || '';
-            this.wordTypeHintElement.className = `type-badge ${word.wordType || ''}`;
+            this.wordTypeHintElement.textContent = word.partOfSpeech || '';
+            this.wordTypeHintElement.className = `type-badge ${(word.partOfSpeech || '').toLowerCase()}`;
         }
         
         // Romanization (pronunciation help)

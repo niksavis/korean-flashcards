@@ -335,7 +335,7 @@ class KoreanFlashcardApp {
     updateFilteredWords(settings) {
         const criteria = {
             topic: settings.topicFilter,
-            wordType: settings.wordTypeFilter,
+            partOfSpeech: settings.wordTypeFilter,
             search: settings.searchQuery
         };
         
@@ -572,6 +572,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Create global app instance
     window.koreanFlashcardApp = new KoreanFlashcardApp();
+    
+    // Also assign to window.app for compatibility with existing code
+    window.app = window.koreanFlashcardApp;
     
     // Initialize the app
     window.koreanFlashcardApp.init().catch(error => {
