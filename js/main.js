@@ -340,7 +340,6 @@ class KoreanFlashcardApp {
         };
         
         const previousFilteredLength = this.state.filteredWords.length;
-        const previousCurrentWord = this.getCurrentWord();
         
         this.state.filteredWords = this.dataService.filterWords(criteria);
         
@@ -352,26 +351,12 @@ class KoreanFlashcardApp {
             this.state.filteredWords = this.state.words;
         }
         
-        // Try to keep the same word if it exists in the filtered set
-        if (previousCurrentWord) {
-            const newIndex = this.state.filteredWords.findIndex(word => word.id === previousCurrentWord.id);
-            if (newIndex >= 0) {
-                this.state.currentWordIndex = newIndex;
-            } else {
-                // Word not in filtered set, go to beginning
-                this.state.currentWordIndex = 0;
-            }
-        } else {
-            // No previous word, start at beginning
-            this.state.currentWordIndex = 0;
-        }
+        // Always start from the first card when filters are applied
+        // This provides a consistent, predictable experience for users
+        this.state.currentWordIndex = 0;
+        this.state.isFlipped = false; // Reset to front side when starting new filtered set
         
-        // Ensure index is within bounds
-        if (this.state.currentWordIndex >= this.state.filteredWords.length) {
-            this.state.currentWordIndex = Math.max(0, this.state.filteredWords.length - 1);
-        }
-        
-        console.log(`Current index after filtering: ${this.state.currentWordIndex} of ${this.state.filteredWords.length}`);
+        console.log(`Started filtered set from beginning: showing card 1 of ${this.state.filteredWords.length}`);
     }
 
     applySettings() {
