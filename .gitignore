@@ -104,3 +104,6 @@ progress-backup.json
 # Large data files that shouldn't be in git
 data/korean-words-full.json
 data/korean-words-6000.json
+
+# Project documentation (keep local only)
+TODO.md
